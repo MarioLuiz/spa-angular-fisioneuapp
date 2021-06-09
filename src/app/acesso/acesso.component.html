@@ -1,1 +1,19 @@
-<p>acesso works!</p>
+<div class="container">
+    <div class="row">
+
+        <div *ngIf="login; else formCadastro">
+            <div class="col-sm-12 d-flex justify-content-center">
+                Login
+                <!-- Componente de Login-->
+            </div>
+        </div>
+
+        <ng-template #formCadastro>
+            <div class="col-sm-12 d-flex justify-content-center">
+                Cadastro
+                <!-- Componente de Cadastro-->
+            </div>
+        </ng-template>
+
+    </div>
+</div>
