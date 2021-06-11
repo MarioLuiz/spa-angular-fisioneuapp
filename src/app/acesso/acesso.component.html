@@ -1,19 +1,21 @@
 <div class="container">
     <div class="row">
-
-        <div *ngIf="login; else formCadastro">
-            <div class="col-sm-12 d-flex justify-content-center">
-                Login
-                <!-- Componente de Login-->
-            </div>
+        <div class="col-sm-3 d-flex justify-content-center">
+            <!--Banner FisioNeurApp-->
+        </div>
+        <div class="col-sm-6 d-flex justify-content-center"
+             *ngIf="login; else formCadastro">
+            <fisio-login></fisio-login>
         </div>
 
         <ng-template #formCadastro>
-            <div class="col-sm-12 d-flex justify-content-center">
-                Cadastro
-                <!-- Componente de Cadastro-->
+            <div class="col-sm-6 d-flex justify-content-center">
+                <fisio-cadastro></fisio-cadastro>
             </div>
         </ng-template>
 
+        <div class="col-sm-3 d-flex justify-content-center">
+            <!--Banner FisioNeurApp-->
+        </div>
     </div>
 </div>
