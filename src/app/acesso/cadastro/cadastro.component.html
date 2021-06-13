@@ -1,1 +1,109 @@
-<p>cadastro works!</p>
+<div class="card"
+     style="width: 20rem;">
+       <div class="card-body"
+            [@animacao-painel]="estadoAnimacaoPainelCadastro"
+            (click)="onCardChange($event)">
+              <div class="card-title"></div>
+
+              <form [formGroup]="formulario"
+                    (ngSubmit)="cadastrarUsuario()"
+                    (keyup)="onCardChange($event)">
+                     <div class="form-group">
+                            <input type="text"
+                                   class="form-control"
+                                   placeholder="Nome completo"
+                                   formControlName="nome_completo">
+                            <small *ngIf="f.nome_completo.valid && f.nome_completo.touched"
+                                   class="form-text text-success">Ok</small>
+                            <small *ngIf="f.nome_completo.invalid && f.nome_completo.touched"
+                                   class="form-text text-danger">Nome inválido</small>
+                     </div>
+
+                     <div class="form-group">
+                            <input type="email"
+                                   class="form-control"
+                                   placeholder="E-mail"
+                                   formControlName="email">
+                            <small *ngIf="f.email.valid && f.email.touched"
+                                   class="form-text text-success">Ok</small>
+                            <small *ngIf="f.email.invalid && f.email.touched"
+                                   class="form-text text-danger">E-mail inválido</small>
+                     </div>
+
+                     <div class="form-group">
+                            <input type="text"
+                                   class="form-control"
+                                   placeholder="Numero de Telefone"
+                                   formControlName="telefone">
+                            <small *ngIf="f.telefone.valid && f.telefone.touched"
+                                   class="form-text text-success">Ok</small>
+                            <small *ngIf="f.telefone.invalid && f.telefone.touched"
+                                   class="form-text text-danger">Telefone inválido</small>
+                     </div>
+
+                     <div class="form-group">
+                            <input type="text"
+                                   class="form-control"
+                                   placeholder="Cpf"
+                                   formControlName="cpf">
+                            <small *ngIf="f.cpf.valid && f.cpf.touched"
+                                   class="form-text text-success">Ok</small>
+                            <small *ngIf="f.cpf.invalid && f.cpf.touched"
+                                   class="form-text text-danger">Cpf inválido</small>
+                     </div>
+
+                     <div class="form-group">
+                            <input type="text"
+                                   class="form-control"
+                                   placeholder="Crefito"
+                                   formControlName="crefito">
+                            <small *ngIf="f.crefito.valid && f.crefito.touched"
+                                   class="form-text text-success">Ok</small>
+                            <small *ngIf="f.crefito.invalid && f.crefito.touched"
+                                   class="form-text text-danger">Numero Crefito inválido</small>
+                     </div>
+
+                     <div class="form-group">
+                            <input type="password"
+                                   class="form-control"
+                                   placeholder="Senha"
+                                   formControlName="senha">
+                            <small *ngIf="f.senha.valid && f.senha.touched"
+                                   class="form-text text-success">Ok</small>
+                            <small *ngIf="f.senha.invalid && f.senha.touched"
+                                   class="form-text text-danger">Senha inválida</small>
+                     </div>
+
+                     <div class="form-group">
+                            <input type="password"
+                                   class="form-control"
+                                   placeholder="Repita a sua senha"
+                                   formControlName="senhaRepetida">
+                            <small *ngIf="f.senhaRepetida.valid && f.senhaRepetida.touched"
+                                   class="form-text text-success">Ok</small>
+                            <small *ngIf="f.senhaRepetida.invalid && f.senhaRepetida.touched"
+                                   class="form-text text-danger">Senha inválida</small>
+                     </div>
+                     <button type="submit"
+                             class="btn btn-primary btn-sm btn-block"
+                             [disabled]="f.email.invalid || f.nome_completo.invalid || f.nome_usuario.invalid || f.senha.invalid">Cadastre-se</button>
+                     <p class="small text-danger text-center pt-3">{{mensagemErroRegistro}}</p>
+              </form>
+              <hr />
+
+              <p class="small text-center">Ao cadastrar-se, você concorda com nossos <b>Termos</b> e <b>Política de
+                            Privacidade</b>.</p>
+
+       </div>
+</div>
+<br />
+<div class="card"
+     style="width: 20rem;">
+       <div class="card-body">
+              <p class="card-text">
+                     Tem uma conta? <a href="#"
+                        (click)="exibirPainelLogin()"
+                        class="card-link">Faça login</a>
+              </p>
+       </div>
+</div>
