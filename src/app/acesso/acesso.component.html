@@ -1,21 +1,43 @@
 <div class="container">
     <div class="row">
-        <div class="col-sm-3 d-flex justify-content-center">
-            <!--Banner FisioNeurApp-->
+        <div class="col-sm-3">
+            <div style="width: 18rem;">
+                <img src="/assets/HandsOnBackBone.jpg"
+                     class="card-img-top">
+            </div>
+            <div style="width: 18rem;">
+                <img src="/assets/HandsOnBackBone.jpg"
+                     class="card-img-top">
+            </div>
+            <div style="width: 18rem;">
+                <img src="/assets/HandsOnBackBone.jpg"
+                     class="card-img-top">
+            </div>
         </div>
         <div class="col-sm-6 d-flex justify-content-center"
              *ngIf="login; else formCadastro">
-            <fisio-login></fisio-login>
+            <fisio-login (exibirPainel)="exibirPainel($event)"></fisio-login>
         </div>
 
         <ng-template #formCadastro>
             <div class="col-sm-6 d-flex justify-content-center">
-                <fisio-cadastro></fisio-cadastro>
+                <fisio-cadastro (exibirPainel)="exibirPainel($event)"></fisio-cadastro>
             </div>
         </ng-template>
 
-        <div class="col-sm-3 d-flex justify-content-center">
-            <!--Banner FisioNeurApp-->
+        <div class="col-sm-3">
+            <div style="width: 18rem;">
+                <img src="/assets/HandsOnBackBone.jpg"
+                     class="card-img-top">
+            </div>
+            <div style="width: 18rem;">
+                <img src="/assets/HandsOnBackBone.jpg"
+                     class="card-img-top">
+            </div>
+            <div style="width: 18rem;">
+                <img src="/assets/HandsOnBackBone.jpg"
+                     class="card-img-top">
+            </div>
         </div>
     </div>
 </div>
