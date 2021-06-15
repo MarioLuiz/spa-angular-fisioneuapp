@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { Autenticacao } from 'src/app/autenticacao.service';
 import { Usuario } from '../usuario.model';
 import { animate, keyframes, state, style, transition, trigger } from '@angular/animations';
@@ -43,11 +43,12 @@ export class CadastroComponent implements OnInit {
     'email': new FormControl(null, [Validators.required, Validators.minLength(7), Validators.maxLength(254),
     Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]),
     'telefone': new FormControl(null, [Validators.required, Validators.minLength(8)]),
-    'cpf': new FormControl(null, [Validators.required, Validators.minLength(11)]),
+    'cpf': new FormControl(null, [Validators.required, Validators.minLength(11), Validators.maxLength(11),
+    Validators.pattern("^[0-9]*$")]),
     'crefito': new FormControl(null, [Validators.required, Validators.minLength(8), Validators.maxLength(8)]),
     'senha': new FormControl(null, [Validators.required, Validators.minLength(6)]),
-    'senhaRepetida': new FormControl(null, [Validators.required, Validators.minLength(6)]),
-    'dataNascimento': new FormControl(null, [Validators.required]),
+    'senhaConfirmacao': new FormControl(null, [Validators.required, Validators.minLength(6)]),
+    'dataNascimento': new FormControl(null, [Validators.required]) //^\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])$
   })
 
   constructor(
@@ -68,9 +69,6 @@ export class CadastroComponent implements OnInit {
     */
   }
 
-  // conveniente getter para facil acesso dos campos do formulario
-  get f() { return this.formulario.controls; }
-
   exibirPainelLogin(): void {
     this.exibirPainel.emit('login')
   }
@@ -84,6 +82,8 @@ export class CadastroComponent implements OnInit {
       this.formulario.value.cpf,
       this.formulario.value.crefito,
       this.formulario.value.senha,
+      this.formulario.value.dataNascimento,
+      new Date() // Data cadastro
     )
     console.log('Usuario: ', usuario)
     // Implementar Serviço cadastro
@@ -123,7 +123,10 @@ export class CadastroComponent implements OnInit {
       if (this.f.senha.invalid && this.f.senha.touched) {
         this.estadoAnimacaoPainelCadastro = 'criado'
       }
-      if (this.f.senhaRepetida.invalid && this.f.senhaRepetida.touched) {
+      if (this.f.senhaConfirmacao.invalid && this.f.senhaConfirmacao.touched) {
+        this.estadoAnimacaoPainelCadastro = 'criado'
+      }
+      if (this.f.dataNascimento.invalid && this.f.dataNascimento.touched) {
         this.estadoAnimacaoPainelCadastro = 'criado'
       }
     }, 750)
@@ -131,11 +134,30 @@ export class CadastroComponent implements OnInit {
 
   public habilitaBotaoCadastro(): boolean {
     if (this.f.nome_completo.invalid || this.f.email.invalid || this.f.telefone.invalid ||
-      this.f.cpf.invalid || this.f.crefito.invalid || this.f.senha.invalid || this.f.senhaRepetida.invalid) {
+      this.f.cpf.invalid || this.f.crefito.invalid || this.f.senha.invalid || this.f.senhaConfirmacao.invalid || this.f.dataNascimento.invalid) {
       this.botaoCadastro = true
     } else {
       this.botaoCadastro = false
     }
     return this.botaoCadastro
+  }
+
+  onPasswordChange() {
+    if (this.senhaConfirmacao.value == this.senha.value) {
+      this.senhaConfirmacao.setErrors(null);
+    } else {
+      this.senhaConfirmacao.setErrors({ mismatch: true });
+    }
+  }
+
+  // conveniente getter para facil acesso dos campos do formulario
+  get f() { return this.formulario.controls; }
+
+  get senhaConfirmacao(): AbstractControl {
+    return this.formulario.controls['senhaConfirmacao'];
+  }
+
+  get senha(): AbstractControl {
+    return this.formulario.controls['senha'];
   }
 }

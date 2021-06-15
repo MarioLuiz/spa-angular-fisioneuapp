@@ -60,14 +60,16 @@
                             <small *ngIf="f.crefito.valid && f.crefito.touched"
                                    class="form-text text-success">Ok</small>
                             <small *ngIf="f.crefito.invalid && f.crefito.touched"
-                                   class="form-text text-danger">Numero Crefito inválido, o N° crefito possui 8 caracteres</small>
+                                   class="form-text text-danger">Numero Crefito inválido, o N° crefito possui 8
+                                   caracteres</small>
                      </div>
 
                      <div class="form-group">
                             <input type="password"
                                    class="form-control"
                                    placeholder="Senha"
-                                   formControlName="senha">
+                                   formControlName="senha"
+                                   (change)="onPasswordChange()">
                             <small *ngIf="f.senha.valid && f.senha.touched"
                                    class="form-text text-success">Ok</small>
                             <small *ngIf="f.senha.invalid && f.senha.touched"
@@ -78,11 +80,26 @@
                             <input type="password"
                                    class="form-control"
                                    placeholder="Repita a sua senha"
-                                   formControlName="senhaRepetida">
-                            <small *ngIf="f.senhaRepetida.valid && f.senhaRepetida.touched"
+                                   formControlName="senhaConfirmacao"
+                                   (change)="onPasswordChange()">
+                            <small *ngIf="f.senhaConfirmacao.valid && f.senhaConfirmacao.touched"
                                    class="form-text text-success">Ok</small>
-                            <small *ngIf="f.senhaRepetida.invalid && f.senhaRepetida.touched"
+                            <small *ngIf="f.senhaConfirmacao.invalid && f.senhaConfirmacao.touched"
                                    class="form-text text-danger">Senha inválida</small>
+                            <small *ngIf="senhaConfirmacao.hasError('mismatch')"
+                                   class="form-text text-danger">Senhas não são idênticas</small>
+                     </div>
+
+                     <div class="form-group">
+                            <small class="form-text mb-1">Data de Nascimento:</small>
+                            <input type="date"
+                                   class="form-control"
+                                   placeholder="Data de nascimento"
+                                   formControlName="dataNascimento">
+                            <small *ngIf="f.dataNascimento.valid && f.dataNascimento.touched"
+                                   class="form-text text-success">Ok</small>
+                            <small *ngIf="f.dataNascimento.invalid && f.dataNascimento.touched"
+                                   class="form-text text-danger">Data inválida</small>
                      </div>
                      <button type="submit"
                              class="btn btn-primary btn-sm btn-block"
