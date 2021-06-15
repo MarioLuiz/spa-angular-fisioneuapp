@@ -42,9 +42,9 @@ export class CadastroComponent implements OnInit {
     'nome_completo': new FormControl(null, [Validators.required]),
     'email': new FormControl(null, [Validators.required, Validators.minLength(7), Validators.maxLength(254),
     Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]),
-    'telefone': new FormControl(null, [Validators.required]),
-    'cpf': new FormControl(null, [Validators.required]),
-    'crefito': new FormControl(null, [Validators.required, Validators.minLength(8)]),
+    'telefone': new FormControl(null, [Validators.required, Validators.minLength(8)]),
+    'cpf': new FormControl(null, [Validators.required, Validators.minLength(11)]),
+    'crefito': new FormControl(null, [Validators.required, Validators.minLength(8), Validators.maxLength(8)]),
     'senha': new FormControl(null, [Validators.required, Validators.minLength(6)]),
     'senhaRepetida': new FormControl(null, [Validators.required, Validators.minLength(6)]),
     'dataNascimento': new FormControl(null, [Validators.required]),
@@ -55,6 +55,17 @@ export class CadastroComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    /*
+    this.formulario.get("nome_completo")?.setValue('Luiz Costa')
+    this.formulario.get("email")?.setValue('luiz@gmail.com')
+    this.formulario.get("telefone")?.setValue('6799999999')
+    this.formulario.get("cpf")?.setValue('02999999999')
+    this.formulario.get("crefito")?.setValue('13B35878')
+    this.formulario.get("senha")?.setValue('123456')
+    this.formulario.get("senhaRepetida")?.setValue('123456')
+    this.formulario.markAllAsTouched()
+    console.log('Formulario', this.formulario)
+    */
   }
 
   // conveniente getter para facil acesso dos campos do formulario
@@ -69,11 +80,14 @@ export class CadastroComponent implements OnInit {
     let usuario: Usuario = new Usuario(
       this.formulario.value.nome_completo,
       this.formulario.value.email,
-      this.formulario.value.numeroTelefone,
+      this.formulario.value.telefone,
       this.formulario.value.cpf,
       this.formulario.value.crefito,
       this.formulario.value.senha,
     )
+    console.log('Usuario: ', usuario)
+    // Implementar Serviço cadastro
+    /*
     this.autenticacao.cadastrarUsuario(usuario)
       .then((resposta: any) => {
         console.log('Usuário Salvo com sucesso', resposta)
@@ -84,6 +98,7 @@ export class CadastroComponent implements OnInit {
         this.mensagemErroRegistro = error.message
         this.estadoAnimacaoPainelCadastro = 'criado'
       })
+      */
   }
 
   public onCardChange(event: any): void {
@@ -96,19 +111,28 @@ export class CadastroComponent implements OnInit {
       if (this.f.email.invalid && this.f.email.touched) {
         this.estadoAnimacaoPainelCadastro = 'criado'
       }
-      if (this.f.nome_usuario.invalid && this.f.nome_usuario.touched) {
+      if (this.f.telefone.invalid && this.f.telefone.touched) {
+        this.estadoAnimacaoPainelCadastro = 'criado'
+      }
+      if (this.f.cpf.invalid && this.f.cpf.touched) {
+        this.estadoAnimacaoPainelCadastro = 'criado'
+      }
+      if (this.f.crefito.invalid && this.f.crefito.touched) {
         this.estadoAnimacaoPainelCadastro = 'criado'
       }
       if (this.f.senha.invalid && this.f.senha.touched) {
+        this.estadoAnimacaoPainelCadastro = 'criado'
+      }
+      if (this.f.senhaRepetida.invalid && this.f.senhaRepetida.touched) {
         this.estadoAnimacaoPainelCadastro = 'criado'
       }
     }, 750)
   }
 
   public habilitaBotaoCadastro(): boolean {
-    if (this.f.nome_completo.invalid || this.f.email.invalid || this.f.numeroTelefone.invalid ||
-      this.f.cpf.invalid || this.f.crefito.invalid || this.f.senha.invalid) {
-        this.botaoCadastro = true
+    if (this.f.nome_completo.invalid || this.f.email.invalid || this.f.telefone.invalid ||
+      this.f.cpf.invalid || this.f.crefito.invalid || this.f.senha.invalid || this.f.senhaRepetida.invalid) {
+      this.botaoCadastro = true
     } else {
       this.botaoCadastro = false
     }
