@@ -9,6 +9,7 @@
                     (ngSubmit)="cadastrarUsuario()"
                     (keyup)="onCardChange($event)">
                      <div class="form-group">
+                            <small class="form-text mb-1">Nome completo:</small>
                             <input type="text"
                                    class="form-control"
                                    placeholder="Nome completo"
@@ -20,6 +21,7 @@
                      </div>
 
                      <div class="form-group">
+                            <small class="form-text mb-1">E-mail:</small>
                             <input type="email"
                                    class="form-control"
                                    placeholder="E-mail"
@@ -31,10 +33,12 @@
                      </div>
 
                      <div class="form-group">
+                            <small class="form-text mb-1">Numero de telefone:</small>
                             <input type="text"
                                    class="form-control"
                                    placeholder="Numero de Telefone"
-                                   formControlName="telefone">
+                                   formControlName="telefone"
+                                   mask="( 00 ) 0 0000-0000">
                             <small *ngIf="f.telefone.valid && f.telefone.touched"
                                    class="form-text text-success">Ok</small>
                             <small *ngIf="f.telefone.invalid && f.telefone.touched"
@@ -42,10 +46,12 @@
                      </div>
 
                      <div class="form-group">
+                            <small class="form-text mb-1">Cpf:</small>
                             <input type="text"
                                    class="form-control"
                                    placeholder="Cpf"
-                                   formControlName="cpf">
+                                   formControlName="cpf"
+                                   mask="000.000.000-00">
                             <small *ngIf="f.cpf.valid && f.cpf.touched"
                                    class="form-text text-success">Ok</small>
                             <small *ngIf="f.cpf.invalid && f.cpf.touched"
@@ -53,10 +59,12 @@
                      </div>
 
                      <div class="form-group">
+                            <small class="form-text mb-1">Crefito:</small>
                             <input type="text"
                                    class="form-control"
                                    placeholder="Crefito"
-                                   formControlName="crefito">
+                                   formControlName="crefito"
+                                   mask="00 000000-A">
                             <small *ngIf="f.crefito.valid && f.crefito.touched"
                                    class="form-text text-success">Ok</small>
                             <small *ngIf="f.crefito.invalid && f.crefito.touched"
@@ -65,6 +73,7 @@
                      </div>
 
                      <div class="form-group">
+                            <small class="form-text mb-1">Senha:</small>
                             <input type="password"
                                    class="form-control"
                                    placeholder="Senha"
@@ -77,6 +86,7 @@
                      </div>
 
                      <div class="form-group">
+                            <small class="form-text mb-1">Repita a sua senha:</small>
                             <input type="password"
                                    class="form-control"
                                    placeholder="Repita a sua senha"

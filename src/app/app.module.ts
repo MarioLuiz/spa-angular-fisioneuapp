@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
+import { NgxMaskModule } from 'ngx-mask'
 
 import {ROUTES} from './app.routes'
 
@@ -26,6 +27,10 @@ import { CadastroComponent } from './acesso/cadastro/cadastro.component';
     AppRoutingModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
+    NgxMaskModule.forRoot({
+      showMaskTyped: true,
+      // clearIfNotMatch : true
+    }),
     RouterModule.forRoot(ROUTES)
   ],
   providers: [Autenticacao],
