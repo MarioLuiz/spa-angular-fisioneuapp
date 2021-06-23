@@ -12,10 +12,11 @@ export class AcessoComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  public login: boolean = true
+  public painelExibido: string = 'login'
 
-  public exibirPainel(event: string): void {
-    this.login = event === 'login' ? true : false
+  public exibirPainel(event: any): void {
+    //this.login = event === 'login' ? true : false
+    this.painelExibido = event
   }
 
 }
