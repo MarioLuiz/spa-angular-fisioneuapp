@@ -33,9 +33,12 @@
                     [disabled]="f.senha.invalid || f.email.invalid">Entrar</button>
         </form>
         <hr />
-
+       <p class="card-text">
+              Esqueceu sua senha ? <a href="#"
+                 (click)="exibirPainelRecuperarSenha()"
+                 class="card-link">Recuperar senha</a>
+       </p>
         <p class="small text-danger text-center">{{mensagemErroSighIn}}</p>
-
     </div>
 </div>
 <br />

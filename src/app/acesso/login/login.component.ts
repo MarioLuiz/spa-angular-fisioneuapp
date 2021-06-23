@@ -58,6 +58,10 @@ export class LoginComponent implements OnInit {
     this.exibirPainel.emit('cadastro')
   }
 
+  public exibirPainelRecuperarSenha(): void {
+    this.exibirPainel.emit('recuperarSenha')
+  }
+
   public autenticar(): void {
     this.mensagemErroSighIn = ''
     //console.log('Formulario', this.formulario)
