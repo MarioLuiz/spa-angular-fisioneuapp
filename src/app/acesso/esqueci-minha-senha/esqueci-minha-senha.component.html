@@ -1,0 +1,38 @@
+<div class="card"
+     style="width: 20rem;">
+    <div class="card-body"
+         [@animacao-painel]="estadoAnimacaoPainelRecuperarSenha"
+         (click)="onCardChange($event)">
+        <div class="card-title"></div>
+
+        <form [formGroup]="formulario"
+              (ngSubmit)="recuperarSenha()">
+            <div class="form-group">
+                <input type="email"
+                       class="form-control"
+                       placeholder="E-mail"
+                       formControlName="email">
+                <small *ngIf="f.email.valid && f.email.touched"
+                       class="form-text text-success">Ok</small>
+                <small *ngIf="f.email.invalid && f.email.touched"
+                       class="form-text text-danger">E-mail inválido</small>
+            </div>
+            <button type="submit"
+                    class="btn btn-primary btn-sm btn-block"
+                    [disabled]="f.email.invalid">Recuperar</button>
+        </form>
+        <hr />
+        <p class="small text-danger text-center">{{mensagemErroForgotMyPassword}}</p>
+    </div>
+</div>
+<br />
+<div class="card"
+     style="width: 20rem;">
+    <div class="card-body">
+        <p class="card-text">
+            Já pussui conta? <a href="#"
+               (click)="exibirPainelLogin()"
+               class="card-link">Fazer login</a>
+        </p>
+    </div>
+</div>
