@@ -1,8 +1,10 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
-import { Autenticacao } from 'src/app/autenticacao.service';
+import { AutenticacaoService } from 'src/app/autenticacao.service';
 import { Usuario } from '../usuario.model';
 import { animate, keyframes, state, style, transition, trigger } from '@angular/animations';
+import { catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs/internal/observable/throwError';
 
 @Component({
   selector: 'fisio-cadastro',
@@ -52,21 +54,20 @@ export class CadastroComponent implements OnInit {
   })
 
   constructor(
-    private autenticacao: Autenticacao
+    private autenticacaoService: AutenticacaoService
   ) { }
 
   ngOnInit(): void {
-    /*
-    this.formulario.get("nome_completo")?.setValue('Luiz Costa')
-    this.formulario.get("email")?.setValue('luiz@gmail.com')
-    this.formulario.get("telefone")?.setValue('6799999999')
-    this.formulario.get("cpf")?.setValue('02999999999')
-    this.formulario.get("crefito")?.setValue('13B35878')
-    this.formulario.get("senha")?.setValue('123456')
-    this.formulario.get("senhaRepetida")?.setValue('123456')
-    this.formulario.markAllAsTouched()
-    console.log('Formulario', this.formulario)
-    */
+    // this.formulario.get("nome_completo")?.setValue('Luiz Arruda')
+    // this.formulario.get("email")?.setValue('luiz@gmail.com')
+    // this.formulario.get("telefone")?.setValue('67999999999')
+    // this.formulario.get("cpf")?.setValue('02999999999')
+    // this.formulario.get("crefito")?.setValue('13468457')
+    // this.formulario.get("senha")?.setValue('123456')
+    // this.formulario.get("senhaConfirmacao")?.setValue('123456')
+    // this.formulario.get("dataNascimento")?.setValue(new Date(1992, 1, 24))
+    // this.formulario.markAllAsTouched()
+    // console.log('Formulario', this.formulario)
   }
 
   exibirPainelLogin(): void {
@@ -86,19 +87,23 @@ export class CadastroComponent implements OnInit {
       new Date() // Data cadastro
     )
     console.log('Usuario: ', usuario)
-    // Implementar Serviço cadastro
-    /*
-    this.autenticacao.cadastrarUsuario(usuario)
-      .then((resposta: any) => {
-        console.log('Usuário Salvo com sucesso', resposta)
-        this.exibirPainelLogin()
-      })
-      .catch((error: Error) => {
-        console.log('Erro ao Cadastrar user', error)
-        this.mensagemErroRegistro = error.message
-        this.estadoAnimacaoPainelCadastro = 'criado'
-      })
-      */
+    this.autenticacaoService.cadastrarUsuario(usuario)
+      .pipe(
+        catchError(err => {
+          return throwError(err);
+        })
+      )
+      .subscribe(
+        resposta => {
+          console.log('Usuário Salvo com sucesso', resposta)
+          this.exibirPainelLogin()
+        },
+        (err: any) => {
+          console.log('Erro ao salvar Fisioterapeuta: ', err)
+          this.mensagemErroRegistro = err.error.errors[0].message
+          this.estadoAnimacaoPainelCadastro = 'criado'
+        }
+      )
   }
 
   public onCardChange(event: any): void {

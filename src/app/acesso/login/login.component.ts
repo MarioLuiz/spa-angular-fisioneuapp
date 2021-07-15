@@ -1,6 +1,6 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms'
-import { Autenticacao } from 'src/app/autenticacao.service';
+import { AutenticacaoService } from 'src/app/autenticacao.service';
 import { Router } from '@angular/router';
 import { animate, keyframes, state, style, transition, trigger } from '@angular/animations';
 
@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit {
   })
 
   constructor(
-    private autenticacao: Autenticacao,
+    private autenticacaoService: AutenticacaoService,
     private router: Router
   ) { }
 
@@ -65,7 +65,7 @@ export class LoginComponent implements OnInit {
   public autenticar(): void {
     this.mensagemErroSighIn = ''
     //console.log('Formulario', this.formulario)
-    this.autenticacao.autenticar(this.formulario.value.email, this.formulario.value.senha)
+    this.autenticacaoService.autenticar(this.formulario.value.email, this.formulario.value.senha)
       .then((resposta) => {
         this.router.navigate(['/home'])
       })

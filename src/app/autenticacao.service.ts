@@ -1,26 +1,39 @@
+import { URL_API } from './app.api';
 import { Injectable } from '@angular/core';
 import { Usuario } from './acesso/usuario.model';
 import firebase from 'firebase';
 import { Router } from '@angular/router';
 
+import { HttpClient, HttpHeaders } from '@angular/common/http'
+import { Observable } from 'rxjs';
+import { retry } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
+
 @Injectable()
-export class Autenticacao {
+export class AutenticacaoService {
 
     public token_id: string | null | undefined
     public token_fireBase: string = ''
+    private headers = new HttpHeaders({ 
+        'Content-Type': 'application/json',
+    })
+    private options = {
+        headers: this.headers,
+    }
+    constructor(
+        private router: Router,
+        private http: HttpClient) {}
 
-    constructor(private router: Router) { }
+    public cadastrarUsuario(usuario: Usuario): Observable<any> {
+        return this.http.post(`${URL_API}/fisioterapeutas`, JSON.stringify(usuario), this.options).pipe(
+            map((resposta:any) => resposta),
+            retry(3)
+            //catchError((e: any) => Observable.throw(this.errorHandler(e)))
+        )
+    }
 
-    public cadastrarUsuario(usuario: Usuario): Promise<any> {
-        //console.log('Chegamos até o serviço: ', usuario)
-        return firebase.auth().createUserWithEmailAndPassword(usuario.email, usuario.senha)
-            .then((resposta: any) => {
-                // removendo a senha do atrubuto senha do obj usuario
-                // @ts-expect-error
-                delete usuario.senha
-                this.salvarDadosDoUsuario(usuario, 3)
-                return resposta
-            })
+    errorHandler(error: any): void {
+        console.log('Erro:', error)
     }
 
     public autenticar(email: string, senha: string): Promise<any> {

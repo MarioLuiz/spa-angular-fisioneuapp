@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgxMaskModule } from 'ngx-mask'
 
 import {ROUTES} from './app.routes'
 
-import { Autenticacao } from './autenticacao.service';
+import { AutenticacaoService } from './autenticacao.service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -30,6 +31,7 @@ import { TopoComponent } from './home/topo/topo.component';
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
@@ -39,7 +41,7 @@ import { TopoComponent } from './home/topo/topo.component';
     }),
     RouterModule.forRoot(ROUTES)
   ],
-  providers: [Autenticacao],
+  providers: [AutenticacaoService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
