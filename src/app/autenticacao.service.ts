@@ -1,7 +1,6 @@
 import { URL_API } from './app.api';
 import { Injectable } from '@angular/core';
 import { Usuario } from './acesso/usuario.model';
-import firebase from 'firebase';
 import { Router } from '@angular/router';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http'
@@ -13,7 +12,6 @@ import { map } from 'rxjs/operators';
 export class AutenticacaoService {
 
     public token_id: string | null | undefined
-    public token_fireBase: string = ''
     private headers = new HttpHeaders({
         'Content-Type': 'application/json',
     })
@@ -71,14 +69,9 @@ export class AutenticacaoService {
     }
 
     public sair(): void {
-        firebase.auth().signOut()
-            .then(() => {
-                localStorage.removeItem('idToken')
-                localStorage.removeItem(this.token_fireBase)
-                this.token_id = undefined
-                this.token_fireBase = ''
-                this.router.navigate(['/'])
-            })
+        localStorage.removeItem('idToken')
+        this.token_id = undefined
+        this.router.navigate(['/'])
     }
 
 }

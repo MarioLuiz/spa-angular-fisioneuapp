@@ -20,7 +20,6 @@
     "@angular/router": "~12.0.3",
     "ajv": "^8.6.0",
     "bootstrap": "^4.6.0",
-    "firebase": "^8.6.5",
     "jquery": "^3.6.0",
     "ngx-mask": "^12.0.0",
     "rxjs": "~6.6.0",
