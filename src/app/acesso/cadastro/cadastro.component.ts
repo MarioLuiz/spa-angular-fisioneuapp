@@ -41,7 +41,7 @@ export class CadastroComponent implements OnInit {
   public botaoCadastro: boolean = false
 
   public formulario: FormGroup = new FormGroup({
-    'nome_completo': new FormControl(null, []),
+    'nome_completo': new FormControl(null, [Validators.required]),
     'email': new FormControl(null, [Validators.required, Validators.minLength(7), Validators.maxLength(254),
     Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]),
     'telefone': new FormControl(null, [Validators.required, Validators.minLength(8)]),
@@ -58,16 +58,16 @@ export class CadastroComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.formulario.get("nome_completo")?.setValue('')
-    this.formulario.get("email")?.setValue('luiz@gmail.com')
-    this.formulario.get("telefone")?.setValue('67999999999')
-    this.formulario.get("cpf")?.setValue('02999999999')
-    this.formulario.get("crefito")?.setValue('13468457')
-    this.formulario.get("senha")?.setValue('123456')
-    this.formulario.get("senhaConfirmacao")?.setValue('123456')
-    this.formulario.get("dataNascimento")?.setValue(new Date(1992, 1, 24))
-    this.formulario.markAllAsTouched()
-    console.log('Formulario', this.formulario)
+    // this.formulario.get("nome_completo")?.setValue('Luiz Flavio')
+    // this.formulario.get("email")?.setValue('luiz@gmail.com')
+    // this.formulario.get("telefone")?.setValue('67999999999')
+    // this.formulario.get("cpf")?.setValue('02999999999')
+    // this.formulario.get("crefito")?.setValue('13468457')
+    // this.formulario.get("senha")?.setValue('123456')
+    // this.formulario.get("senhaConfirmacao")?.setValue('123456')
+    // this.formulario.get("dataNascimento")?.setValue(new Date(1992, 1, 24))
+    // this.formulario.markAllAsTouched()
+    // console.log('Formulario', this.formulario)
   }
 
   exibirPainelLogin(): void {
