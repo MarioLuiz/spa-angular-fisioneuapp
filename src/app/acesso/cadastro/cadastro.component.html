@@ -114,7 +114,8 @@
                      <button type="submit"
                              class="btn btn-primary btn-sm btn-block"
                              [disabled]="habilitaBotaoCadastro()">Cadastre-se</button>
-                     <p class="small text-danger text-center pt-3">{{mensagemErroRegistro}}</p>
+                     <p class="small text-danger text-center pt-3"
+                        *ngFor="let mensagem of mensagensErroRegistro">{{mensagem}}</p>
               </form>
               <hr />
 
