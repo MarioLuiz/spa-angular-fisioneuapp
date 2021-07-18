@@ -3,6 +3,8 @@ import { FormGroup, FormControl, Validators } from '@angular/forms'
 import { AutenticacaoService } from 'src/app/autenticacao.service';
 import { Router } from '@angular/router';
 import { animate, keyframes, state, style, transition, trigger } from '@angular/animations';
+import { catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs/internal/observable/throwError';
 
 @Component({
   selector: 'fisio-login',
@@ -34,7 +36,7 @@ export class LoginComponent implements OnInit {
 
   @Output() public exibirPainel: EventEmitter<string> = new EventEmitter<string>()
 
-  public mensagemErroSighIn: string = ''
+  public mensagensErroSighIn: Array<string> = []
   public estadoAnimacaoPainelLogin: string = 'void'
 
   public formulario: FormGroup = new FormGroup({
@@ -49,6 +51,10 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    // this.formulario.get("email")?.setValue('mario@gmail.com')
+    // this.formulario.get("senha")?.setValue('123456Mario')
+    // this.formulario.markAllAsTouched()
+    // console.log('Formulario', this.formulario)
   }
 
   // conveniente getter para facil acesso dos campos do formulario
@@ -63,17 +69,26 @@ export class LoginComponent implements OnInit {
   }
 
   public autenticar(): void {
-    this.mensagemErroSighIn = ''
+    this.mensagensErroSighIn = []
     //console.log('Formulario', this.formulario)
     this.autenticacaoService.autenticar(this.formulario.value.email, this.formulario.value.senha)
-      .then((resposta) => {
-        this.router.navigate(['/home'])
-      })
-      .catch((error: Error) => {
-        console.log('Erro ao autenticar user', error)
-        this.mensagemErroSighIn = error.message
-        this.estadoAnimacaoPainelLogin = 'criado'
-      })
+      .pipe(
+        catchError(err => {
+          return throwError(err);
+        })
+      )
+      .subscribe(
+        resposta => {
+          console.log('Usuário autenticado com sucesso')
+          this.router.navigate(['/home'])
+        },
+        (err: any) => {
+          this.mensagensErroSighIn = []
+          console.log('Erro ao realizar Login: ', err)
+          this.mensagensErroSighIn.push(err.error.message)
+          this.estadoAnimacaoPainelLogin = 'criado'
+        }
+      )
   }
 
   public onCardChange(event: any): void {

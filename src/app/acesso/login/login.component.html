@@ -38,7 +38,8 @@
                  (click)="exibirPainelRecuperarSenha()"
                  class="card-link">Recuperar senha</a>
        </p>
-        <p class="small text-danger text-center">{{mensagemErroSighIn}}</p>
+        <p class="small text-danger text-center"
+         *ngFor="let mensagem of mensagensErroSighIn">{{mensagem}}</p>
     </div>
 </div>
 <br />
