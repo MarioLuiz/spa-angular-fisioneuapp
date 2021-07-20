@@ -57,6 +57,24 @@ export class AutenticacaoService {
             )
     }
 
+    public recuperarSenha(email: string): Observable<any> {
+        let options = {
+            headers: this.headers,
+            observe: "response" as 'body'
+        }
+        let user = {
+            email
+        }
+        return this.http.post(`${URL_API}/auth/forgot/`, JSON.stringify(user), options)
+            .pipe(
+                //share(),
+                map((resposta: any) => {
+                    //console.log('Recuperar senha response', resposta)
+                }),
+                retry(3)
+            )
+    }
+
     public autenticado(): boolean {
         if (this.token_id === undefined && localStorage.getItem('idToken') != null) {
             this.token_id = localStorage.getItem('idToken')
