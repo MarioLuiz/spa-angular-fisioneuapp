@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AutenticacaoService } from 'src/app/autenticacao.service';
 
 @Component({
   selector: 'fisio-topo',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TopoComponent implements OnInit {
 
-  constructor() { }
+  constructor(private autenticacaoService: AutenticacaoService) { }
 
   ngOnInit(): void {
+  }
+
+  public sair () { 
+    this.autenticacaoService.sair();
   }
 
 }

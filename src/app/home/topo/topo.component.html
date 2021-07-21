@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
     <a class="navbar-brand"
-       href="#">FisioNeurApp</a>
+       href="/home">FisioNeurApp</a>
     <button class="navbar-toggler"
             type="button"
             data-toggle="collapse"
@@ -61,21 +61,60 @@
                        href="#">Pacientes</a>
                 </div>
             </li>
+            <li class="nav-item dropdown">
+               <a class="nav-link dropdown-toggle"
+                  href="#"
+                  id="dropdown01"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false">Minha Conta</a>
+               <div class="dropdown-menu"
+                    aria-labelledby="dropdown01">
+                  <a class="dropdown-item"
+                     href="#">Atualizar meus dados</a>
+               </div>
+            </li>
         </ul>
         <ul class="navbar-nav justify-content-end">
-            <li class="nav-item dropdown dropleft">
-                <a class="nav-link dropdown-toggle"
-                   href="#"
-                   id="dropdown01"
-                   data-toggle="dropdown"
+            <li type="button" class="nav-item" data-toggle="modal" data-target="#modalSair">
+                <a class="nav-link"
+                   id="sair"
                    aria-haspopup="true"
-                   aria-expanded="false">Minha conta</a>
-                <div class="dropdown-menu"
-                     aria-labelledby="dropdown01">
-                    <a class="dropdown-item"
-                       href="#">Atualizar meus dados</a>
-                </div>
+                   aria-expanded="false">Sair</a>
             </li>
         </ul>
     </div>
 </nav>
+
+<!-- Modal -->
+<div class="modal fade"
+     id="modalSair"
+     tabindex="-1"
+     aria-labelledby="modalSairLabel"
+     aria-hidden="true">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title"
+                id="modalSairLabel">Deseja realmente sair do FisioNeurApp?</h5>
+            <button type="button"
+                    class="close"
+                    data-dismiss="modal"
+                    aria-label="Close">
+               <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <div class="modal-body">
+            Ao clicar em sair será redirecionado a pagina de login.
+         </div>
+         <div class="modal-footer">
+            <button type="button"
+                    class="btn btn-secondary"
+                    data-dismiss="modal">Fechar</button>
+            <button type="button"
+                    class="btn btn-info"
+                    data-dismiss="modal" (click)="sair()">Sair do sistema</button>
+         </div>
+      </div>
+   </div>
+</div>
