@@ -80,7 +80,7 @@ export class LoginComponent implements OnInit {
       .subscribe(
         resposta => {
           console.log('Usuário autenticado com sucesso')
-          this.router.navigate(['/home'])
+          this.router.navigate(['/fisio'])
         },
         (err: any) => {
           this.mensagensErroSighIn = []

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AutenticacaoService } from '../autenticacao.service';
 
 @Component({
   selector: 'fisio-acesso',
@@ -7,9 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AcessoComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private autenticacaoService: AutenticacaoService,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
+    if (this.autenticacaoService.autenticado()) {
+      this.router.navigate(['/fisio'])
+    }
   }
 
   public painelExibido: string = 'login'

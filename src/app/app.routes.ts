@@ -5,5 +5,5 @@ import { HomeComponent } from "./home/home.component";
 
 export const ROUTES: Routes = [
     {path:'', component: AcessoComponent},
-    {path:'home', component:HomeComponent, canActivate: [AutenticacaoGuardService]}
+    {path:'fisio', component:HomeComponent, canActivate: [AutenticacaoGuardService]}
 ]
