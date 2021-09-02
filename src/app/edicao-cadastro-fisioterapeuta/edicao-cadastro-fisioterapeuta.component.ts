@@ -47,8 +47,6 @@ export class EdicaoCadastroFisioterapeutaComponent implements OnInit {
     'cpf': new FormControl(null, [Validators.required, Validators.minLength(11), Validators.maxLength(11),
     Validators.pattern("^[0-9]*$")]),
     'crefito': new FormControl(null, [Validators.required, Validators.minLength(8), Validators.maxLength(8)]),
-    'senha': new FormControl(null, [Validators.required, Validators.minLength(6)]),
-    'senhaConfirmacao': new FormControl(null, [Validators.required, Validators.minLength(6)]),
     'dataNascimento': new FormControl(null, [Validators.required]) //^\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])$
   })
 
@@ -127,34 +125,20 @@ export class EdicaoCadastroFisioterapeutaComponent implements OnInit {
       if (this.f.crefito.invalid && this.f.crefito.touched) {
         this.estadoAnimacaoPainelCadastro = 'criado'
       }
-      if (this.f.senha.invalid && this.f.senha.touched) {
-        this.estadoAnimacaoPainelCadastro = 'criado'
-      }
-      if (this.f.senhaConfirmacao.invalid && this.f.senhaConfirmacao.touched) {
-        this.estadoAnimacaoPainelCadastro = 'criado'
-      }
       if (this.f.dataNascimento.invalid && this.f.dataNascimento.touched) {
         this.estadoAnimacaoPainelCadastro = 'criado'
       }
     }, 750)
   }
 
-  public habilitaBotaoCadastro(): boolean {
+  public habilitaBotaoEdicao(): boolean {
     if (this.f.nome_completo.invalid || this.f.email.invalid || this.f.telefone.invalid ||
-      this.f.cpf.invalid || this.f.crefito.invalid || this.f.senha.invalid || this.f.senhaConfirmacao.invalid || this.f.dataNascimento.invalid) {
+      this.f.cpf.invalid || this.f.crefito.invalid || this.f.dataNascimento.invalid) {
       this.botaoCadastro = true
     } else {
       this.botaoCadastro = false
     }
     return this.botaoCadastro
-  }
-
-  onPasswordChange() {
-    if (this.senhaConfirmacao.value == this.senha.value) {
-      this.senhaConfirmacao.setErrors(null);
-    } else {
-      this.senhaConfirmacao.setErrors({ mismatch: true });
-    }
   }
 
   // conveniente getter para facil acesso dos campos do formulario
