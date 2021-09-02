@@ -20,6 +20,7 @@ import { HomeComponent } from './home/home.component';
 import { EsqueciMinhaSenhaComponent } from './acesso/esqueci-minha-senha/esqueci-minha-senha.component';
 import { TopoComponent } from './home/topo/topo.component';
 import { EdicaoCadastroFisioterapeutaComponent } from './edicao-cadastro-fisioterapeuta/edicao-cadastro-fisioterapeuta.component';
+import { EdicaoSenhaFisioterapeutaComponent } from './edicao-senha-fisioterapeuta/edicao-senha-fisioterapeuta.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { EdicaoCadastroFisioterapeutaComponent } from './edicao-cadastro-fisiote
     HomeComponent,
     EsqueciMinhaSenhaComponent,
     TopoComponent,
-    EdicaoCadastroFisioterapeutaComponent
+    EdicaoCadastroFisioterapeutaComponent,
+    EdicaoSenhaFisioterapeutaComponent
   ],
   imports: [
     BrowserModule,
