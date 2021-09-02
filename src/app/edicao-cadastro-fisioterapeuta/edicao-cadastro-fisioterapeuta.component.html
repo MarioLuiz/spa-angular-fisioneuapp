@@ -74,34 +74,6 @@
                 </div>
 
                 <div class="form-group">
-                    <small class="form-text mb-1">Senha:</small>
-                    <input type="password"
-                           class="form-control"
-                           placeholder="Senha"
-                           formControlName="senha"
-                           (change)="onPasswordChange()">
-                    <small *ngIf="f.senha.valid && f.senha.touched"
-                           class="form-text text-success">Ok</small>
-                    <small *ngIf="f.senha.invalid && f.senha.touched"
-                           class="form-text text-danger">Senha inválida</small>
-                </div>
-
-                <div class="form-group">
-                    <small class="form-text mb-1">Repita a sua senha:</small>
-                    <input type="password"
-                           class="form-control"
-                           placeholder="Repita a sua senha"
-                           formControlName="senhaConfirmacao"
-                           (change)="onPasswordChange()">
-                    <small *ngIf="f.senhaConfirmacao.valid && f.senhaConfirmacao.touched"
-                           class="form-text text-success">Ok</small>
-                    <small *ngIf="f.senhaConfirmacao.invalid && f.senhaConfirmacao.touched"
-                           class="form-text text-danger">Senha inválida</small>
-                    <small *ngIf="senhaConfirmacao.hasError('mismatch')"
-                           class="form-text text-danger">Senhas não são idênticas</small>
-                </div>
-
-                <div class="form-group">
                     <small class="form-text mb-1">Data de Nascimento:</small>
                     <input type="date"
                            class="form-control"
