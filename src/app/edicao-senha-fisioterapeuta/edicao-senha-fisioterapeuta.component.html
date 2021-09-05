@@ -7,7 +7,7 @@
             <div class="card-title"></div>
 
             <form [formGroup]="formulario"
-                  (ngSubmit)="cadastrarUsuario()"
+                  (ngSubmit)="mudarSenha()"
                   (keyup)="onCardChange($event)">
                 
                 <div class="form-group">
@@ -36,7 +36,7 @@
                 </div>
                 
                 <div class="form-group">
-                    <small class="form-text mb-1">Repita a nova senha:</small>
+                    <small class="form-text mb-1">Repita sua nova senha:</small>
                     <input type="password"
                            class="form-control"
                            placeholder="Repita a sua nova senha"
@@ -47,7 +47,7 @@
                     <small *ngIf="f.senhaConfirmacao.invalid && f.senhaConfirmacao.touched"
                            class="form-text text-danger">Senha inválida</small>
                     <small *ngIf="senhaConfirmacao.hasError('mismatch')"
-                           class="form-text text-danger">Senhas não são idênticas</small>
+                           class="form-text text-danger">Nova senha e senha de confirmação não são idênticas.</small>
                 </div>
 
                 <button type="submit"
