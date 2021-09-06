@@ -1,6 +1,6 @@
 import { URL_API } from './app.api';
 import { Injectable } from '@angular/core';
-import { Usuario } from './acesso/usuario.model';
+import { Usuario } from '../assets/models/usuario.model';
 import { Router } from '@angular/router';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http'
