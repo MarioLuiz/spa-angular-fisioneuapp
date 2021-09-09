@@ -103,7 +103,7 @@ export class AutenticacaoService {
             headers: headers,
             observe: "response" as 'body'
         }
-        return this.http.get(`${URL_API}/fisioterapeuta/email/${email}`, options)
+        return this.http.get(`${URL_API}/fisioterapeutas/email/${email}`, options)
             .pipe(
                 //share(),
                 map((resposta: any) => {
