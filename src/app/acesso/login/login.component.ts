@@ -80,6 +80,7 @@ export class LoginComponent implements OnInit {
       .subscribe(
         resposta => {
           console.log('Usuário autenticado com sucesso')
+          this.salvarSessaoUsuario()
           this.router.navigate(['/fisio'])
         },
         (err: any) => {
@@ -102,6 +103,24 @@ export class LoginComponent implements OnInit {
         this.estadoAnimacaoPainelLogin = 'criado'
       }
     }, 750)
+  }
+
+  public salvarSessaoUsuario(): void {
+    //console.log('Formulario', this.formulario)
+    this.autenticacaoService.consultarSessaoFisioterapeuta(this.formulario.value.email)
+      .pipe(
+        catchError(err => {
+          return throwError(err);
+        })
+      )
+      .subscribe(
+        resposta => {
+          console.log('Dados da Secao consultados com sucesso!')
+        },
+        (err: any) => {
+          console.log('Erro ao salvarSessaoUsuario: ', err)
+        }
+      )
   }
 
 }

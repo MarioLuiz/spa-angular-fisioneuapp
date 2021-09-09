@@ -49,6 +49,7 @@ export class AutenticacaoService {
                 map((resposta: any) => {
                     let token: string = ''
                     token = resposta.headers.get('Authorization');
+                    this.token_id = token;
                     localStorage.setItem('idToken', token)
                     //console.log('Token:', this.token_id)
                     //console.log('Login response', resposta)
@@ -90,6 +91,26 @@ export class AutenticacaoService {
         localStorage.removeItem('idToken')
         this.token_id = undefined
         this.router.navigate(['/'])
+    }
+
+    public consultarSessaoFisioterapeuta(email: string): Observable<any> {
+        
+        let headers = new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': `${localStorage.getItem('idToken')}`
+        })
+        let options = {
+            headers: headers,
+            observe: "response" as 'body'
+        }
+        return this.http.get(`${URL_API}/fisioterapeuta/email/${email}`, options)
+            .pipe(
+                //share(),
+                map((resposta: any) => {
+                    console.log('consultarSessaoFisioterapeuta', resposta)
+                }),
+                retry(3)
+            )
     }
 
 }
