@@ -1,10 +1,13 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms'
-import { AutenticacaoService } from 'src/app/autenticacao.service';
 import { Router } from '@angular/router';
 import { animate, keyframes, state, style, transition, trigger } from '@angular/animations';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs/internal/observable/throwError';
+import { AutenticacaoService } from 'src/app/autenticacao.service';
+import { FisioterapeutaService } from 'src/app/fisioterapeuta.service';
+import { SessionService } from 'src/app/session.service';
+import { UserSession } from 'src/assets/models/user-session.model';
 
 @Component({
   selector: 'fisio-login',
@@ -47,7 +50,9 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private autenticacaoService: AutenticacaoService,
-    private router: Router
+    private router: Router,
+    private fisioterapeutaService: FisioterapeutaService,
+    private sessionService: SessionService,
   ) { }
 
   ngOnInit(): void {
@@ -107,7 +112,7 @@ export class LoginComponent implements OnInit {
 
   public salvarSessaoUsuario(): void {
     //console.log('Formulario', this.formulario)
-    this.autenticacaoService.consultarSessaoFisioterapeuta(this.formulario.value.email)
+    this.fisioterapeutaService.consultarSessaoFisioterapeuta(this.formulario.value.email)
       .pipe(
         catchError(err => {
           return throwError(err);
@@ -115,7 +120,10 @@ export class LoginComponent implements OnInit {
       )
       .subscribe(
         resposta => {
-          console.log('Dados da Secao consultados com sucesso!')
+          console.log('consultarSessaoFisioterapeuta', resposta)
+          let sessao: UserSession = new UserSession(resposta.id, resposta.email, resposta.perfis)
+          this.sessionService.setUserSession(sessao)
+          console.log('Sessao', sessao)
         },
         (err: any) => {
           console.log('Erro ao salvarSessaoUsuario: ', err)

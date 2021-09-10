@@ -1,7 +1,7 @@
 export class UserSession {
     constructor(
-        public id: number,
+        public id: string,
         public email: string,
-        public role: string,
+        public perfis: string[],
     ) { }
 }
