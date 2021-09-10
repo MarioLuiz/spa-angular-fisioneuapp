@@ -93,24 +93,4 @@ export class AutenticacaoService {
         this.router.navigate(['/'])
     }
 
-    public consultarSessaoFisioterapeuta(email: string): Observable<any> {
-        
-        let headers = new HttpHeaders({
-            'Content-Type': 'application/json',
-            'Authorization': `${localStorage.getItem('idToken')}`
-        })
-        let options = {
-            headers: headers,
-            observe: "response" as 'body'
-        }
-        return this.http.get(`${URL_API}/fisioterapeutas/email/${email}`, options)
-            .pipe(
-                //share(),
-                map((resposta: any) => {
-                    console.log('consultarSessaoFisioterapeuta', resposta)
-                }),
-                retry(3)
-            )
-    }
-
 }
