@@ -9,6 +9,8 @@ import { ROUTES } from './app.routes'
 
 import { AutenticacaoService } from './autenticacao.service';
 import { AutenticacaoGuardService } from './autenticacao-guard.service';
+import { FisioterapeutaService } from './fisioterapeuta.service';
+import { SessionService } from './session.service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -46,7 +48,7 @@ import { EdicaoSenhaFisioterapeutaComponent } from './edicao-senha-fisioterapeut
     }),
     RouterModule.forRoot(ROUTES)
   ],
-  providers: [AutenticacaoService, AutenticacaoGuardService],
+  providers: [AutenticacaoService, AutenticacaoGuardService, FisioterapeutaService, SessionService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
