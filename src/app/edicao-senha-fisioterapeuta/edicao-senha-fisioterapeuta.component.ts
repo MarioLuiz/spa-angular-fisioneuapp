@@ -62,7 +62,7 @@ export class EdicaoSenhaFisioterapeutaComponent implements OnInit {
     let usuario: Usuario = new Usuario(
       this.formulario.value.nome_completo,
       this.formulario.value.email,
-      this.formulario.value.telefone,
+      //this.formulario.value.telefone,
       this.formulario.value.cpf,
       this.formulario.value.crefito,
       this.formulario.value.senha,

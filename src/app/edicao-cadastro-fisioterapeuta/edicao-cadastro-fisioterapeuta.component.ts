@@ -43,7 +43,7 @@ export class EdicaoCadastroFisioterapeutaComponent implements OnInit {
     'nome_completo': new FormControl(null, [Validators.required]),
     'email': new FormControl(null, [Validators.required, Validators.minLength(7), Validators.maxLength(254),
     Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]),
-    'telefone': new FormControl(null, [Validators.required, Validators.minLength(8)]),
+    //'telefone': new FormControl(null, [Validators.required, Validators.minLength(8)]),
     'cpf': new FormControl(null, [Validators.required, Validators.minLength(11), Validators.maxLength(11),
     Validators.pattern("^[0-9]*$")]),
     'crefito': new FormControl(null, [Validators.required, Validators.minLength(8), Validators.maxLength(8)]),
@@ -76,7 +76,7 @@ export class EdicaoCadastroFisioterapeutaComponent implements OnInit {
     let usuario: Usuario = new Usuario(
       this.formulario.value.nome_completo,
       this.formulario.value.email,
-      this.formulario.value.telefone,
+      //this.formulario.value.telefone,
       this.formulario.value.cpf,
       this.formulario.value.crefito,
       this.formulario.value.senha,
@@ -116,9 +116,9 @@ export class EdicaoCadastroFisioterapeutaComponent implements OnInit {
       if (this.f.email.invalid && this.f.email.touched) {
         this.estadoAnimacaoPainelCadastro = 'criado'
       }
-      if (this.f.telefone.invalid && this.f.telefone.touched) {
-        this.estadoAnimacaoPainelCadastro = 'criado'
-      }
+      // if (this.f.telefone.invalid && this.f.telefone.touched) {
+      //   this.estadoAnimacaoPainelCadastro = 'criado'
+      // }
       if (this.f.cpf.invalid && this.f.cpf.touched) {
         this.estadoAnimacaoPainelCadastro = 'criado'
       }
@@ -132,7 +132,7 @@ export class EdicaoCadastroFisioterapeutaComponent implements OnInit {
   }
 
   public habilitaBotaoEdicao(): boolean {
-    if (this.f.nome_completo.invalid || this.f.email.invalid || this.f.telefone.invalid ||
+    if (this.f.nome_completo.invalid || this.f.email.invalid ||
       this.f.cpf.invalid || this.f.crefito.invalid || this.f.dataNascimento.invalid) {
       this.botaoCadastro = true
     } else {
