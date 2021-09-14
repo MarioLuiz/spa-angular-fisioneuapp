@@ -5,7 +5,7 @@ export class Usuario {
         public cpfOuCnpj: string,
         public crefito: string,
         public senha: string,
-        public dataNascimento: Date,
-        public dataCadastro: Date
+        public dataNascimento: number,
+        public dataCadastro: number
     ){}
 }

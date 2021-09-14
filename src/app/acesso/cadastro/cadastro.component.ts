@@ -82,8 +82,8 @@ export class CadastroComponent implements OnInit {
       this.formulario.value.cpf,
       this.formulario.value.crefito,
       this.formulario.value.senha,
-      this.formulario.value.dataNascimento,
-      new Date()
+      this.formulario.value.dataNascimento.getTime(),
+      new Date().getTime()
     )
     console.log('Usuario: ', usuario)
     this.autenticacaoService.cadastrarUsuario(usuario)
