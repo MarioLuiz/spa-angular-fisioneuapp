@@ -82,8 +82,7 @@ export class CadastroComponent implements OnInit {
       this.formulario.value.cpf,
       this.formulario.value.crefito,
       this.formulario.value.senha,
-      this.formulario.value.dataNascimento.getTime(),
-      new Date().getTime()
+      this.formulario.value.dataNascimento
     )
     console.log('Usuario: ', usuario)
     this.autenticacaoService.cadastrarUsuario(usuario)
@@ -167,4 +166,5 @@ export class CadastroComponent implements OnInit {
   get senha(): AbstractControl {
     return this.formulario.controls['senha'];
   }
+
 }

@@ -80,8 +80,7 @@ export class EdicaoCadastroFisioterapeutaComponent implements OnInit {
       this.formulario.value.cpf,
       this.formulario.value.crefito,
       this.formulario.value.senha,
-      this.formulario.value.dataNascimento.getTime(),
-      new Date().getTime() // Data cadastro
+      this.formulario.value.dataNascimento
     )
     console.log('Usuario: ', usuario)
     this.autenticacaoService.cadastrarUsuario(usuario)
