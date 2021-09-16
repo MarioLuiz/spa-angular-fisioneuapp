@@ -1,10 +1,14 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, AfterViewInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { AutenticacaoService } from 'src/app/autenticacao.service';
 import { Usuario } from '../../assets/models/usuario.model';
 import { animate, keyframes, state, style, transition, trigger } from '@angular/animations';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs/internal/observable/throwError';
+import { SessionService } from 'src/app/session.service';
+import { UserSession } from 'src/assets/models/user-session.model';
+import { FisioterapeutaService } from '../fisioterapeuta.service';
+
 @Component({
   selector: 'fisio-edicao-cadastro-fisioterapeuta',
   templateUrl: './edicao-cadastro-fisioterapeuta.component.html',
@@ -31,13 +35,14 @@ import { throwError } from 'rxjs/internal/observable/throwError';
     ])
   ]
 })
-export class EdicaoCadastroFisioterapeutaComponent implements OnInit {
+export class EdicaoCadastroFisioterapeutaComponent implements OnInit, AfterViewInit {
 
   @Output() public exibirPainel: EventEmitter<string> = new EventEmitter<string>()
 
   public mensagensErroRegistro: string[] = []
   public estadoAnimacaoPainelCadastro: string = 'void'
   public botaoCadastro: boolean = false
+  private userSession: UserSession = new UserSession('', '', [])
 
   public formulario: FormGroup = new FormGroup({
     'nome_completo': new FormControl(null, [Validators.required]),
@@ -51,10 +56,15 @@ export class EdicaoCadastroFisioterapeutaComponent implements OnInit {
   })
 
   constructor(
-    private autenticacaoService: AutenticacaoService
+    private autenticacaoService: AutenticacaoService,
+    private sessionService: SessionService,
+    private fisioterapeutaService: FisioterapeutaService
   ) { }
 
   ngOnInit(): void {
+    this.userSession = this.sessionService.getUserSession()
+    console.log('Usuario Logado: ', this.userSession)
+
     // this.formulario.get("nome_completo")?.setValue('Luiz Flavio')
     // this.formulario.get("email")?.setValue('luiz@gmail.com')
     // this.formulario.get("telefone")?.setValue('67999999999')
@@ -67,6 +77,10 @@ export class EdicaoCadastroFisioterapeutaComponent implements OnInit {
     // console.log('Formulario', this.formulario)
   }
 
+  ngAfterViewInit() {
+    this.consultarFisioterapeuta()
+  }
+
   exibirPainelLogin(): void {
     this.exibirPainel.emit('login')
   }
@@ -76,7 +90,6 @@ export class EdicaoCadastroFisioterapeutaComponent implements OnInit {
     let usuario: Usuario = new Usuario(
       this.formulario.value.nome_completo,
       this.formulario.value.email,
-      //this.formulario.value.telefone,
       this.formulario.value.cpf,
       this.formulario.value.crefito,
       this.formulario.value.senha,
@@ -106,7 +119,6 @@ export class EdicaoCadastroFisioterapeutaComponent implements OnInit {
   }
 
   public onCardChange(event: any): void {
-    //console.log('evento', event)
     this.estadoAnimacaoPainelCadastro = 'void'
     setTimeout(() => {
       if (this.f.nome_completo.invalid && this.f.nome_completo.touched) {
@@ -115,9 +127,6 @@ export class EdicaoCadastroFisioterapeutaComponent implements OnInit {
       if (this.f.email.invalid && this.f.email.touched) {
         this.estadoAnimacaoPainelCadastro = 'criado'
       }
-      // if (this.f.telefone.invalid && this.f.telefone.touched) {
-      //   this.estadoAnimacaoPainelCadastro = 'criado'
-      // }
       if (this.f.cpf.invalid && this.f.cpf.touched) {
         this.estadoAnimacaoPainelCadastro = 'criado'
       }
@@ -138,6 +147,30 @@ export class EdicaoCadastroFisioterapeutaComponent implements OnInit {
       this.botaoCadastro = false
     }
     return this.botaoCadastro
+  }
+
+  public consultarFisioterapeuta() {
+    this.fisioterapeutaService.consultarSessaoFisioterapeuta(this.userSession.email)
+      .pipe(
+        catchError(err => {
+          return throwError(err);
+        })
+      )
+      .subscribe(
+        resposta => {
+          console.log('Fisioterapeuta', resposta)
+          let dataNacimento: string[] = (resposta.dataNascimento).split('T')
+          this.formulario.get("nome_completo")?.setValue(resposta.nome)
+          this.formulario.get("email")?.setValue(resposta.email)
+          this.formulario.get("cpf")?.setValue(resposta.cpfOuCnpj)
+          this.formulario.get("crefito")?.setValue(resposta.crefito)
+          this.formulario.get("dataNascimento")?.setValue(dataNacimento[0])
+
+        },
+        (err: any) => {
+          console.log('Erro ao consultarSessaoFisioterapeuta: ', err)
+        }
+      )
   }
 
   // conveniente getter para facil acesso dos campos do formulario
