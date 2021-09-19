@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnInit, Output, AfterViewInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { AutenticacaoService } from 'src/app/autenticacao.service';
-import { Usuario } from '../../assets/models/usuario.model';
+import { UsuarioUpdate } from '../../assets/models/usuarioUpdate.model';
 import { animate, keyframes, state, style, transition, trigger } from '@angular/animations';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs/internal/observable/throwError';
@@ -48,7 +48,6 @@ export class EdicaoCadastroFisioterapeutaComponent implements OnInit, AfterViewI
     'nome_completo': new FormControl(null, [Validators.required]),
     'email': new FormControl(null, [Validators.required, Validators.minLength(7), Validators.maxLength(254),
     Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]),
-    //'telefone': new FormControl(null, [Validators.required, Validators.minLength(8)]),
     'cpf': new FormControl(null, [Validators.required, Validators.minLength(11), Validators.maxLength(11),
     Validators.pattern("^[0-9]*$")]),
     'crefito': new FormControl(null, [Validators.required, Validators.minLength(8), Validators.maxLength(8)]),
@@ -85,18 +84,17 @@ export class EdicaoCadastroFisioterapeutaComponent implements OnInit, AfterViewI
     this.exibirPainel.emit('login')
   }
 
-  cadastrarUsuario(): void {
+  atualizarCadastroFisioterapeuta(): void {
     // console.log(this.formulario)
-    let usuario: Usuario = new Usuario(
+    let usuario: UsuarioUpdate = new UsuarioUpdate(
       this.formulario.value.nome_completo,
-      this.formulario.value.email,
       this.formulario.value.cpf,
+      this.formulario.value.email,
       this.formulario.value.crefito,
-      this.formulario.value.senha,
       this.formulario.value.dataNascimento
     )
     console.log('Usuario: ', usuario)
-    this.autenticacaoService.cadastrarUsuario(usuario)
+    this.fisioterapeutaService.editarFisioterapeuta(usuario, this.userSession.id)
       .pipe(
         catchError(err => {
           return throwError(err);
@@ -104,11 +102,11 @@ export class EdicaoCadastroFisioterapeutaComponent implements OnInit, AfterViewI
       )
       .subscribe(
         resposta => {
-          console.log('Usuário Salvo com sucesso', resposta)
+          console.log('Fisioterapeuta atualizado com sucesso', resposta)
           this.exibirPainelLogin()
         },
         (err: any) => {
-          console.log('Erro ao salvar Fisioterapeuta: ', err)
+          console.log('Erro ao atualizar Fisioterapeuta: ', err)
           this.mensagensErroRegistro = []
           err.error.errors.forEach((mensagemErro: any) => {
             this.mensagensErroRegistro.push(mensagemErro.fieldName + ' : ' + mensagemErro.message);
@@ -165,7 +163,6 @@ export class EdicaoCadastroFisioterapeutaComponent implements OnInit, AfterViewI
           this.formulario.get("cpf")?.setValue(resposta.cpfOuCnpj)
           this.formulario.get("crefito")?.setValue(resposta.crefito)
           this.formulario.get("dataNascimento")?.setValue(dataNacimento[0])
-
         },
         (err: any) => {
           console.log('Erro ao consultarSessaoFisioterapeuta: ', err)

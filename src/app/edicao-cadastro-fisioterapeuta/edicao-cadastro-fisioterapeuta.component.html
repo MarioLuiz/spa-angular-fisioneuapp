@@ -7,7 +7,7 @@
             <div class="card-title"></div>
 
             <form [formGroup]="formulario"
-                  (ngSubmit)="cadastrarUsuario()"
+                  (ngSubmit)="atualizarCadastroFisioterapeuta()"
                   (keyup)="onCardChange($event)">
                 <div class="form-group">
                     <small class="form-text mb-1">Nome completo:</small>
@@ -32,19 +32,6 @@
                     <small *ngIf="f.email.invalid && f.email.touched"
                            class="form-text text-danger">E-mail inválido</small>
                 </div>
-
-                <!--<div class="form-group">
-                    <small class="form-text mb-1">Numero de telefone:</small>
-                    <input type="text"
-                           class="form-control"
-                           placeholder="Numero de Telefone"
-                           formControlName="telefone"
-                           mask="( 00 ) 0 0000-0000">
-                    <small *ngIf="f.telefone.valid && f.telefone.touched"
-                           class="form-text text-success">Ok</small>
-                    <small *ngIf="f.telefone.invalid && f.telefone.touched"
-                           class="form-text text-danger">Telefone inválido</small>
-                </div> -->
 
                 <div class="form-group">
                     <small class="form-text mb-1">Cpf:</small>
@@ -86,7 +73,7 @@
                 </div>
                 <button type="submit"
                         class="btn btn-primary btn-sm btn-block"
-                        [disabled]="habilitaBotaoEdicao()">Salvar</button>
+                        [disabled]="habilitaBotaoEdicao()">Atualizar</button>
                 <p class="small text-danger text-center pt-3"
                    *ngFor="let mensagem of mensagensErroRegistro">{{mensagem}}</p>
             </form>
