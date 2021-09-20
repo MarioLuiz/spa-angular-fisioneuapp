@@ -61,7 +61,7 @@ export class EdicaoCadastroFisioterapeutaComponent implements OnInit, AfterViewI
 
   ngOnInit(): void {
     this.userSession = this.sessionService.getUserSession()
-    console.log('Usuario Logado: ', this.userSession)
+    //console.log('Usuario Logado: ', this.userSession)
 
     // this.formulario.get("nome_completo")?.setValue('Luiz Flavio')
     // this.formulario.get("email")?.setValue('luiz@gmail.com')
@@ -89,7 +89,7 @@ export class EdicaoCadastroFisioterapeutaComponent implements OnInit, AfterViewI
       this.formulario.value.crefito,
       this.formulario.value.dataNascimento
     )
-    console.log('Usuario: ', usuario)
+    //console.log('Usuario: ', usuario)
     if (this.userSession) {
       this.fisioterapeutaService.editarFisioterapeuta(usuario, this.userSession.id)
         .pipe(
@@ -156,7 +156,7 @@ export class EdicaoCadastroFisioterapeutaComponent implements OnInit, AfterViewI
         )
         .subscribe(
           resposta => {
-            console.log('Fisioterapeuta', resposta)
+            //console.log('Fisioterapeuta', resposta)
             let dataNacimento: string[] = (resposta.dataNascimento).split('T')
             this.formulario.get("nome_completo")?.setValue(resposta.nome)
             this.formulario.get("email")?.setValue(resposta.email)

@@ -95,17 +95,18 @@ export class EdicaoSenhaFisioterapeutaComponent implements OnInit {
     //console.log('evento', event)
     this.estadoAnimacaoPainelCadastro = 'void'
     setTimeout(() => {
-      if (this.f.senha.invalid && this.f.senha.touched) {
+      if (this.f.senhaAtual.invalid && this.f.senhaAtual.touched) {
         this.estadoAnimacaoPainelCadastro = 'criado'
       }
       if (this.f.senhaConfirmacao.invalid && this.f.senhaConfirmacao.touched) {
         this.estadoAnimacaoPainelCadastro = 'criado'
       }
+
     }, 750)
   }
 
   public habilitaBotaoEdicao(): boolean {
-    if (this.f.senha.invalid || this.f.senhaConfirmacao.invalid) {
+    if (this.f.senhaAtual.invalid || this.f.novaSenha.invalid || this.f.senhaConfirmacao.invalid) {
       this.botaoCadastro = true
     } else {
       this.botaoCadastro = false
