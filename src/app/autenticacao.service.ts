@@ -4,14 +4,19 @@ import { Usuario } from '../assets/models/usuario.model';
 import { Router } from '@angular/router';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http'
-import { Observable } from 'rxjs';
-import { retry, share } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
+import { catchError, retry, share } from 'rxjs/operators';
 import { map } from 'rxjs/operators';
+import { FisioterapeutaService } from './fisioterapeuta.service';
+import { UserSession } from 'src/assets/models/user-session.model';
+import { SessionService } from './session.service';
 
 @Injectable()
 export class AutenticacaoService {
 
     public token_id: string | null | undefined
+    public email: string | null | undefined
+
     private headers = new HttpHeaders({
         'Content-Type': 'application/json',
     })
@@ -20,7 +25,9 @@ export class AutenticacaoService {
     }
     constructor(
         private router: Router,
-        private http: HttpClient) { }
+        private http: HttpClient,
+        private fisioterapeutaService: FisioterapeutaService,
+        private sessionService: SessionService) { }
 
     public cadastrarUsuario(usuario: Usuario): Observable<any> {
         return this.http.post(`${URL_API}/fisioterapeutas`, JSON.stringify(usuario), this.options).pipe(
@@ -50,7 +57,10 @@ export class AutenticacaoService {
                     let token: string = ''
                     token = resposta.headers.get('Authorization');
                     this.token_id = token;
+
+                    this.email = email;
                     localStorage.setItem('idToken', token)
+                    localStorage.setItem('email', email)
                     //console.log('Token:', this.token_id)
                     //console.log('Login response', resposta)
                 }),
@@ -77,8 +87,13 @@ export class AutenticacaoService {
     }
 
     public autenticado(): boolean {
+        if (this.sessionService.getUserSession() === undefined) {
+            this.salvarSessaoUsuario(this.email)
+        }
+
         if (this.token_id === undefined && localStorage.getItem('idToken') != null) {
             this.token_id = localStorage.getItem('idToken')
+            this.email = localStorage.getItem('email')
         }
 
         if (this.token_id === undefined) {
@@ -89,8 +104,30 @@ export class AutenticacaoService {
 
     public sair(): void {
         localStorage.removeItem('idToken')
+        localStorage.removeItem('email')
         this.token_id = undefined
         this.router.navigate(['/'])
+    }
+
+    private salvarSessaoUsuario(email: any): void {
+        //console.log('email', email)
+        this.fisioterapeutaService.consultarSessaoFisioterapeuta(email)
+            .pipe(
+                catchError(err => {
+                    return throwError(err);
+                })
+            )
+            .subscribe(
+                resposta => {
+                    //console.log('consultarSessaoFisioterapeuta', resposta)
+                    let sessao: UserSession = new UserSession(resposta.id, resposta.email, resposta.perfis)
+                    this.sessionService.setUserSession(sessao)
+                    //console.log('Sessao', sessao)
+                },
+                (err: any) => {
+                    console.log('Erro ao salvarSessaoUsuario: ', err)
+                }
+            )
     }
 
 }
