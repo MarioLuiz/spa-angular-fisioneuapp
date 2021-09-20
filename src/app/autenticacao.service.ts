@@ -87,13 +87,13 @@ export class AutenticacaoService {
     }
 
     public autenticado(): boolean {
-        if (this.sessionService.getUserSession() === undefined) {
-            this.salvarSessaoUsuario(this.email)
-        }
-
         if (this.token_id === undefined && localStorage.getItem('idToken') != null) {
             this.token_id = localStorage.getItem('idToken')
             this.email = localStorage.getItem('email')
+        }
+
+        if (this.sessionService.getUserSession() === undefined) {
+            this.salvarSessaoUsuario()
         }
 
         if (this.token_id === undefined) {
@@ -106,28 +106,31 @@ export class AutenticacaoService {
         localStorage.removeItem('idToken')
         localStorage.removeItem('email')
         this.token_id = undefined
+        this.email = undefined
         this.router.navigate(['/'])
     }
 
-    private salvarSessaoUsuario(email: any): void {
-        //console.log('email', email)
-        this.fisioterapeutaService.consultarSessaoFisioterapeuta(email)
-            .pipe(
-                catchError(err => {
-                    return throwError(err);
-                })
-            )
-            .subscribe(
-                resposta => {
-                    //console.log('consultarSessaoFisioterapeuta', resposta)
-                    let sessao: UserSession = new UserSession(resposta.id, resposta.email, resposta.perfis)
-                    this.sessionService.setUserSession(sessao)
-                    //console.log('Sessao', sessao)
-                },
-                (err: any) => {
-                    console.log('Erro ao salvarSessaoUsuario: ', err)
-                }
-            )
+    private salvarSessaoUsuario(): void {
+        //console.log('email', this.email)
+        if (this.email) {
+            this.fisioterapeutaService.consultarSessaoFisioterapeuta(this.email)
+                .pipe(
+                    catchError(err => {
+                        return throwError(err);
+                    })
+                )
+                .subscribe(
+                    resposta => {
+                        //console.log('consultarSessaoFisioterapeuta', resposta)
+                        let sessao: UserSession = new UserSession(resposta.id, resposta.email, resposta.perfis)
+                        this.sessionService.setUserSession(sessao)
+                        //console.log('Sessao', sessao)
+                    },
+                    (err: any) => {
+                        console.log('Erro ao salvarSessaoUsuario: ', err)
+                    }
+                )
+        }
     }
 
 }
