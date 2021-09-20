@@ -37,12 +37,11 @@ import { FisioterapeutaService } from '../fisioterapeuta.service';
 })
 export class EdicaoCadastroFisioterapeutaComponent implements OnInit, AfterViewInit {
 
-  @Output() public exibirPainel: EventEmitter<string> = new EventEmitter<string>()
-
-  public mensagensErroRegistro: string[] = []
+  public mensagensErroAtualizarCadastro: string[] = []
   public estadoAnimacaoPainelCadastro: string = 'void'
   public botaoCadastro: boolean = false
-  private userSession: UserSession = new UserSession('', '', [])
+  private userSession: UserSession | undefined
+  public mensagemDadosAtualizados: string = ''
 
   public formulario: FormGroup = new FormGroup({
     'nome_completo': new FormControl(null, [Validators.required]),
@@ -80,12 +79,9 @@ export class EdicaoCadastroFisioterapeutaComponent implements OnInit, AfterViewI
     this.consultarFisioterapeuta()
   }
 
-  exibirPainelLogin(): void {
-    this.exibirPainel.emit('login')
-  }
-
   atualizarCadastroFisioterapeuta(): void {
     // console.log(this.formulario)
+    this.mensagemDadosAtualizados = ''
     let usuario: UsuarioUpdate = new UsuarioUpdate(
       this.formulario.value.nome_completo,
       this.formulario.value.cpf,
@@ -94,26 +90,28 @@ export class EdicaoCadastroFisioterapeutaComponent implements OnInit, AfterViewI
       this.formulario.value.dataNascimento
     )
     console.log('Usuario: ', usuario)
-    this.fisioterapeutaService.editarFisioterapeuta(usuario, this.userSession.id)
-      .pipe(
-        catchError(err => {
-          return throwError(err);
-        })
-      )
-      .subscribe(
-        resposta => {
-          console.log('Fisioterapeuta atualizado com sucesso', resposta)
-          this.exibirPainelLogin()
-        },
-        (err: any) => {
-          console.log('Erro ao atualizar Fisioterapeuta: ', err)
-          this.mensagensErroRegistro = []
-          err.error.errors.forEach((mensagemErro: any) => {
-            this.mensagensErroRegistro.push(mensagemErro.fieldName + ' : ' + mensagemErro.message);
-          });
-          this.estadoAnimacaoPainelCadastro = 'criado'
-        }
-      )
+    if (this.userSession) {
+      this.fisioterapeutaService.editarFisioterapeuta(usuario, this.userSession.id)
+        .pipe(
+          catchError(err => {
+            return throwError(err);
+          })
+        )
+        .subscribe(
+          resposta => {
+            this.mensagemDadosAtualizados = 'Dados atualizados com sucesso';
+            console.log('Fisioterapeuta atualizado com sucesso')
+          },
+          (err: any) => {
+            console.log('Erro ao atualizar Fisioterapeuta: ', err)
+            this.mensagensErroAtualizarCadastro = []
+            err.error.errors.forEach((mensagemErro: any) => {
+              this.mensagensErroAtualizarCadastro.push(mensagemErro.fieldName + ' : ' + mensagemErro.message);
+            });
+            this.estadoAnimacaoPainelCadastro = 'criado'
+          }
+        )
+    }
   }
 
   public onCardChange(event: any): void {
@@ -148,26 +146,29 @@ export class EdicaoCadastroFisioterapeutaComponent implements OnInit, AfterViewI
   }
 
   public consultarFisioterapeuta() {
-    this.fisioterapeutaService.consultarSessaoFisioterapeuta(this.userSession.email)
-      .pipe(
-        catchError(err => {
-          return throwError(err);
-        })
-      )
-      .subscribe(
-        resposta => {
-          console.log('Fisioterapeuta', resposta)
-          let dataNacimento: string[] = (resposta.dataNascimento).split('T')
-          this.formulario.get("nome_completo")?.setValue(resposta.nome)
-          this.formulario.get("email")?.setValue(resposta.email)
-          this.formulario.get("cpf")?.setValue(resposta.cpfOuCnpj)
-          this.formulario.get("crefito")?.setValue(resposta.crefito)
-          this.formulario.get("dataNascimento")?.setValue(dataNacimento[0])
-        },
-        (err: any) => {
-          console.log('Erro ao consultarSessaoFisioterapeuta: ', err)
-        }
-      )
+    let email = localStorage.getItem('email')
+    if (email) {
+      this.fisioterapeutaService.consultarSessaoFisioterapeuta(email)
+        .pipe(
+          catchError(err => {
+            return throwError(err);
+          })
+        )
+        .subscribe(
+          resposta => {
+            console.log('Fisioterapeuta', resposta)
+            let dataNacimento: string[] = (resposta.dataNascimento).split('T')
+            this.formulario.get("nome_completo")?.setValue(resposta.nome)
+            this.formulario.get("email")?.setValue(resposta.email)
+            this.formulario.get("cpf")?.setValue(resposta.cpfOuCnpj)
+            this.formulario.get("crefito")?.setValue(resposta.crefito)
+            this.formulario.get("dataNascimento")?.setValue(dataNacimento[0])
+          },
+          (err: any) => {
+            console.log('Erro ao consultarSessaoFisioterapeuta: ', err)
+          }
+        )
+    }
   }
 
   // conveniente getter para facil acesso dos campos do formulario

@@ -75,12 +75,11 @@
                         class="btn btn-primary btn-sm btn-block"
                         [disabled]="habilitaBotaoEdicao()">Atualizar</button>
                 <p class="small text-danger text-center pt-3"
-                   *ngFor="let mensagem of mensagensErroRegistro">{{mensagem}}</p>
+                   *ngFor="let mensagem of mensagensErroAtualizarCadastro">{{mensagem}}</p>
             </form>
             <hr />
 
-            <p class="small text-center">Ao cadastrar-se, você concorda com nossos <b>Termos</b> e <b>Política de
-                    Privacidade</b>.</p>
+            <p class="small text-center text-success" *ngIf="mensagemDadosAtualizados"> {{mensagemDadosAtualizados}}</p>
 
         </div>
     </div>

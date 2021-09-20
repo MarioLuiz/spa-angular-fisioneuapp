@@ -120,10 +120,10 @@ export class LoginComponent implements OnInit {
       )
       .subscribe(
         resposta => {
-          console.log('consultarSessaoFisioterapeuta', resposta)
+          //console.log('consultarSessaoFisioterapeuta', resposta)
           let sessao: UserSession = new UserSession(resposta.id, resposta.email, resposta.perfis)
           this.sessionService.setUserSession(sessao)
-          console.log('Sessao', sessao)
+          //console.log('Sessao', sessao)
         },
         (err: any) => {
           console.log('Erro ao salvarSessaoUsuario: ', err)
