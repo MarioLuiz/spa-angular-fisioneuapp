@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 import { retry, share } from 'rxjs/operators';
 import { map } from 'rxjs/operators';
 import { UsuarioUpdate } from 'src/assets/models/usuarioUpdate.model';
+import { UsuarioSenhaUpdate } from 'src/assets/models/usuarioSenhaUpdate';
 
 @Injectable()
 export class FisioterapeutaService {
@@ -22,7 +23,7 @@ export class FisioterapeutaService {
     constructor(
         private router: Router,
         private http: HttpClient) { }
-    
+
     public consultarSessaoFisioterapeuta(email: string): Observable<any> {
         let headers = new HttpHeaders({
             'Content-Type': 'application/json',
@@ -44,7 +45,7 @@ export class FisioterapeutaService {
             )
     }
 
-    public editarFisioterapeuta(fisio: UsuarioUpdate, id:string): Observable<any> {
+    public editarFisioterapeuta(fisio: UsuarioUpdate, id: string): Observable<any> {
         let headers = new HttpHeaders({
             'Content-Type': 'application/json',
             'Authorization': `${localStorage.getItem('idToken')}`
@@ -54,6 +55,22 @@ export class FisioterapeutaService {
             observe: "response" as 'body'
         }
         return this.http.put(`${URL_API}/fisioterapeutas/cadastro/${id}`, JSON.stringify(fisio), options).pipe(
+            map((resposta: any) => resposta),
+            retry(3)
+            //catchError((e: any) => Observable.throw(this.errorHandler(e)))
+        )
+    }
+
+    public editarSenhaFisioterapeuta(fisio: UsuarioSenhaUpdate, id: string): Observable<any> {     
+        let headers = new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': `${localStorage.getItem('idToken')}`
+        })
+        let options = {
+            headers: headers,
+            observe: "response" as 'body'
+        }
+        return this.http.put(`${URL_API}/fisioterapeutas/senha/${id}`, JSON.stringify(fisio), options).pipe(
             map((resposta: any) => resposta),
             retry(3)
             //catchError((e: any) => Observable.throw(this.errorHandler(e)))

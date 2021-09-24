@@ -1,10 +1,12 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
-import { AutenticacaoService } from 'src/app/autenticacao.service';
-import { Usuario } from '../../assets/models/usuario.model';
 import { animate, keyframes, state, style, transition, trigger } from '@angular/animations';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs/internal/observable/throwError';
+import { FisioterapeutaService } from 'src/app/fisioterapeuta.service';
+import { UsuarioSenhaUpdate } from 'src/assets/models/usuarioSenhaUpdate';
+import { SessionService } from '../session.service';
+import { UserSession } from 'src/assets/models/user-session.model';
 
 @Component({
   selector: 'fisio-edicao-senha-fisioterapeuta',
@@ -39,6 +41,9 @@ export class EdicaoSenhaFisioterapeutaComponent implements OnInit {
   public mensagensErroRegistro: string[] = []
   public estadoAnimacaoPainelCadastro: string = 'void'
   public botaoCadastro: boolean = false
+  public mensagemSenhaAtualizada: string = ''
+
+  private userSession: UserSession | undefined
 
   public formulario: FormGroup = new FormGroup({
     'senhaAtual': new FormControl(null, [Validators.required, Validators.minLength(6)]),
@@ -47,48 +52,45 @@ export class EdicaoSenhaFisioterapeutaComponent implements OnInit {
   })
 
   constructor(
-    private autenticacaoService: AutenticacaoService
+    private fisioterapeutaService: FisioterapeutaService,
+    private sessionService: SessionService,
   ) { }
 
   ngOnInit(): void {
-  }
-
-  exibirPainelLogin(): void {
-    this.exibirPainel.emit('login')
+    this.userSession = this.sessionService.getUserSession()
   }
 
   mudarSenha(): void {
     // console.log(this.formulario)
-    let usuario: Usuario = new Usuario(
-      this.formulario.value.nome_completo,
-      this.formulario.value.email,
-      //this.formulario.value.telefone,
-      this.formulario.value.cpf,
-      this.formulario.value.crefito,
-      this.formulario.value.senha,
-      this.formulario.value.dataNascimento
+    this.mensagemSenhaAtualizada = ''
+    let usuario: UsuarioSenhaUpdate = new UsuarioSenhaUpdate(
+      this.formulario.value.senhaAtual,
+      this.formulario.value.novaSenha,
+      this.formulario.value.senhaConfirmacao,
     )
-    console.log('Usuario: ', usuario)
-    this.autenticacaoService.cadastrarUsuario(usuario)
-      .pipe(
-        catchError(err => {
-          return throwError(err);
-        })
-      )
-      .subscribe(
-        resposta => {
-          console.log('Usuário Salvo com sucesso', resposta)
-          this.exibirPainelLogin()
-        },
-        (err: any) => {
-          console.log('Erro ao salvar Fisioterapeuta: ', err)
-          this.mensagensErroRegistro = []
-          err.error.errors.forEach((mensagemErro: any) => {
-            this.mensagensErroRegistro.push(mensagemErro.fieldName + ' : ' + mensagemErro.message);
-          });
-          this.estadoAnimacaoPainelCadastro = 'criado'
-        }
-      )
+    //console.log('Usuario: ', usuario)
+    if (this.userSession) {
+      this.fisioterapeutaService.editarSenhaFisioterapeuta(usuario, this.userSession.id)
+        .pipe(
+          catchError(err => {
+            return throwError(err);
+          })
+        )
+        .subscribe(
+          resposta => {
+            console.log('Senha atualizada com sucesso', resposta)
+            this.mensagemSenhaAtualizada = 'Senha atualizada com sucesso'
+          },
+          (err: any) => {
+            console.log('Erro ao atualizar senha Fisioterapeuta: ', err)
+            this.mensagensErroRegistro = []
+            err.error.errors.forEach((mensagemErro: any) => {
+              this.mensagensErroRegistro.push(mensagemErro.fieldName + ' : ' + mensagemErro.message);
+            });
+            this.estadoAnimacaoPainelCadastro = 'criado'
+          }
+        )
+    }
   }
 
   public onCardChange(event: any): void {

@@ -40,8 +40,9 @@ export class EdicaoCadastroFisioterapeutaComponent implements OnInit, AfterViewI
   public mensagensErroAtualizarCadastro: string[] = []
   public estadoAnimacaoPainelCadastro: string = 'void'
   public botaoCadastro: boolean = false
-  private userSession: UserSession | undefined
   public mensagemDadosAtualizados: string = ''
+
+  private userSession: UserSession | undefined
 
   public formulario: FormGroup = new FormGroup({
     'nome_completo': new FormControl(null, [Validators.required]),
