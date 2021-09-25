@@ -14,7 +14,7 @@ export const ROUTES: Routes = [
             { path: '', component: HomeComponent, canActivate: [AutenticacaoGuardService] },
             { path: 'atualizar-cadastro-fisioterapeuta', component: EdicaoCadastroFisioterapeutaComponent, canActivate: [AutenticacaoGuardService] },
             { path: 'atualizar-senha-fisioterapeuta', component: EdicaoSenhaFisioterapeutaComponent, canActivate: [AutenticacaoGuardService]},
-            { path: 'cadastrar-paciente', component: CadastroPacienteComponent, canActivate: [AutenticacaoGuardService] },
+            { path: 'cadastrar-paciente', component: CadastroPacienteComponent, canActivate: [AutenticacaoGuardService] }
         ]
     }
 ]

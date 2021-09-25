@@ -1,1 +1,126 @@
-<p>cadastro-paciente works!</p>
+<div class="d-flex justify-content-center">
+    <div class="card"
+         style="width: 60rem;">
+        <div class="card-body"
+             [@animacao-painel]="estadoAnimacaoPainelCadastro"
+             (click)="onCardChange($event)">
+            <div class="card-title"></div>
+
+            <form [formGroup]="formulario"
+                  (ngSubmit)="cadastrarUsuario()"
+                  (keyup)="onCardChange($event)">
+                <div class="form-group">
+                    <small class="form-text mb-1">Nome completo:</small>
+                    <input type="text"
+                           class="form-control"
+                           placeholder="Nome completo"
+                           formControlName="nome_completo">
+                    <small *ngIf="f.nome_completo.valid && f.nome_completo.touched"
+                           class="form-text text-success">Ok</small>
+                    <small *ngIf="f.nome_completo.invalid && f.nome_completo.touched"
+                           class="form-text text-danger">Nome inválido</small>
+                </div>
+
+                <div class="form-group">
+                    <small class="form-text mb-1">E-mail:</small>
+                    <input type="email"
+                           class="form-control"
+                           placeholder="E-mail"
+                           formControlName="email">
+                    <small *ngIf="f.email.valid && f.email.touched"
+                           class="form-text text-success">Ok</small>
+                    <small *ngIf="f.email.invalid && f.email.touched"
+                           class="form-text text-danger">E-mail inválido</small>
+                </div>
+
+                <!--<div class="form-group">
+                            <small class="form-text mb-1">Numero de telefone:</small>
+                            <input type="text"
+                                   class="form-control"
+                                   placeholder="Numero de Telefone"
+                                   formControlName="telefone"
+                                   mask="( 00 ) 0 0000-0000">
+                            <small *ngIf="f.telefone.valid && f.telefone.touched"
+                                   class="form-text text-success">Ok</small>
+                            <small *ngIf="f.telefone.invalid && f.telefone.touched"
+                                   class="form-text text-danger">Telefone inválido</small>
+                     </div>-->
+
+                <div class="form-group">
+                    <small class="form-text mb-1">Cpf:</small>
+                    <input type="text"
+                           class="form-control"
+                           placeholder="Cpf"
+                           formControlName="cpf"
+                           mask="000.000.000-00">
+                    <small *ngIf="f.cpf.valid && f.cpf.touched"
+                           class="form-text text-success">Ok</small>
+                    <small *ngIf="f.cpf.invalid && f.cpf.touched"
+                           class="form-text text-danger">Cpf inválido</small>
+                </div>
+
+                <div class="form-group">
+                    <small class="form-text mb-1">Crefito:</small>
+                    <input type="text"
+                           class="form-control"
+                           placeholder="Crefito"
+                           formControlName="crefito"
+                           mask="00 000000">
+                    <small *ngIf="f.crefito.valid && f.crefito.touched"
+                           class="form-text text-success">Ok</small>
+                    <small *ngIf="f.crefito.invalid && f.crefito.touched"
+                           class="form-text text-danger">Numero Crefito inválido, o N° crefito possui 8
+                        caracteres</small>
+                </div>
+
+                <div class="form-group">
+                    <small class="form-text mb-1">Senha:</small>
+                    <input type="password"
+                           class="form-control"
+                           placeholder="Senha"
+                           formControlName="senha"
+                           (change)="onPasswordChange()">
+                    <small *ngIf="f.senha.valid && f.senha.touched"
+                           class="form-text text-success">Ok</small>
+                    <small *ngIf="f.senha.invalid && f.senha.touched"
+                           class="form-text text-danger">Senha inválida</small>
+                </div>
+
+                <div class="form-group">
+                    <small class="form-text mb-1">Repita a sua senha:</small>
+                    <input type="password"
+                           class="form-control"
+                           placeholder="Repita a sua senha"
+                           formControlName="senhaConfirmacao"
+                           (change)="onPasswordChange()">
+                    <small *ngIf="f.senhaConfirmacao.valid && f.senhaConfirmacao.touched"
+                           class="form-text text-success">Ok</small>
+                    <small *ngIf="f.senhaConfirmacao.invalid && f.senhaConfirmacao.touched"
+                           class="form-text text-danger">Senha inválida</small>
+                    <small *ngIf="senhaConfirmacao.hasError('mismatch')"
+                           class="form-text text-danger">Senhas não são idênticas</small>
+                </div>
+
+                <div class="form-group">
+                    <small class="form-text mb-1">Data de Nascimento:</small>
+                    <input type="date"
+                           class="form-control"
+                           placeholder="Data de nascimento"
+                           formControlName="dataNascimento">
+                    <small *ngIf="f.dataNascimento.valid && f.dataNascimento.touched"
+                           class="form-text text-success">Ok</small>
+                    <small *ngIf="f.dataNascimento.invalid && f.dataNascimento.touched"
+                           class="form-text text-danger">Data inválida</small>
+                </div>
+                <button type="submit"
+                        class="btn btn-primary btn-sm btn-block"
+                        [disabled]="habilitaBotaoCadastro()">Cadastre-se</button>
+                <p class="small text-danger text-center pt-3"
+                   *ngFor="let mensagem of mensagensErroRegistro">{{mensagem}}</p>
+            </form>
+            <hr />
+            <p class="small text-center"></p>
+        </div>
+    </div>
+    <br />
+</div>
