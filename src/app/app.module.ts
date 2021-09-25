@@ -23,6 +23,7 @@ import { EsqueciMinhaSenhaComponent } from './acesso/esqueci-minha-senha/esqueci
 import { TopoComponent } from './home/topo/topo.component';
 import { EdicaoCadastroFisioterapeutaComponent } from './edicao-cadastro-fisioterapeuta/edicao-cadastro-fisioterapeuta.component';
 import { EdicaoSenhaFisioterapeutaComponent } from './edicao-senha-fisioterapeuta/edicao-senha-fisioterapeuta.component';
+import { CadastroPacienteComponent } from './cadastro-paciente/cadastro-paciente.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { EdicaoSenhaFisioterapeutaComponent } from './edicao-senha-fisioterapeut
     EsqueciMinhaSenhaComponent,
     TopoComponent,
     EdicaoCadastroFisioterapeutaComponent,
-    EdicaoSenhaFisioterapeutaComponent
+    EdicaoSenhaFisioterapeutaComponent,
+    CadastroPacienteComponent
   ],
   imports: [
     BrowserModule,
