@@ -1,12 +1,13 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { animate, keyframes, state, style, transition, trigger } from '@angular/animations';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs/internal/observable/throwError';
 
-import { AutenticacaoService } from 'src/app/autenticacao.service';
-import { Usuario } from './../../assets/models/usuario.model';
 import { Paciente } from './../../assets/models/paciente.model';
+import { PacienteService } from '../paciente.service';
+import { UserSession } from 'src/assets/models/user-session.model';
+import { SessionService } from '../session.service';
 
 @Component({
   selector: 'fisio-cadastro-paciente',
@@ -36,11 +37,11 @@ import { Paciente } from './../../assets/models/paciente.model';
 })
 export class CadastroPacienteComponent implements OnInit {
 
-  @Output() public exibirPainel: EventEmitter<string> = new EventEmitter<string>()
-
   public mensagensErroRegistro: string[] = []
   public estadoAnimacaoPainelCadastro: string = 'void'
   public botaoCadastro: boolean = false
+
+  private userSession: UserSession | undefined
 
   public formulario: FormGroup = new FormGroup({
     'nome': new FormControl(null, [Validators.required]),
@@ -53,10 +54,13 @@ export class CadastroPacienteComponent implements OnInit {
   })
 
   constructor(
-    private autenticacaoService: AutenticacaoService
+    private sessionService: SessionService,
+    private pacienteService: PacienteService
   ) { }
 
   ngOnInit(): void {
+    this.userSession = this.sessionService.getUserSession()
+
     // this.formulario.get("nome")?.setValue('Luiz Flavio')
     // this.formulario.get("email")?.setValue('luiz@gmail.com')
     // this.formulario.get("telefone")?.setValue('67999999999')
@@ -68,34 +72,36 @@ export class CadastroPacienteComponent implements OnInit {
 
   cadastrarPaciente(): void {
     // console.log(this.formulario)
-    let paciente: Paciente = new Paciente(
-      this.formulario.value.nome,
-      this.formulario.value.email,
-      this.formulario.value.telefone,
-      this.formulario.value.cpf,
-      this.formulario.value.dataNascimento
-    )
-    //console.log('Usuario: ', usuario)
-    /* Implementar serviço salvar pacientes
-    this.autenticacaoService.cadastrarUsuario(paciente)
-      .pipe(
-        catchError(err => {
-          return throwError(err);
-        })
+    if (this.userSession) {
+      let paciente: Paciente = new Paciente(
+        this.userSession?.id,
+        this.formulario.value.nome,
+        this.formulario.value.email,
+        this.formulario.value.telefone,
+        this.formulario.value.cpf,
+        this.formulario.value.dataNascimento
       )
-      .subscribe(
-        resposta => {
-          console.log('Paciente salvo com sucesso', resposta)
-        },
-        (err: any) => {
-          console.log('Erro ao salvar Paciente: ', err)
-          this.mensagensErroRegistro = []
-          err.error.errors.forEach((mensagemErro: any) => {
-            this.mensagensErroRegistro.push(mensagemErro.fieldName + ' : ' + mensagemErro.message);
-          });
-          this.estadoAnimacaoPainelCadastro = 'criado'
-        }
-      ) */
+      console.log('Paciente: ', paciente)
+      this.pacienteService.cadastrarPaciente(paciente)
+        .pipe(
+          catchError(err => {
+            return throwError(err);
+          })
+        )
+        .subscribe(
+          resposta => {
+            console.log('Paciente salvo com sucesso', resposta)
+          },
+          (err: any) => {
+            console.log('Erro ao salvar Paciente: ', err)
+            this.mensagensErroRegistro = []
+            err.error.errors.forEach((mensagemErro: any) => {
+              this.mensagensErroRegistro.push(mensagemErro.fieldName + ' : ' + mensagemErro.message);
+            });
+            this.estadoAnimacaoPainelCadastro = 'criado'
+          }
+        )
+    }
   }
 
   public onCardChange(event: any): void {

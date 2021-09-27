@@ -1,5 +1,6 @@
 export class Paciente {
     constructor(
+        public fisioterapeutaId: string,
         public nome:string,
         public email:string,
         public telefone:string,
