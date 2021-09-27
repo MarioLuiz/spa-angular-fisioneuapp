@@ -1,10 +1,12 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
-import { AutenticacaoService } from 'src/app/autenticacao.service';
-import { Usuario } from './../../assets/models/usuario.model';
 import { animate, keyframes, state, style, transition, trigger } from '@angular/animations';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs/internal/observable/throwError';
+
+import { AutenticacaoService } from 'src/app/autenticacao.service';
+import { Usuario } from './../../assets/models/usuario.model';
+import { Paciente } from './../../assets/models/paciente.model';
 
 @Component({
   selector: 'fisio-cadastro-paciente',
@@ -41,15 +43,12 @@ export class CadastroPacienteComponent implements OnInit {
   public botaoCadastro: boolean = false
 
   public formulario: FormGroup = new FormGroup({
-    'nome_completo': new FormControl(null, [Validators.required]),
+    'nome': new FormControl(null, [Validators.required]),
     'email': new FormControl(null, [Validators.required, Validators.minLength(7), Validators.maxLength(254),
     Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]),
-    //'telefone': new FormControl(null, [Validators.required, Validators.minLength(8)]),
+    'telefone': new FormControl(null, [Validators.required, Validators.minLength(8)]),
     'cpf': new FormControl(null, [Validators.required, Validators.minLength(11), Validators.maxLength(11),
     Validators.pattern("^[0-9]*$")]),
-    'crefito': new FormControl(null, [Validators.required, Validators.minLength(8), Validators.maxLength(8)]),
-    'senha': new FormControl(null, [Validators.required, Validators.minLength(6)]),
-    'senhaConfirmacao': new FormControl(null, [Validators.required, Validators.minLength(6)]),
     'dataNascimento': new FormControl(null, [Validators.required]) //^\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])$
   })
 
@@ -58,34 +57,27 @@ export class CadastroPacienteComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    // this.formulario.get("nome_completo")?.setValue('Luiz Flavio')
+    // this.formulario.get("nome")?.setValue('Luiz Flavio')
     // this.formulario.get("email")?.setValue('luiz@gmail.com')
     // this.formulario.get("telefone")?.setValue('67999999999')
     // this.formulario.get("cpf")?.setValue('02999999999')
-    // this.formulario.get("crefito")?.setValue('13468457')
-    // this.formulario.get("senha")?.setValue('123456')
-    // this.formulario.get("senhaConfirmacao")?.setValue('123456')
     // this.formulario.get("dataNascimento")?.setValue(new Date(1992, 1, 24))
     // this.formulario.markAllAsTouched()
     // console.log('Formulario', this.formulario)
   }
 
-  exibirPainelLogin(): void {
-    this.exibirPainel.emit('login')
-  }
-
-  cadastrarUsuario(): void {
+  cadastrarPaciente(): void {
     // console.log(this.formulario)
-    let usuario: Usuario = new Usuario(
-      this.formulario.value.nome_completo,
+    let paciente: Paciente = new Paciente(
+      this.formulario.value.nome,
       this.formulario.value.email,
+      this.formulario.value.telefone,
       this.formulario.value.cpf,
-      this.formulario.value.crefito,
-      this.formulario.value.senha,
       this.formulario.value.dataNascimento
     )
-    console.log('Usuario: ', usuario)
-    this.autenticacaoService.cadastrarUsuario(usuario)
+    //console.log('Usuario: ', usuario)
+    /* Implementar serviço salvar pacientes
+    this.autenticacaoService.cadastrarUsuario(paciente)
       .pipe(
         catchError(err => {
           return throwError(err);
@@ -93,43 +85,33 @@ export class CadastroPacienteComponent implements OnInit {
       )
       .subscribe(
         resposta => {
-          console.log('Usuário Salvo com sucesso', resposta)
-          this.exibirPainelLogin()
+          console.log('Paciente salvo com sucesso', resposta)
         },
         (err: any) => {
-          console.log('Erro ao salvar Fisioterapeuta: ', err)
+          console.log('Erro ao salvar Paciente: ', err)
           this.mensagensErroRegistro = []
           err.error.errors.forEach((mensagemErro: any) => {
             this.mensagensErroRegistro.push(mensagemErro.fieldName + ' : ' + mensagemErro.message);
           });
           this.estadoAnimacaoPainelCadastro = 'criado'
         }
-      )
+      ) */
   }
 
   public onCardChange(event: any): void {
     //console.log('evento', event)
     this.estadoAnimacaoPainelCadastro = 'void'
     setTimeout(() => {
-      if (this.f.nome_completo.invalid && this.f.nome_completo.touched) {
+      if (this.f.nome.invalid && this.f.nome.touched) {
         this.estadoAnimacaoPainelCadastro = 'criado'
       }
       if (this.f.email.invalid && this.f.email.touched) {
         this.estadoAnimacaoPainelCadastro = 'criado'
       }
-      // if (this.f.telefone.invalid && this.f.telefone.touched) {
-      //   this.estadoAnimacaoPainelCadastro = 'criado'
-      // }
+      if (this.f.telefone.invalid && this.f.telefone.touched) {
+        this.estadoAnimacaoPainelCadastro = 'criado'
+      }
       if (this.f.cpf.invalid && this.f.cpf.touched) {
-        this.estadoAnimacaoPainelCadastro = 'criado'
-      }
-      if (this.f.crefito.invalid && this.f.crefito.touched) {
-        this.estadoAnimacaoPainelCadastro = 'criado'
-      }
-      if (this.f.senha.invalid && this.f.senha.touched) {
-        this.estadoAnimacaoPainelCadastro = 'criado'
-      }
-      if (this.f.senhaConfirmacao.invalid && this.f.senhaConfirmacao.touched) {
         this.estadoAnimacaoPainelCadastro = 'criado'
       }
       if (this.f.dataNascimento.invalid && this.f.dataNascimento.touched) {
@@ -139,21 +121,12 @@ export class CadastroPacienteComponent implements OnInit {
   }
 
   public habilitaBotaoCadastro(): boolean {
-    if (this.f.nome_completo.invalid || this.f.email.invalid ||
-      this.f.cpf.invalid || this.f.crefito.invalid || this.f.senha.invalid || this.f.senhaConfirmacao.invalid || this.f.dataNascimento.invalid) {
+    if (this.f.nome.invalid || this.f.email.invalid || this.f.cpf.invalid || this.f.dataNascimento.invalid) {
       this.botaoCadastro = true
     } else {
       this.botaoCadastro = false
     }
     return this.botaoCadastro
-  }
-
-  onPasswordChange() {
-    if (this.senhaConfirmacao.value == this.senha.value) {
-      this.senhaConfirmacao.setErrors(null);
-    } else {
-      this.senhaConfirmacao.setErrors({ mismatch: true });
-    }
   }
 
   // conveniente getter para facil acesso dos campos do formulario
