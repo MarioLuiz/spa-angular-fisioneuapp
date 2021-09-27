@@ -40,6 +40,7 @@ export class CadastroPacienteComponent implements OnInit {
   public mensagensErroRegistro: string[] = []
   public estadoAnimacaoPainelCadastro: string = 'void'
   public botaoCadastro: boolean = false
+  public mensagemCadastroRealizado : string  = '' 
 
   private userSession: UserSession | undefined
 
@@ -71,6 +72,7 @@ export class CadastroPacienteComponent implements OnInit {
   }
 
   cadastrarPaciente(): void {
+    this.mensagemCadastroRealizado = ''
     // console.log(this.formulario)
     if (this.userSession) {
       let paciente: Paciente = new Paciente(
@@ -91,6 +93,7 @@ export class CadastroPacienteComponent implements OnInit {
         .subscribe(
           resposta => {
             console.log('Paciente salvo com sucesso', resposta)
+            this.mensagemCadastroRealizado = 'Paciente ' + this.formulario.value.nome + ' salvo com sucesso'
           },
           (err: any) => {
             console.log('Erro ao salvar Paciente: ', err)
