@@ -11,6 +11,7 @@ import { AutenticacaoService } from './autenticacao.service';
 import { AutenticacaoGuardService } from './autenticacao-guard.service';
 import { FisioterapeutaService } from './fisioterapeuta.service';
 import { SessionService } from './session.service';
+import { PacienteService } from './paciente.service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -50,7 +51,7 @@ import { CadastroPacienteComponent } from './cadastro-paciente/cadastro-paciente
     }),
     RouterModule.forRoot(ROUTES)
   ],
-  providers: [AutenticacaoService, AutenticacaoGuardService, FisioterapeutaService, SessionService],
+  providers: [AutenticacaoService, AutenticacaoGuardService, FisioterapeutaService, SessionService, PacienteService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
