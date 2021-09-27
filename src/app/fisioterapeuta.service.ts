@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 import { retry, share } from 'rxjs/operators';
 import { map } from 'rxjs/operators';
 import { UsuarioUpdate } from 'src/assets/models/usuarioUpdate.model';
-import { UsuarioSenhaUpdate } from 'src/assets/models/usuarioSenhaUpdate';
+import { UsuarioSenhaUpdate } from 'src/assets/models/usuarioSenhaUpdate.model';
 
 @Injectable()
 export class FisioterapeutaService {
