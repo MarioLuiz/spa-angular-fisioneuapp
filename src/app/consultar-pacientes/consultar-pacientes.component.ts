@@ -3,6 +3,7 @@ import { Observable, of, Subject, throwError } from 'rxjs';
 import { Paginacao } from 'src/assets/models/paginacao.model';
 import { PacienteService } from '../paciente.service';
 import { debounceTime, distinctUntilChanged, switchMap, catchError } from 'rxjs/operators'
+import { PageableResponse } from 'src/assets/models/pageableResponse.model';
 
 @Component({
   selector: 'fisio-consultar-pacientes',
@@ -11,6 +12,7 @@ import { debounceTime, distinctUntilChanged, switchMap, catchError } from 'rxjs/
 })
 export class ConsultarPacientesComponent implements OnInit, AfterViewInit {
 
+  pageableResponse: PageableResponse = new PageableResponse()
   palavraDaPesquisa: string = ''
   mensagensErroConsulta: string[] = []
   paginacao: Paginacao = new Paginacao();
@@ -60,7 +62,8 @@ export class ConsultarPacientesComponent implements OnInit, AfterViewInit {
       )
       .subscribe(
         resposta => {
-          console.log('Pacientes', resposta)
+          this.pageableResponse = resposta.body
+          console.log('Pacientes', this.pageableResponse)
         },
         (err: any) => {
           console.log('Erro ao salvar Paciente: ', err)
