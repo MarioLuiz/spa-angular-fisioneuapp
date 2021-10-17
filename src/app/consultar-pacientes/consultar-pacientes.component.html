@@ -18,7 +18,7 @@
                        #ctrl="ngModel"
                        (keyup.press)="pesquisa()">
                 <button class="btn btn-outline-success my-2 my-sm-0"
-                        (click)="pesquisa()" >Pesquisar</button>
+                        (click)="pesquisa()">Pesquisar</button>
             </form>
 
             <hr />
@@ -35,20 +35,25 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let paciente of pageableResponse.content">
+                        <tr *ngFor="let paciente of collection | paginate: { itemsPerPage: 8, currentPage: p }">
                             <td>{{paciente.dataCadastro}}</td>
                             <td>{{paciente.dataNascimento}}</td>
                             <td>{{paciente.nome}}</td>
                             <td>{{paciente.email}}</td>
-                            <td> 
+                            <td>
                                 <button type="button"
                                         class="mr-3 btn btn-danger btn-sm">Excluir</button>
                                 <button type="button"
-                                    class="ml-3 btn btn-warning btn-sm">Alterar</button>
+                                        class="ml-3 btn btn-warning btn-sm">Alterar</button>
                             </td>
                         </tr>
                     </tbody>
                 </table>
+                <div class="d-flex justify-content-center">
+                    <pagination-controls (pageChange)="p = $event"
+                      previousLabel="Anterior"
+                      nextLabel="Próxima"></pagination-controls>
+                </div>
             </div>
             <hr />
         </div>

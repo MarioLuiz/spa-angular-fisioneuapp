@@ -15,7 +15,12 @@ export class ConsultarPacientesComponent implements OnInit, AfterViewInit {
   pageableResponse: PageableResponse = new PageableResponse()
   palavraDaPesquisa: string = ''
   mensagensErroConsulta: string[] = []
-  paginacao: Paginacao = new Paginacao();
+  paginacao: Paginacao = new Paginacao(0, 8, 'nome', 'ASC');
+
+  true: boolean = true
+  collection: any[] = [];
+  p: number = 0;
+
   //pacientes: Observable<any> | undefined
   //private subjectPesquisa: Subject<string> = new Subject<string>()
 
@@ -64,6 +69,9 @@ export class ConsultarPacientesComponent implements OnInit, AfterViewInit {
         resposta => {
           this.pageableResponse = resposta.body
           console.log('Pacientes', this.pageableResponse)
+          if (this.pageableResponse.content) {
+            this.collection = this.pageableResponse.content
+          }
         },
         (err: any) => {
           console.log('Erro ao salvar Paciente: ', err)
