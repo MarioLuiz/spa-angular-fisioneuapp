@@ -3,8 +3,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
-import { NgxMaskModule } from 'ngx-mask'
 import { FormsModule } from '@angular/forms';
+import { NgxMaskModule } from 'ngx-mask'
+import { NgxPaginationModule } from 'ngx-pagination';
 
 import { ROUTES } from './app.routes'
 
@@ -53,6 +54,7 @@ import { ConsultarPacientesComponent } from './consultar-pacientes/consultar-pac
       showMaskTyped: true,
       // clearIfNotMatch : true
     }),
+    NgxPaginationModule,
     RouterModule.forRoot(ROUTES)
   ],
   providers: [AutenticacaoService, AutenticacaoGuardService, FisioterapeutaService, SessionService, PacienteService],
