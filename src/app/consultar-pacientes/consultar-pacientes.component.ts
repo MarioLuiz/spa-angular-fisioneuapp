@@ -4,6 +4,8 @@ import { Paginacao } from 'src/assets/models/paginacao.model';
 import { PacienteService } from '../paciente.service';
 import { debounceTime, distinctUntilChanged, switchMap, catchError } from 'rxjs/operators'
 import { PageableResponse } from 'src/assets/models/pageableResponse.model';
+import { Pageable } from 'src/assets/models/pageable.model';
+import { Sort } from 'src/assets/models/sort.model';
 
 @Component({
   selector: 'fisio-consultar-pacientes',
@@ -14,11 +16,12 @@ export class ConsultarPacientesComponent implements OnInit, AfterViewInit {
 
   pageableResponse: PageableResponse = new PageableResponse()
   palavraDaPesquisa: string = ''
+  pageable: Pageable = new Pageable(0, 0, 8, true, new Sort(false, true, false), false)
   mensagensErroConsulta: string[] = []
   paginacao: Paginacao = new Paginacao(0, 8, 'nome', 'ASC');
 
   true: boolean = true
-  collection: any[] = [];
+  pacientes: any[] = [];
   p: number = 0;
 
   //pacientes: Observable<any> | undefined
@@ -70,7 +73,10 @@ export class ConsultarPacientesComponent implements OnInit, AfterViewInit {
           this.pageableResponse = resposta.body
           console.log('Pacientes', this.pageableResponse)
           if (this.pageableResponse.content) {
-            this.collection = this.pageableResponse.content
+            this.pacientes = this.pageableResponse.content
+          }
+          if (this.pageableResponse.pageable) {
+            this.pageable = this.pageableResponse.pageable
           }
         },
         (err: any) => {
@@ -82,6 +88,10 @@ export class ConsultarPacientesComponent implements OnInit, AfterViewInit {
           //this.estadoAnimacaoPainelCadastro = 'criado'
         }
       )
+  }
+
+  mudarPagina(evento: any){
+    console.log('Evento: ', evento)
   }
 
 }

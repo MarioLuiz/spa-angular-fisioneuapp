@@ -35,7 +35,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let paciente of collection | paginate: { itemsPerPage: 8, currentPage: p }">
+                        <tr *ngFor="let paciente of pacientes | paginate: { itemsPerPage: pageable.pageSize, currentPage: pageable.offset , totalItems: pageableResponse.totalElements}">
                             <td>{{paciente.dataCadastro}}</td>
                             <td>{{paciente.dataNascimento}}</td>
                             <td>{{paciente.nome}}</td>
@@ -50,7 +50,7 @@
                     </tbody>
                 </table>
                 <div class="d-flex justify-content-center">
-                    <pagination-controls (pageChange)="p = $event"
+                    <pagination-controls (pageChange)="mudarPagina($event)"
                       previousLabel="Anterior"
                       nextLabel="Próxima"></pagination-controls>
                 </div>
