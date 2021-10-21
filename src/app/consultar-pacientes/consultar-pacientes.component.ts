@@ -71,13 +71,8 @@ export class ConsultarPacientesComponent implements OnInit, AfterViewInit {
       .subscribe(
         resposta => {
           this.pageableResponse = resposta.body
-          console.log('Pacientes', this.pageableResponse)
-          if (this.pageableResponse.content) {
-            this.pacientes = this.pageableResponse.content
-          }
-          if (this.pageableResponse.pageable) {
-            this.pageable = this.pageableResponse.pageable
-          }
+          //console.log('Pacientes', this.pageableResponse)
+          this.validaCamposPaginacao()
         },
         (err: any) => {
           console.log('Erro ao salvar Paciente: ', err)
@@ -90,8 +85,22 @@ export class ConsultarPacientesComponent implements OnInit, AfterViewInit {
       )
   }
 
-  mudarPagina(evento: any){
-    console.log('Evento: ', evento)
+  validaCamposPaginacao() {
+    if (this.pageableResponse.content) {
+      this.pacientes = this.pageableResponse.content
+    }
+    if (this.pageableResponse.pageable) {
+      this.pageable = this.pageableResponse.pageable
+    }
+    if (this.pageableResponse.number) {
+      this.pageableResponse.number = this.pageableResponse.number + 1
+    }
+  }
+
+  mudarPagina(evento: any) {
+    //console.log('Evento: ', evento)
+    this.paginacao.page = evento - 1
+    this.pesquisa()
   }
 
 }
