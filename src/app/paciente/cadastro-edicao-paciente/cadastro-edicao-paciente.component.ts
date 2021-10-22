@@ -13,8 +13,8 @@ import { Paciente } from 'src/assets/models/paciente.model';
 
 @Component({
   selector: 'fisio-cadastro-paciente',
-  templateUrl: './cadastro-paciente.component.html',
-  styleUrls: ['./cadastro-paciente.component.scss'],
+  templateUrl: './cadastro-edicao-paciente.component.html',
+  styleUrls: ['./cadastro-edicao-paciente.component.scss'],
   animations: [
     trigger('animacao-painel', [
       state('criado', style({
@@ -37,7 +37,7 @@ import { Paciente } from 'src/assets/models/paciente.model';
     ])
   ]
 })
-export class CadastroPacienteComponent implements OnInit {
+export class CadastroEdicaoPacienteComponent implements OnInit {
 
   public mensagensErroRegistro: string[] = []
   public estadoAnimacaoPainelCadastro: string = 'void'
