@@ -12,7 +12,7 @@ import { Paciente } from 'src/assets/models/paciente.model';
 
 
 @Component({
-  selector: 'fisio-cadastro-paciente',
+  selector: 'fisio-cadastro-edicao-paciente',
   templateUrl: './cadastro-edicao-paciente.component.html',
   styleUrls: ['./cadastro-edicao-paciente.component.scss'],
   animations: [

@@ -8,7 +8,7 @@ import { Pageable } from 'src/assets/models/pageable.model';
 import { Sort } from 'src/assets/models/sort.model';
 
 @Component({
-  selector: 'fisio-consultar-pacientes',
+  selector: 'fisio-consulta-paciente',
   templateUrl: './consulta-paciente.component.html',
   styleUrls: ['./consulta-paciente.component.scss']
 })

@@ -1,0 +1,16 @@
+<div class="container">
+    <div class="row">
+    <div class="col-sm-6 d-flex justify-content-center"
+         *ngIf="componenteExibido === 'cadastro-edicao'">
+        <fisio-cadastro-edicao-paciente (exibirPainel)="exibirPainel($event)"></fisio-cadastro-edicao-paciente>
+    </div>
+    
+    <div class="col-sm-6 d-flex justify-content-center"
+         *ngIf="componenteExibido === 'cadastro'">
+        <fisio-consulta-paciente (exibirPainel)="exibirPainel($event)"></fisio-consulta-paciente>
+    </div>
+    
+    </div>
+</div>
+
+<p>paciente works!</p>

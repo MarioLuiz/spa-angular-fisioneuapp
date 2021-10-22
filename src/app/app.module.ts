@@ -14,6 +14,7 @@ import { AutenticacaoGuardService } from './autenticacao-guard.service';
 import { FisioterapeutaService } from './fisioterapeuta.service';
 import { SessionService } from './session.service';
 import { PacienteService } from './paciente.service';
+import { UpdatePacienteService } from './paciente/update-paciente.service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -28,6 +29,7 @@ import { EdicaoCadastroFisioterapeutaComponent } from './fisioterapeuta/edicao-c
 import { EdicaoSenhaFisioterapeutaComponent } from './fisioterapeuta/edicao-senha-fisioterapeuta/edicao-senha-fisioterapeuta.component';
 import { CadastroEdicaoPacienteComponent } from './paciente/cadastro-edicao-paciente/cadastro-edicao-paciente.component';
 import { ConsultaPacienteComponent } from './paciente/consulta-paciente/consulta-paciente.component';
+import { PacienteComponent } from './paciente/paciente.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +43,8 @@ import { ConsultaPacienteComponent } from './paciente/consulta-paciente/consulta
     EdicaoCadastroFisioterapeutaComponent,
     EdicaoSenhaFisioterapeutaComponent,
     CadastroEdicaoPacienteComponent,
-    ConsultaPacienteComponent
+    ConsultaPacienteComponent,
+    PacienteComponent
   ],
   imports: [
     BrowserModule,
@@ -57,7 +60,7 @@ import { ConsultaPacienteComponent } from './paciente/consulta-paciente/consulta
     NgxPaginationModule,
     RouterModule.forRoot(ROUTES)
   ],
-  providers: [AutenticacaoService, AutenticacaoGuardService, FisioterapeutaService, SessionService, PacienteService],
+  providers: [AutenticacaoService, AutenticacaoGuardService, FisioterapeutaService, SessionService, PacienteService, UpdatePacienteService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
