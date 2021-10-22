@@ -9,19 +9,19 @@ import { Sort } from 'src/assets/models/sort.model';
 
 @Component({
   selector: 'fisio-consultar-pacientes',
-  templateUrl: './consultar-pacientes.component.html',
-  styleUrls: ['./consultar-pacientes.component.scss']
+  templateUrl: './consulta-paciente.component.html',
+  styleUrls: ['./consulta-paciente.component.scss']
 })
-export class ConsultarPacientesComponent implements OnInit, AfterViewInit {
+export class ConsultaPacienteComponent implements OnInit, AfterViewInit {
 
   pageableResponse: PageableResponse = new PageableResponse()
   palavraDaPesquisa: string = ''
   pageable: Pageable = new Pageable(0, 0, 8, true, new Sort(false, true, false), false)
   mensagensErroConsulta: string[] = []
-  paginacao: Paginacao = new Paginacao(0, 8, 'nome', 'ASC');
+  paginacao: Paginacao = new Paginacao(0, 8, 'nome', 'ASC')
 
   true: boolean = true
-  pacientes: any[] = [];
+  pacientes: any[] = []
   p: number = 0;
 
   //pacientes: Observable<any> | undefined
