@@ -1,13 +1,13 @@
 import { Component, EventEmitter, OnInit, Output, AfterViewInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { AutenticacaoService } from 'src/app/autenticacao.service';
-import { UsuarioUpdate } from '../../assets/models/usuarioUpdate.model';
 import { animate, keyframes, state, style, transition, trigger } from '@angular/animations';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs/internal/observable/throwError';
 import { SessionService } from 'src/app/session.service';
 import { UserSession } from 'src/assets/models/user-session.model';
-import { FisioterapeutaService } from '../fisioterapeuta.service';
+import { FisioterapeutaService } from 'src/app/fisioterapeuta.service';
+import { UsuarioUpdate } from 'src/assets/models/usuarioUpdate.model';
 
 @Component({
   selector: 'fisio-edicao-cadastro-fisioterapeuta',

@@ -5,7 +5,7 @@ import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs/internal/observable/throwError';
 import { FisioterapeutaService } from 'src/app/fisioterapeuta.service';
 import { UsuarioSenhaUpdate } from 'src/assets/models/usuarioSenhaUpdate.model';
-import { SessionService } from '../session.service';
+import { SessionService } from '../../session.service';
 import { UserSession } from 'src/assets/models/user-session.model';
 
 @Component({
