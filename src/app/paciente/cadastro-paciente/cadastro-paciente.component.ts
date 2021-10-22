@@ -4,10 +4,12 @@ import { animate, keyframes, state, style, transition, trigger } from '@angular/
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs/internal/observable/throwError';
 
-import { Paciente } from './../../assets/models/paciente.model';
-import { PacienteService } from '../paciente.service';
+
 import { UserSession } from 'src/assets/models/user-session.model';
-import { SessionService } from '../session.service';
+import { SessionService } from 'src/app/session.service';
+import { PacienteService } from 'src/app/paciente.service';
+import { Paciente } from 'src/assets/models/paciente.model';
+
 
 @Component({
   selector: 'fisio-cadastro-paciente',

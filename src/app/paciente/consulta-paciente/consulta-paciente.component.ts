@@ -1,7 +1,7 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { Observable, of, Subject, throwError } from 'rxjs';
 import { Paginacao } from 'src/assets/models/paginacao.model';
-import { PacienteService } from '../paciente.service';
+import { PacienteService } from 'src/app/paciente.service';
 import { debounceTime, distinctUntilChanged, switchMap, catchError } from 'rxjs/operators'
 import { PageableResponse } from 'src/assets/models/pageableResponse.model';
 import { Pageable } from 'src/assets/models/pageable.model';
