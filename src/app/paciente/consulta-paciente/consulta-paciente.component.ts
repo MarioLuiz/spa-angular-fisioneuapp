@@ -6,6 +6,9 @@ import { debounceTime, distinctUntilChanged, switchMap, catchError } from 'rxjs/
 import { PageableResponse } from 'src/assets/models/pageableResponse.model';
 import { Pageable } from 'src/assets/models/pageable.model';
 import { Sort } from 'src/assets/models/sort.model';
+import { UpdatePacienteService } from '../update-paciente.service';
+import { Paciente } from 'src/assets/models/paciente.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'fisio-consulta-paciente',
@@ -19,6 +22,7 @@ export class ConsultaPacienteComponent implements OnInit, AfterViewInit {
   pageable: Pageable = new Pageable(0, 0, 8, true, new Sort(false, true, false), false)
   mensagensErroConsulta: string[] = []
   paginacao: Paginacao = new Paginacao(0, 8, 'nome', 'ASC')
+  paciente: Paciente | undefined
 
   true: boolean = true
   pacientes: any[] = []
@@ -28,7 +32,9 @@ export class ConsultaPacienteComponent implements OnInit, AfterViewInit {
   //private subjectPesquisa: Subject<string> = new Subject<string>()
 
   constructor(
-    private pacienteService: PacienteService
+    private pacienteService: PacienteService,
+    private updatePacienteService: UpdatePacienteService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -101,6 +107,14 @@ export class ConsultaPacienteComponent implements OnInit, AfterViewInit {
     //console.log('Evento: ', evento)
     this.paginacao.page = evento - 1
     this.pesquisa()
+  }
+
+  alterarPaciente(paciente: any) {
+    this.paciente = new Paciente(paciente.id, '', paciente.nome, paciente.email, paciente.telefone, paciente.cpf, paciente.dataNascimento);
+    //console.log('Paciente: ', this.paciente)
+    this.updatePacienteService.setUpdatePaciente(this.paciente)
+    //console.log('UpdatePaciente: ', this.updatePacienteService.getUpdatePaciente())
+    this.router.navigate(['fisio/cadastrar-paciente'])
   }
 
 }
