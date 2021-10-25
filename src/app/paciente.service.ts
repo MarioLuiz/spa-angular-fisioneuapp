@@ -36,6 +36,21 @@ export class PacienteService {
         )
     }
 
+    public atualizarPaciente(paciente: Paciente): Observable<any> {
+        let headers = new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': `${localStorage.getItem('idToken')}`
+        })
+        let options = {
+            headers: headers,
+            observe: "response" as 'body'
+        }
+        return this.http.put(`${URL_API}/pacientes`, JSON.stringify(paciente), options).pipe(
+            map((resposta: any) => resposta),
+            retry(3)
+        )
+    }
+
     public consultarPacientesPaginado(paginacao: Paginacao, termo: string): Observable<any> {
         let headers = new HttpHeaders({
             'Content-Type': 'application/json',

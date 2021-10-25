@@ -4,10 +4,21 @@
               <div class="card-body"
                    [@animacao-painel]="estadoAnimacaoPainelCadastro"
                    (click)="onCardChange($event)">
-                     <div class="card-title"></div>
+                     <div class="card-title d-flex justify-content-center mt-1"
+                          *ngIf="!updatePaciente">
+                            <b>
+                                   <h3>Cadastrar Paciente</h3>
+                            </b>
+                     </div>
+
+                     <div class="card-title d-flex justify-content-center mt-1"
+                          *ngIf="updatePaciente">
+                            <b>
+                                   <h3>Atualizar Paciente</h3>
+                            </b>
+                     </div>
 
                      <form [formGroup]="formulario"
-                           (ngSubmit)="cadastrarPaciente()"
                            (keyup)="onCardChange($event)">
                             <div class="form-group">
                                    <small class="form-text mb-1">Nome:</small>
@@ -73,7 +84,15 @@
 
                             <button type="submit"
                                     class="btn btn-primary btn-sm btn-block"
-                                    [disabled]="habilitaBotaoCadastro()">Cadastre-se</button>
+                                    [disabled]="habilitaBotaoCadastro()"
+                                    *ngIf="!updatePaciente"
+                                    (click)="cadastrarPaciente()">Cadastre-se</button>
+
+                            <button type="submit"
+                                    class="btn btn-primary btn-sm btn-block"
+                                    [disabled]="habilitaBotaoCadastro()"
+                                    *ngIf="updatePaciente"
+                                    (click)="atualizarPaciente()">Atualizar Cadastro</button>
                             <p class="small text-danger text-center pt-3"
                                *ngFor="let mensagem of mensagensErroRegistro">{{mensagem}}</p>
                      </form>

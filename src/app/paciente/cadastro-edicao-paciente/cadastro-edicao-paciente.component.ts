@@ -4,11 +4,11 @@ import { animate, keyframes, state, style, transition, trigger } from '@angular/
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs/internal/observable/throwError';
 
-
 import { UserSession } from 'src/assets/models/user-session.model';
 import { SessionService } from 'src/app/session.service';
 import { PacienteService } from 'src/app/paciente.service';
 import { Paciente } from 'src/assets/models/paciente.model';
+import { UpdatePacienteService } from '../update-paciente.service';
 
 
 @Component({
@@ -39,12 +39,14 @@ import { Paciente } from 'src/assets/models/paciente.model';
 })
 export class CadastroEdicaoPacienteComponent implements OnInit {
 
-  public mensagensErroRegistro: string[] = []
-  public estadoAnimacaoPainelCadastro: string = 'void'
-  public botaoCadastro: boolean = false
-  public mensagemCadastroRealizado : string  = '' 
+  public mensagensErroRegistro: string[] = [];
+  public estadoAnimacaoPainelCadastro: string = 'void';
+  public botaoCadastro: boolean = false;
+  public mensagemCadastroRealizado: string = '';
+  public paciente: Paciente | undefined;
+  public updatePaciente: boolean = false;
 
-  private userSession: UserSession | undefined
+  private userSession: UserSession | undefined;
 
   public formulario: FormGroup = new FormGroup({
     'nome': new FormControl(null, [Validators.required]),
@@ -58,19 +60,18 @@ export class CadastroEdicaoPacienteComponent implements OnInit {
 
   constructor(
     private sessionService: SessionService,
-    private pacienteService: PacienteService
+    private pacienteService: PacienteService,
+    private updatePacienteService: UpdatePacienteService
   ) { }
 
   ngOnInit(): void {
     this.userSession = this.sessionService.getUserSession()
-
-    // this.formulario.get("nome")?.setValue('Luiz Flavio')
-    // this.formulario.get("email")?.setValue('luiz@gmail.com')
-    // this.formulario.get("telefone")?.setValue('67999999999')
-    // this.formulario.get("cpf")?.setValue('02999999999')
-    // this.formulario.get("dataNascimento")?.setValue(new Date(1992, 1, 24))
-    // this.formulario.markAllAsTouched()
-    // console.log('Formulario', this.formulario)
+    this.paciente = this.updatePacienteService.getUpdatePaciente()
+    //console.log('Paciente recebido: ', this.paciente)
+    if (this.paciente) {
+      this.updatePaciente = true;
+      this.atualizarCamposFormulario()
+    }
   }
 
   cadastrarPaciente(): void {
@@ -78,6 +79,7 @@ export class CadastroEdicaoPacienteComponent implements OnInit {
     // console.log(this.formulario)
     if (this.userSession) {
       let paciente: Paciente = new Paciente(
+        this.paciente?.id ? this.paciente?.id : '',
         this.userSession?.id,
         this.formulario.value.nome,
         this.formulario.value.email,
@@ -85,7 +87,7 @@ export class CadastroEdicaoPacienteComponent implements OnInit {
         this.formulario.value.cpf,
         this.formulario.value.dataNascimento
       )
-      console.log('Paciente: ', paciente)
+      //console.log('Paciente: ', paciente)
       this.pacienteService.cadastrarPaciente(paciente)
         .pipe(
           catchError(err => {
@@ -96,6 +98,43 @@ export class CadastroEdicaoPacienteComponent implements OnInit {
           resposta => {
             console.log('Paciente salvo com sucesso', resposta)
             this.mensagemCadastroRealizado = 'Paciente ' + this.formulario.value.nome + ' salvo com sucesso'
+          },
+          (err: any) => {
+            console.log('Erro ao salvar Paciente: ', err)
+            this.mensagensErroRegistro = []
+            err.error.errors.forEach((mensagemErro: any) => {
+              this.mensagensErroRegistro.push(mensagemErro.fieldName + ' : ' + mensagemErro.message);
+            });
+            this.estadoAnimacaoPainelCadastro = 'criado'
+          }
+        )
+    }
+  }
+
+  atualizarPaciente(): void {
+    this.mensagemCadastroRealizado = ''
+    // console.log(this.formulario)
+    if (this.userSession) {
+      let paciente: Paciente = new Paciente(
+        this.paciente?.id ? this.paciente?.id : '',
+        this.userSession?.id,
+        this.formulario.value.nome,
+        this.formulario.value.email,
+        this.formulario.value.telefone,
+        this.formulario.value.cpf,
+        this.formulario.value.dataNascimento
+      )
+      //console.log('Paciente: ', paciente)
+      this.pacienteService.atualizarPaciente(paciente)
+        .pipe(
+          catchError(err => {
+            return throwError(err);
+          })
+        )
+        .subscribe(
+          resposta => {
+            console.log('Paciente atualizado com sucesso', resposta)
+            this.mensagemCadastroRealizado = 'Paciente ' + this.formulario.value.nome + ' atualizado com sucesso'
           },
           (err: any) => {
             console.log('Erro ao salvar Paciente: ', err)
@@ -140,6 +179,27 @@ export class CadastroEdicaoPacienteComponent implements OnInit {
     return this.botaoCadastro
   }
 
+  public atualizarCamposFormulario(): void {
+    this.formulario.get("nome")?.setValue(this.paciente?.nome)
+    this.formulario.get("email")?.setValue(this.paciente?.email)
+    this.formulario.get("telefone")?.setValue(this.paciente?.telefone)
+    this.formulario.get("cpf")?.setValue(this.paciente?.cpf)
+    if (this.paciente?.dataNascimento) {
+      this.formulario.get("dataNascimento")?.setValue(this.conversorData(this.paciente?.dataNascimento))
+    }
+    this.formulario.markAllAsTouched()
+    //console.log('Formulario', this.formulario)
+  }
+
+  public conversorData(dataNaoConvertida: string): string {
+    //(yyyy-mm-dd)
+    let meio: string[] = (dataNaoConvertida).split(' ')
+    let data: string = meio[0]
+    let datas: string[] = (data).split('/')
+    let dataConvertida = datas[2] + '-' + datas[1] + '-' + datas[0]
+    return dataConvertida
+  }
+
   // conveniente getter para facil acesso dos campos do formulario
   get f() { return this.formulario.controls; }
 
@@ -150,5 +210,4 @@ export class CadastroEdicaoPacienteComponent implements OnInit {
   get senha(): AbstractControl {
     return this.formulario.controls['senha'];
   }
-
 }

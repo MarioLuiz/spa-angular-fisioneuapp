@@ -7,7 +7,7 @@ export class Paciente {
     public cpf: string | undefined
     public dataNascimento: string | undefined
 
-    constructor(id: string,fisioterapeutaId: string, nome: string, email: string, telefone: string, cpf: string, dataNascimento: string) {
+    constructor(id: string, fisioterapeutaId: string, nome: string, email: string, telefone: string, cpf: string, dataNascimento: string) {
         this.id = id;
         this.fisioterapeutaId = fisioterapeutaId;
         this.nome = nome;
