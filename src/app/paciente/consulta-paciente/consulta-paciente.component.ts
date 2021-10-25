@@ -17,15 +17,16 @@ import { Router } from '@angular/router';
 })
 export class ConsultaPacienteComponent implements OnInit, AfterViewInit {
 
-  pageableResponse: PageableResponse = new PageableResponse()
-  palavraDaPesquisa: string = ''
-  pageable: Pageable = new Pageable(0, 0, 8, true, new Sort(false, true, false), false)
-  mensagensErroConsulta: string[] = []
-  paginacao: Paginacao = new Paginacao(0, 8, 'nome', 'ASC')
-  paciente: Paciente | undefined
+  pageableResponse: PageableResponse = new PageableResponse();
+  palavraDaPesquisa: string = '';
+  pageable: Pageable = new Pageable(0, 0, 8, true, new Sort(false, true, false), false);
+  mensagensErroConsulta: string[] = [];
+  paginacao: Paginacao = new Paginacao(0, 8, 'nome', 'ASC');
+  paciente: Paciente | undefined;
+  pacienteExcluir: Paciente | undefined;
 
-  true: boolean = true
-  pacientes: any[] = []
+  true: boolean = true;
+  pacientes: any[] = [];
   p: number = 0;
 
   //pacientes: Observable<any> | undefined
@@ -67,7 +68,7 @@ export class ConsultaPacienteComponent implements OnInit, AfterViewInit {
   }
 
   pesquisa() {
-    console.log('Termo Pesquisado: ', this.palavraDaPesquisa)
+    //console.log('Termo Pesquisado: ', this.palavraDaPesquisa)
     this.pacienteService.consultarPacientesPaginado(this.paginacao, this.palavraDaPesquisa)
       .pipe(
         catchError(err => {
@@ -115,6 +116,34 @@ export class ConsultaPacienteComponent implements OnInit, AfterViewInit {
     this.updatePacienteService.setUpdatePaciente(this.paciente)
     //console.log('UpdatePaciente: ', this.updatePacienteService.getUpdatePaciente())
     this.router.navigate(['fisio/cadastrar-paciente'])
+  }
+
+  public guardarPacienteExcluir(pacienteExclusao: Paciente) {
+    this.pacienteExcluir = pacienteExclusao;
+    console.log('Paciente a Excluir: ', this.pacienteExcluir);
+  }
+
+  public excluirPaciente() {
+    this.pacienteService.excluirPaciente(this.pacienteExcluir?.id ? this.pacienteExcluir?.id : '')
+      .pipe(
+        catchError(err => {
+          return throwError(err);
+        })
+      )
+      .subscribe(
+        resposta => {
+          console.log('Paciente Excluido com sucesso', resposta);
+          this.pesquisa();
+        },
+        (err: any) => {
+          console.log('Erro ao excluir Paciente: ', err)
+          this.mensagensErroConsulta = []
+          err.error.errors.forEach((mensagemErro: any) => {
+            this.mensagensErroConsulta.push(mensagemErro.fieldName + ' : ' + mensagemErro.message);
+          });
+          //this.estadoAnimacaoPainelCadastro = 'criado'
+        }
+      )
   }
 
 }
