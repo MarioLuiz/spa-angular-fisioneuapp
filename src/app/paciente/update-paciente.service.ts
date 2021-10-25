@@ -15,4 +15,8 @@ export class UpdatePacienteService {
     getUpdatePaciente() {
         return this.pacienteUpdate;
     }
+
+    cleanUpdatePaciente() {
+        this.pacienteUpdate = undefined;
+    }
 }
