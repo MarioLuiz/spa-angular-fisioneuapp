@@ -101,6 +101,12 @@
                         *ngIf="mensagemCadastroRealizado"> {{mensagemCadastroRealizado}}</p>
 
               </div>
+              <div class="d-flex justify-content-end">
+                     <button type="button"
+                             class="m-1 btn btn-secondary btn-sm"
+                             (click)="cancelarAtualizacaoCadastro()"
+                             *ngIf="updatePaciente">Cancelar atualização cadastro Paciente</button>
+              </div>
        </div>
        <br />
 </div>

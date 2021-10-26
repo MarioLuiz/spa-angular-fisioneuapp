@@ -200,6 +200,21 @@ export class CadastroEdicaoPacienteComponent implements OnInit {
     return dataConvertida
   }
 
+  public cancelarAtualizacaoCadastro() {
+    this.updatePaciente = false;
+    this.updatePacienteService.cleanUpdatePaciente();
+    this.limparCamposFormulario();
+  }
+
+  public limparCamposFormulario() {
+    this.formulario.get("nome")?.setValue('')
+    this.formulario.get("email")?.setValue('')
+    this.formulario.get("telefone")?.setValue('')
+    this.formulario.get("cpf")?.setValue('')
+    this.formulario.get("dataNascimento")?.setValue('')
+    this.formulario.markAsUntouched();
+  }
+
   // conveniente getter para facil acesso dos campos do formulario
   get f() { return this.formulario.controls; }
 
