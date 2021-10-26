@@ -31,6 +31,7 @@ import { CadastroEdicaoPacienteComponent } from './paciente/cadastro-edicao-paci
 import { ConsultaPacienteComponent } from './paciente/consulta-paciente/consulta-paciente.component';
 import { PacienteComponent } from './paciente/paciente.component';
 import { ProntuarioComponent } from './prontuario/prontuario.component';
+import { CadastroEdicaoProntuarioComponent } from './prontuario/cadastro-edicao-prontuario/cadastro-edicao-prontuario.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { ProntuarioComponent } from './prontuario/prontuario.component';
     CadastroEdicaoPacienteComponent,
     ConsultaPacienteComponent,
     PacienteComponent,
-    ProntuarioComponent
+    ProntuarioComponent,
+    CadastroEdicaoProntuarioComponent
   ],
   imports: [
     BrowserModule,
