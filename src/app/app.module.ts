@@ -30,6 +30,7 @@ import { EdicaoSenhaFisioterapeutaComponent } from './fisioterapeuta/edicao-senh
 import { CadastroEdicaoPacienteComponent } from './paciente/cadastro-edicao-paciente/cadastro-edicao-paciente.component';
 import { ConsultaPacienteComponent } from './paciente/consulta-paciente/consulta-paciente.component';
 import { PacienteComponent } from './paciente/paciente.component';
+import { ProntuarioComponent } from './prontuario/prontuario.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { PacienteComponent } from './paciente/paciente.component';
     EdicaoSenhaFisioterapeutaComponent,
     CadastroEdicaoPacienteComponent,
     ConsultaPacienteComponent,
-    PacienteComponent
+    PacienteComponent,
+    ProntuarioComponent
   ],
   imports: [
     BrowserModule,
