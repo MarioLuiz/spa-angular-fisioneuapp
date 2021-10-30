@@ -25,7 +25,6 @@ export class ConsultaPacienteComponent implements OnInit, AfterViewInit {
   paciente: Paciente | undefined;
   pacienteExcluir: Paciente | undefined;
 
-  true: boolean = true;
   pacientes: any[] = [];
   p: number = 0;
 
