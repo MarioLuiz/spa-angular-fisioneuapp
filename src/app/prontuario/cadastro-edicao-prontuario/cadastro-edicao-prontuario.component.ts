@@ -48,6 +48,8 @@ export class CadastroEdicaoProntuarioComponent implements OnInit, AfterViewInit 
   public mensagemCadastroRealizado: string = '';
   public paciente: Paciente | undefined;
   public updatePaciente: boolean = false;
+  public numeroProntuario: string = ''
+  public pacienteSelecionado: any;
 
   paginacao: Paginacao = new Paginacao(0, 5, 'nome', 'ASC');
   palavraDaPesquisa: string = '';
@@ -75,20 +77,19 @@ export class CadastroEdicaoProntuarioComponent implements OnInit, AfterViewInit 
   ngOnInit(): void {
     this.userSession = this.sessionService.getUserSession()
     this.paciente = this.updatePacienteService.getUpdatePaciente()
-    //console.log('Paciente recebido: ', this.paciente)
     if (this.paciente) {
       this.updatePaciente = true;
       this.atualizarCamposFormulario()
     }
-  }
-
-  ngAfterViewInit() {
     this.pesquisa();
   }
 
-  cadastrarPaciente(): void {
+  ngAfterViewInit() {
+    //this.pesquisa();
+  }
+
+  cadastrarProntuario(): void {
     this.mensagemCadastroRealizado = ''
-    // console.log(this.formulario)
     if (this.userSession) {
       let paciente: Paciente = new Paciente(
         this.paciente?.id ? this.paciente?.id : '',
@@ -167,16 +168,10 @@ export class CadastroEdicaoProntuarioComponent implements OnInit, AfterViewInit 
       if (this.f.nome.invalid && this.f.nome.touched) {
         this.estadoAnimacaoPainelCadastro = 'criado'
       }
-      if (this.f.email.invalid && this.f.email.touched) {
+      if (this.f.numeroProntuario.invalid && this.f.numeroProntuario.touched) {
         this.estadoAnimacaoPainelCadastro = 'criado'
       }
-      if (this.f.telefone.invalid && this.f.telefone.touched) {
-        this.estadoAnimacaoPainelCadastro = 'criado'
-      }
-      if (this.f.cpf.invalid && this.f.cpf.touched) {
-        this.estadoAnimacaoPainelCadastro = 'criado'
-      }
-      if (this.f.dataNascimento.invalid && this.f.dataNascimento.touched) {
+      if (this.f.resumo.invalid && this.f.resumo.touched) {
         this.estadoAnimacaoPainelCadastro = 'criado'
       }
     }, 750)
@@ -268,6 +263,21 @@ export class CadastroEdicaoProntuarioComponent implements OnInit, AfterViewInit 
     //console.log('Evento: ', evento)
     this.paginacao.page = evento - 1
     this.pesquisa()
+  }
+
+  selecionarPaciente(paciente: any) {
+    this.pacienteSelecionado = paciente;
+    console.log('PacienteSelecionado', this.pacienteSelecionado);
+    this.criarNumeroProntuario();
+  }
+
+  criarNumeroProntuario() {
+    let data: Date = new Date();
+    let ano: string = data.getFullYear().toString();
+    let mes: string = (data.getMonth() + 1).toString();
+    let dia: string = data.getDate().toString();
+    let dataAnoMesDia: string = ano + mes + dia;
+    this.numeroProntuario = dataAnoMesDia + this.pacienteSelecionado.id;
   }
 
   // conveniente getter para facil acesso dos campos do formulario

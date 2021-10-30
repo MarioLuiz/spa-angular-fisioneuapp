@@ -25,6 +25,9 @@
                     <input type="text"
                            class="form-control"
                            placeholder="Será fornecido N° Prontuario após a seleção do paciente"
+                           [(ngModel)]="numeroProntuario"
+                           [ngModelOptions]="{standalone: true}"
+                           [value]="numeroProntuario"
                            disabled>
                 </div>
 
@@ -65,7 +68,7 @@
                                     <td>
                                         <button type="button"
                                                 class="btn btn-primary btn-sm"
-                                                >Selecionar</button>
+                                                (click)="selecionarPaciente(paciente)">Selecionar</button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -94,7 +97,7 @@
                         class="btn btn-primary btn-sm btn-block"
                         [disabled]="habilitaBotaoCadastro()"
                         *ngIf="!updatePaciente"
-                        (click)="cadastrarPaciente()">Cadastrar Prontuario</button>
+                        (click)="cadastrarProntuario()">Cadastrar Prontuario</button>
 
                 <button type="submit"
                         class="btn btn-primary btn-sm btn-block"
