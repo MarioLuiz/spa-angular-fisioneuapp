@@ -63,9 +63,10 @@ export class CadastroEdicaoProntuarioComponent implements OnInit, AfterViewInit 
   private userSession: UserSession | undefined;
 
   public formulario: FormGroup = new FormGroup({
-    'nome': new FormControl(null, [Validators.required]),
-    'numeroProntuario': new FormControl(null, [Validators.required, Validators.minLength(8)]),
-    'resumo': new FormControl(null, [Validators.required])
+    'cid': new FormControl(null,),
+    'cif': new FormControl(null,),
+    'numeroProntuario': new FormControl(null, [Validators.required, Validators.minLength(7)]),
+    'observacao': new FormControl(null, [Validators.required])
   })
 
   constructor(
@@ -165,20 +166,17 @@ export class CadastroEdicaoProntuarioComponent implements OnInit, AfterViewInit 
     //console.log('evento', event)
     this.estadoAnimacaoPainelCadastro = 'void'
     setTimeout(() => {
-      if (this.f.nome.invalid && this.f.nome.touched) {
-        this.estadoAnimacaoPainelCadastro = 'criado'
-      }
       if (this.f.numeroProntuario.invalid && this.f.numeroProntuario.touched) {
         this.estadoAnimacaoPainelCadastro = 'criado'
       }
-      if (this.f.resumo.invalid && this.f.resumo.touched) {
+      if (this.f.observacao.invalid && this.f.observacao.touched) {
         this.estadoAnimacaoPainelCadastro = 'criado'
       }
     }, 750)
   }
 
   public habilitaBotaoCadastro(): boolean {
-    if (this.f.nome.invalid || this.f.numeroProntuario.invalid || this.f.resumo.invalid) {
+    if (this.f.numeroProntuario.invalid) {
       this.botaoCadastro = true
     } else {
       this.botaoCadastro = false
@@ -278,6 +276,7 @@ export class CadastroEdicaoProntuarioComponent implements OnInit, AfterViewInit 
     let dia: string = data.getDate().toString();
     let dataAnoMesDia: string = ano + mes + dia;
     this.numeroProntuario = dataAnoMesDia + this.pacienteSelecionado.id;
+    this.formulario.get("numeroProntuario")?.setValue(this.numeroProntuario)
   }
 
   // conveniente getter para facil acesso dos campos do formulario

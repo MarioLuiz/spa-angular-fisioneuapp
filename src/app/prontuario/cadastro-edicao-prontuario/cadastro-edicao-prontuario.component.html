@@ -20,19 +20,46 @@
 
             <form [formGroup]="formulario"
                   (keyup)="onCardChange($event)">
-                <div class="form-group">
-                    <small class="form-text mb-1">Numero do prontuário:</small>
-                    <input type="text"
-                           class="form-control"
-                           placeholder="Será fornecido N° Prontuario após a seleção do paciente"
-                           [(ngModel)]="numeroProntuario"
-                           [ngModelOptions]="{standalone: true}"
-                           [value]="numeroProntuario"
-                           disabled>
+                <div class="col-12">
+                    <div class="form-group">
+                        <small class="form-text mb-1">Numero do prontuário:</small>
+                        <input type="text"
+                               class="form-control"
+                               placeholder="Será fornecido N° Prontuario após a seleção do paciente."
+                               [(ngModel)]="numeroProntuario"
+                               [ngModelOptions]="{standalone: true}"
+                               [value]="numeroProntuario"
+                               disabled>
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <small class="form-text mb-1">Paciente:</small>
+                <div class="d-flex">
+                    <div class="form-group col-6">
+                        <small class="form-text mb-1">CID: (Classificação Internacional de Doenças)</small>
+                        <input type="text"
+                               class="form-control"
+                               placeholder="DID do paciente, caso possua."
+                               formControlName="cid">
+                        <small *ngIf="f.cid.valid && f.cid.touched"
+                               class="form-text text-success">Ok</small>
+                        <small *ngIf="f.cid.invalid && f.cid.touched"
+                               class="form-text text-danger">CID inválido</small>
+                    </div>
+                    <div class="form-group col-6">
+                        <small class="form-text mb-1">CIF: (Classificação Internacional de Funcionalidade)</small>
+                        <input type="text"
+                               class="form-control"
+                               placeholder="DID do paciente, caso possua."
+                               formControlName="cif">
+                        <small *ngIf="f.cif.valid && f.cif.touched"
+                               class="form-text text-success">Ok</small>
+                        <small *ngIf="f.cif.invalid && f.cif.touched"
+                               class="form-text text-danger">CIF inválido</small>
+                    </div>
+                </div>
+
+                <div class="form-group col-12">
+                    <small class="form-text mb-1">Paciente: (Selecione um paciente)</small>
                     <div>
                         <form class="form-inline mt-2 d-flex justify-content-between">
                             <input class="form-control mr-sm-2"
@@ -81,16 +108,16 @@
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <small class="form-text mb-1">Resumo:</small>
+                <div class="form-group col-12">
+                    <small class="form-text mb-1">Observação:</small>
                     <textarea class="form-control"
                               id="validationTextarea"
-                              placeholder="Descreva o resumo do paciente"
+                              placeholder="Descreva observação do paciente, caso possua."
                               required></textarea>
-                    <small *ngIf="f.resumo.valid && f.resumo.touched"
+                    <small *ngIf="f.observacao.valid && f.observacao.touched"
                            class="form-text text-success">Ok</small>
-                    <small *ngIf="f.resumo.invalid && f.resumo.touched"
-                           class="form-text text-danger">Resumo inválido</small>
+                    <small *ngIf="f.observacao.invalid && f.observacao.touched"
+                           class="form-text text-danger">Observação inválida</small>
                 </div>
 
                 <button type="submit"
