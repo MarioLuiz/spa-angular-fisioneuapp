@@ -222,7 +222,7 @@ export class CadastroEdicaoProntuarioComponent implements OnInit, AfterViewInit 
 
   pesquisa() {
     //console.log('Termo Pesquisado: ', this.palavraDaPesquisa)
-    this.pacienteService.consultarPacientesPaginado(this.paginacao, this.palavraDaPesquisa)
+    this.pacienteService.consultarPacientesSemProntuarioPaginado(this.paginacao, this.palavraDaPesquisa)
       .pipe(
         catchError(err => {
           return throwError(err);

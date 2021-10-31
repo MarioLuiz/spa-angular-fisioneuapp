@@ -91,4 +91,29 @@ export class PacienteService {
         )
     }
 
+    public consultarPacientesSemProntuarioPaginado(paginacao: Paginacao, termo: string): Observable<any> {
+        let headers = new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': `${localStorage.getItem('idToken')}`
+        })
+
+        let params = new HttpParams()
+            .set("page", paginacao.page)
+            .set("linesPerPage", paginacao.linesPerPage)
+            .set("orderBy", paginacao.orderBy)
+            .set("direction", paginacao.direction)
+            .set("nome", termo)
+
+        let options = {
+            headers: headers,
+            observe: "response" as 'body',
+            params: params
+        }
+
+        return this.http.get(`${URL_API}/pacientes/page/semProntuario`, options).pipe(
+            map((resposta: any) => resposta),
+            retry(3)
+        )
+    }
+
 }
