@@ -13,6 +13,8 @@ import { Paginacao } from 'src/assets/models/paginacao.model';
 import { PageableResponse } from 'src/assets/models/pageableResponse.model';
 import { Pageable } from 'src/assets/models/pageable.model';
 import { Sort } from 'src/assets/models/sort.model';
+import { ProntuarioService } from 'src/app/prontuario.service';
+import { Prontuario } from 'src/assets/models/prontuario.model';
 
 @Component({
   selector: 'fisio-cadastro-edicao-prontuario',
@@ -72,6 +74,7 @@ export class CadastroEdicaoProntuarioComponent implements OnInit, AfterViewInit 
   constructor(
     private sessionService: SessionService,
     private pacienteService: PacienteService,
+    private prontuarioService: ProntuarioService,
     private updatePacienteService: UpdatePacienteService
   ) { }
 
@@ -91,38 +94,30 @@ export class CadastroEdicaoProntuarioComponent implements OnInit, AfterViewInit 
 
   cadastrarProntuario(): void {
     this.mensagemCadastroRealizado = ''
-    if (this.userSession) {
-      let paciente: Paciente = new Paciente(
-        this.paciente?.id ? this.paciente?.id : '',
-        this.userSession?.id,
-        this.formulario.value.nome,
-        this.formulario.value.email,
-        this.formulario.value.telefone,
-        this.formulario.value.cpf,
-        this.formulario.value.dataNascimento
+
+    let prontuario = new Prontuario(this.pacienteSelecionado.id, this.formulario.value.numeroProntuario, this.formulario.value.cid, this.formulario.value.cif, this.formulario.value.observacao);
+
+    this.prontuarioService.cadastrarProntuario(prontuario)
+      .pipe(
+        catchError(err => {
+          return throwError(err);
+        })
       )
-      //console.log('Paciente: ', paciente)
-      this.pacienteService.cadastrarPaciente(paciente)
-        .pipe(
-          catchError(err => {
-            return throwError(err);
-          })
-        )
-        .subscribe(
-          resposta => {
-            console.log('Paciente salvo com sucesso', resposta)
-            this.mensagemCadastroRealizado = 'Paciente ' + this.formulario.value.nome + ' salvo com sucesso'
-          },
-          (err: any) => {
-            console.log('Erro ao salvar Paciente: ', err)
-            this.mensagensErroRegistro = []
-            err.error.errors.forEach((mensagemErro: any) => {
-              this.mensagensErroRegistro.push(mensagemErro.fieldName + ' : ' + mensagemErro.message);
-            });
-            this.estadoAnimacaoPainelCadastro = 'criado'
-          }
-        )
-    }
+      .subscribe(
+        resposta => {
+          console.log('Prontuario criado com sucesso', resposta)
+          this.mensagemCadastroRealizado = 'Prontuario ' + this.formulario.value.numeroProntuario + ' salvo com sucesso'
+          this.pesquisa()
+        },
+        (err: any) => {
+          console.log('Erro ao salvar Prontuario: ', err)
+          this.mensagensErroRegistro = []
+          err.error.errors.forEach((mensagemErro: any) => {
+            this.mensagensErroRegistro.push(mensagemErro.fieldName + ' : ' + mensagemErro.message);
+          });
+          this.estadoAnimacaoPainelCadastro = 'criado'
+        }
+      )
   }
 
   atualizarPaciente(): void {
