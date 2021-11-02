@@ -7,6 +7,7 @@ import { EdicaoSenhaFisioterapeutaComponent } from './fisioterapeuta/edicao-senh
 import { CadastroEdicaoPacienteComponent } from "./paciente/cadastro-edicao-paciente/cadastro-edicao-paciente.component";
 import { ConsultaPacienteComponent } from './paciente/consulta-paciente/consulta-paciente.component';
 import { CadastroEdicaoProntuarioComponent } from "./prontuario/cadastro-edicao-prontuario/cadastro-edicao-prontuario.component";
+import { ConsultaProntuarioComponent } from "./prontuario/consulta-prontuario/consulta-prontuario.component";
 
 export const ROUTES: Routes = [
     { path: '', component: AcessoComponent },
@@ -18,7 +19,8 @@ export const ROUTES: Routes = [
             { path: 'atualizar-senha-fisioterapeuta', component: EdicaoSenhaFisioterapeutaComponent, canActivate: [AutenticacaoGuardService] },
             { path: 'cadastrar-paciente', component: CadastroEdicaoPacienteComponent, canActivate: [AutenticacaoGuardService] },
             { path: 'consultar-pacientes', component: ConsultaPacienteComponent, canActivate: [AutenticacaoGuardService] },
-            { path: 'cadastrar-editar-prontuario', component: CadastroEdicaoProntuarioComponent, canActivate: [AutenticacaoGuardService] }
+            { path: 'cadastrar-editar-prontuario', component: CadastroEdicaoProntuarioComponent, canActivate: [AutenticacaoGuardService] },
+            { path: 'consultar-prontuarios', component: ConsultaProntuarioComponent, canActivate: [AutenticacaoGuardService] }
         ]
     }
 ]
