@@ -15,6 +15,7 @@ import { FisioterapeutaService } from './fisioterapeuta.service';
 import { SessionService } from './session.service';
 import { PacienteService } from './paciente.service';
 import { UpdatePacienteService } from './paciente/update-paciente.service';
+import { ProntuarioService } from './prontuario.service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -66,7 +67,7 @@ import { ConsultaProntuarioComponent } from './prontuario/consulta-prontuario/co
     NgxPaginationModule,
     RouterModule.forRoot(ROUTES)
   ],
-  providers: [AutenticacaoService, AutenticacaoGuardService, FisioterapeutaService, SessionService, PacienteService, UpdatePacienteService],
+  providers: [AutenticacaoService, AutenticacaoGuardService, FisioterapeutaService, SessionService, PacienteService, UpdatePacienteService, ProntuarioService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
