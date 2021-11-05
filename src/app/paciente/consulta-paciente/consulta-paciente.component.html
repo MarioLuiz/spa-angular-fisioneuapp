@@ -31,24 +31,24 @@
                             <th scope="col">Data de Nascimento</th>
                             <th scope="col">Nome</th>
                             <th scope="col">E-mail</th>
-                            <th scope="col"># Opção #</th>
+                            <th scope="col" class="text-center"># Opção #</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr
                             *ngFor="let paciente of pacientes | paginate: { itemsPerPage: pageableResponse.size, currentPage: pageableResponse.number , totalItems: pageableResponse.totalElements}">
-                            <td>{{paciente.dataCadastro}}</td>
-                            <td>{{paciente.dataNascimento}}</td>
+                            <td>{{retiraHorarioData(paciente.dataCadastro)}}</td>
+                            <td>{{retiraHorarioData(paciente.dataNascimento)}}</td>
                             <td>{{paciente.nome}}</td>
                             <td>{{paciente.email}}</td>
-                            <td>
+                            <td class="d-flex justify-content-around">
                                 <button type="button"
-                                        class="mr-3 btn btn-danger btn-sm"
+                                        class="btn btn-danger btn-sm"
                                         data-toggle="modal"
                                         data-target="#modalExcluirPaciente"
                                         (click)="guardarPacienteExcluir(paciente)">Excluir</button>
                                 <button type="button"
-                                        class="ml-3 btn btn-warning btn-sm"
+                                        class="btn btn-warning btn-sm"
                                         (click)="alterarPaciente(paciente)">Alterar</button>
                             </td>
                         </tr>

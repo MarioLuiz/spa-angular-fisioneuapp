@@ -145,4 +145,10 @@ export class ConsultaPacienteComponent implements OnInit, AfterViewInit {
       )
   }
 
+  public retiraHorarioData(dataComHorario: string): string {
+    let datas: string[] = dataComHorario.split(' ');
+    let data: string = datas[0];
+    return data
+  }
+
 }
