@@ -26,29 +26,33 @@
             <div>
                 <table class="table table-hover table-bordered table-striped">
                     <thead class="thead-dark">
-                        <tr>
+                        <tr class="text-center">
+                            <th scope="col"
+                                class="text-center">Numero</th>
                             <th scope="col">Data de Cadastro</th>
-                            <th scope="col">Data de Nascimento</th>
-                            <th scope="col">Nome</th>
-                            <th scope="col">E-mail</th>
-                            <th scope="col"># Opção #</th>
+                            <th scope="col">Nome Paciente</th>
+                            <th scope="col">CID</th>
+                            <th scope="col">CIF</th>
+                            <th scope="col"
+                                class="text-center"># Opção #</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr
-                            *ngFor="let paciente of pacientes | paginate: { itemsPerPage: pageableResponse.size, currentPage: pageableResponse.number , totalItems: pageableResponse.totalElements}">
-                            <td>{{paciente.dataCadastro}}</td>
-                            <td>{{paciente.dataNascimento}}</td>
-                            <td>{{paciente.nome}}</td>
-                            <td>{{paciente.email}}</td>
-                            <td>
+                        <tr *ngFor="let prontuario of prontuarios | paginate: { itemsPerPage: pageableResponse.size, currentPage: pageableResponse.number , totalItems: pageableResponse.totalElements}"
+                            class="text-center">
+                            <td>{{prontuario.numero}}</td>
+                            <td>{{converteDataDiaMesAno(prontuario.dataCriacao)}}</td>
+                            <td>{{prontuario.paciente.nome}}</td>
+                            <td>{{prontuario.cid ? prontuario.cid : '-'}}</td>
+                            <td>{{prontuario.cif ? prontuario.cid : '-'}}</td>
+                            <td class="d-flex justify-content-around">
                                 <button type="button"
-                                        class="mr-3 btn btn-info btn-sm"
+                                        class="btn btn-info btn-sm"
                                         data-toggle="modal"
                                         data-target="#modalVisualizarProntuario"
-                                        (click)="guardarPacienteExcluir(paciente)">Visualizar</button>
+                                        (click)="guardarProntuarioVisualizar(prontuario)">Visualizar</button>
                                 <button type="button"
-                                        class="ml-3 btn btn-warning btn-sm"
+                                        class="btn btn-warning btn-sm"
                                         (click)="alterarPaciente(paciente)">Alterar</button>
                             </td>
                         </tr>
@@ -94,8 +98,7 @@
                         data-dismiss="modal">Fechar</button>
                 <button type="button"
                         class="btn btn-danger"
-                        data-dismiss="modal"
-                        (click)="excluirPaciente()">Excluir Paciente</button>
+                        data-dismiss="modal">Excluir Paciente</button>
             </div>
         </div>
     </div>

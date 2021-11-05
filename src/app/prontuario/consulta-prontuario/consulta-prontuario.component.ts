@@ -4,10 +4,12 @@ import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { PacienteService } from 'src/app/paciente.service';
 import { UpdatePacienteService } from 'src/app/paciente/update-paciente.service';
+import { ProntuarioService } from 'src/app/prontuario.service';
 import { Paciente } from 'src/assets/models/paciente.model';
 import { Pageable } from 'src/assets/models/pageable.model';
 import { PageableResponse } from 'src/assets/models/pageableResponse.model';
 import { Paginacao } from 'src/assets/models/paginacao.model';
+import { Prontuario } from 'src/assets/models/prontuario.model';
 import { Sort } from 'src/assets/models/sort.model';
 
 @Component({
@@ -21,16 +23,18 @@ export class ConsultaProntuarioComponent implements OnInit, AfterViewInit {
   palavraDaPesquisa: string = '';
   pageable: Pageable = new Pageable(0, 0, 8, true, new Sort(false, true, false), false);
   mensagensErroConsulta: string[] = [];
-  paginacao: Paginacao = new Paginacao(0, 8, 'id', 'ASC');
+  paginacao: Paginacao = new Paginacao(0, 8, 'dataCriacao', 'ASC');
   paciente: Paciente | undefined;
-  pacienteExcluir: Paciente | undefined;
+  prontuarioVisualizar: Prontuario| undefined
 
   pacientes: any[] = [];
+  prontuarios: any[] = [];
   p: number = 0;
 
   constructor(
     private pacienteService: PacienteService,
     private updatePacienteService: UpdatePacienteService,
+    private prontuarioService: ProntuarioService,
     private router: Router
   ) { }
 
@@ -45,7 +49,7 @@ export class ConsultaProntuarioComponent implements OnInit, AfterViewInit {
 
   pesquisa() {
     //console.log('Termo Pesquisado: ', this.palavraDaPesquisa)
-    this.pacienteService.consultarPacientesPaginado(this.paginacao, this.palavraDaPesquisa)
+    this.prontuarioService.consultarProntuariosPaginado(this.paginacao, this.palavraDaPesquisa)
       .pipe(
         catchError(err => {
           return throwError(err);
@@ -54,7 +58,7 @@ export class ConsultaProntuarioComponent implements OnInit, AfterViewInit {
       .subscribe(
         resposta => {
           this.pageableResponse = resposta.body
-          //console.log('Pacientes', this.pageableResponse)
+          //console.log('Prontuarios', resposta.body)
           this.validaCamposPaginacao()
         },
         (err: any) => {
@@ -70,7 +74,7 @@ export class ConsultaProntuarioComponent implements OnInit, AfterViewInit {
 
   validaCamposPaginacao() {
     if (this.pageableResponse.content) {
-      this.pacientes = this.pageableResponse.content
+      this.prontuarios = this.pageableResponse.content
     }
     if (this.pageableResponse.pageable) {
       this.pageable = this.pageableResponse.pageable
@@ -94,32 +98,16 @@ export class ConsultaProntuarioComponent implements OnInit, AfterViewInit {
     this.router.navigate(['fisio/cadastrar-paciente'])
   }
 
-  public guardarPacienteExcluir(pacienteExclusao: Paciente) {
-    this.pacienteExcluir = pacienteExclusao;
-    console.log('Paciente a Excluir: ', this.pacienteExcluir);
+  public guardarProntuarioVisualizar(prontuarioVisualizar: Prontuario) {
+    this.prontuarioVisualizar = prontuarioVisualizar;
+    //console.log('Paciente a Excluir: ', this.prontuarioVisualizar);
   }
 
-  public excluirPaciente() {
-    this.pacienteService.excluirPaciente(this.pacienteExcluir?.id ? this.pacienteExcluir?.id : '')
-      .pipe(
-        catchError(err => {
-          return throwError(err);
-        })
-      )
-      .subscribe(
-        resposta => {
-          console.log('Paciente Excluido com sucesso', resposta);
-          this.pesquisa();
-        },
-        (err: any) => {
-          console.log('Erro ao excluir Paciente: ', err)
-          this.mensagensErroConsulta = []
-          err.error.errors.forEach((mensagemErro: any) => {
-            this.mensagensErroConsulta.push(mensagemErro.fieldName + ' : ' + mensagemErro.message);
-          });
-          //this.estadoAnimacaoPainelCadastro = 'criado'
-        }
-      )
-  }
+  public converteDataDiaMesAno(dataNaoConvertida: string): string {
+    let dataArray:string[] = dataNaoConvertida.split('T')
+    let datas: string[] = (dataArray[0]).split('-')
+    let dataConvertida = datas[2] + '/' + datas[1] + '/' + datas[0]
+    return dataConvertida
+   }
 
 }
