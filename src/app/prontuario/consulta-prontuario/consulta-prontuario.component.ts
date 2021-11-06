@@ -25,7 +25,8 @@ export class ConsultaProntuarioComponent implements OnInit, AfterViewInit {
   mensagensErroConsulta: string[] = [];
   paginacao: Paginacao = new Paginacao(0, 8, 'dataCriacao', 'ASC');
   paciente: Paciente | undefined;
-  prontuarioVisualizar: Prontuario| undefined
+  prontuarioVisualizar: any = new Prontuario('', '', '', '', '')
+  pacienteVisualizar: Paciente = new Paciente('', '', '', '', '', '', '')
 
   pacientes: any[] = [];
   prontuarios: any[] = [];
@@ -100,14 +101,23 @@ export class ConsultaProntuarioComponent implements OnInit, AfterViewInit {
 
   public guardarProntuarioVisualizar(prontuarioVisualizar: Prontuario) {
     this.prontuarioVisualizar = prontuarioVisualizar;
-    //console.log('Paciente a Excluir: ', this.prontuarioVisualizar);
+    this.pacienteVisualizar = this.prontuarioVisualizar.paciente
+    console.log('Prontuario visualizar: ', this.prontuarioVisualizar);
   }
 
   public converteDataDiaMesAno(dataNaoConvertida: string): string {
-    let dataArray:string[] = dataNaoConvertida.split('T')
-    let datas: string[] = (dataArray[0]).split('-')
-    let dataConvertida = datas[2] + '/' + datas[1] + '/' + datas[0]
-    return dataConvertida
-   }
+    if (dataNaoConvertida) {
+      let dataArray: string[] = dataNaoConvertida.split('T')
+      let datas: string[] = (dataArray[0]).split('-')
+      let dataConvertida = datas[2] + '/' + datas[1] + '/' + datas[0]
+      return dataConvertida
+    } else {
+      return ''
+    }
+  }
+
+  public validaCampo(campo: any): string {
+    return campo ? campo : '-'
+  }
 
 }

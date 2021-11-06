@@ -80,7 +80,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title"
-                    id="modalExcluirPacienteLabel">Deseja realmente excluir o paciente ?</h5>
+                    id="modalExcluirPacienteLabel">Prontuário: {{prontuarioVisualizar.numero ? prontuarioVisualizar.numero : ''}}</h5>
                 <button type="button"
                         class="close"
                         data-dismiss="modal"
@@ -89,16 +89,22 @@
                 </button>
             </div>
             <div class="modal-body">
-                Ao clicar em excluir paciente, o paciente será excluido do sistema e os dados do paciente não poderão
-                ser recuperados.
+                <p><b>Numero do Prontuário:</b> {{prontuarioVisualizar.numero}}</p>
+                <p><b>Cid:</b> {{prontuarioVisualizar.cid ? prontuarioVisualizar.cid : '- - - - - -'}}</p>
+                <p><b>Cif:</b> {{prontuarioVisualizar.cif ? prontuarioVisualizar.cif : '- - - - - -'}}</p>
+                <p><b>Data de Criação:</b> {{converteDataDiaMesAno(prontuarioVisualizar.dataCriacao)}}</p>
+                <p><b>Observação:</b> "{{prontuarioVisualizar.observacao}}" </p>
+                <hr />
+                <p><b>Paciente:</b> {{pacienteVisualizar.nome}} </p>
+                <p><b>Cpf:</b> {{validaCampo(pacienteVisualizar.cpf)}} </p>
+                <p><b>Data de Nascimento:</b> {{validaCampo(pacienteVisualizar.dataNascimento)}} </p>
+                <p><b>Telefone:</b> {{validaCampo(pacienteVisualizar.telefone)}} </p>
+                <p><b>E-mail:</b> {{validaCampo(pacienteVisualizar.email)}} </p>
             </div>
             <div class="modal-footer">
                 <button type="button"
                         class="btn btn-secondary"
                         data-dismiss="modal">Fechar</button>
-                <button type="button"
-                        class="btn btn-danger"
-                        data-dismiss="modal">Excluir Paciente</button>
             </div>
         </div>
     </div>
