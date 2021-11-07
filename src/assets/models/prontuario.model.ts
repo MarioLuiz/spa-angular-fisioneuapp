@@ -10,7 +10,7 @@ export class Prontuario {
     public dataCadastro: string | undefined
     public paciente: Paciente | undefined
 
-    constructor(pacienteId: string, numero: string, cid: string, cif: string, observacao: string) {
+    constructor(id: string, pacienteId: string, numero: string, cid: string, cif: string, observacao: string) {
         this.pacienteId = pacienteId
         this.numero = numero
         this.cid = cid

@@ -11,6 +11,7 @@ import { PageableResponse } from 'src/assets/models/pageableResponse.model';
 import { Paginacao } from 'src/assets/models/paginacao.model';
 import { Prontuario } from 'src/assets/models/prontuario.model';
 import { Sort } from 'src/assets/models/sort.model';
+import { UpdateProntuarioService } from '../update-prontuario.service';
 
 @Component({
   selector: 'fisio-consulta-prontuario',
@@ -25,7 +26,8 @@ export class ConsultaProntuarioComponent implements OnInit, AfterViewInit {
   mensagensErroConsulta: string[] = [];
   paginacao: Paginacao = new Paginacao(0, 8, 'dataCriacao', 'ASC');
   paciente: Paciente | undefined;
-  prontuarioVisualizar: any = new Prontuario('', '', '', '', '')
+  prontuario: Prontuario | undefined;
+  prontuarioVisualizar: any = new Prontuario('', '', '', '', '', '')
   pacienteVisualizar: Paciente = new Paciente('', '', '', '', '', '', '')
 
   pacientes: any[] = [];
@@ -33,9 +35,9 @@ export class ConsultaProntuarioComponent implements OnInit, AfterViewInit {
   p: number = 0;
 
   constructor(
-    private pacienteService: PacienteService,
     private updatePacienteService: UpdatePacienteService,
     private prontuarioService: ProntuarioService,
+    private updateProntuarioService: UpdateProntuarioService,
     private router: Router
   ) { }
 
@@ -91,12 +93,14 @@ export class ConsultaProntuarioComponent implements OnInit, AfterViewInit {
     this.pesquisa()
   }
 
-  alterarPaciente(paciente: any) {
-    this.paciente = new Paciente(paciente.id, '', paciente.nome, paciente.email, paciente.telefone, paciente.cpf, paciente.dataNascimento);
-    //console.log('Paciente: ', this.paciente)
-    this.updatePacienteService.setUpdatePaciente(this.paciente)
-    //console.log('UpdatePaciente: ', this.updatePacienteService.getUpdatePaciente())
-    this.router.navigate(['fisio/cadastrar-paciente'])
+  alterarProntuario(prontuario: any) {
+    //console.log('Prontuario: ', prontuario)
+    this.prontuario = new Prontuario(prontuario.id,prontuario.paciente.id,prontuario.numero,prontuario.cid,prontuario.cif,prontuario.observacao);
+    this.prontuario.paciente = prontuario.paciente;
+    //console.log('Prontuario: ', this.prontuario)
+    this.updateProntuarioService.setUpdateProntuario(this.prontuario)
+    //console.log('UpdateProntuario: ', this.updateProntuarioService.getUpdateProntuario())
+    this.router.navigate(['fisio/cadastrar-editar-prontuario'])
   }
 
   public guardarProntuarioVisualizar(prontuarioVisualizar: Prontuario) {
