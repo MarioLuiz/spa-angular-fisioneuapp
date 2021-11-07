@@ -21,7 +21,7 @@
                      <form [formGroup]="formulario"
                            (keyup)="onCardChange($event)">
                             <div class="form-group">
-                                   <small class="form-text mb-1">Nome:</small>
+                                   <small class="form-text mb-1"><b>Nome:</b></small>
                                    <input type="text"
                                           class="form-control"
                                           placeholder="Nome paciente"
@@ -33,7 +33,7 @@
                             </div>
 
                             <div class="form-group">
-                                   <small class="form-text mb-1">E-mail:</small>
+                                   <small class="form-text mb-1"><b>E-mail:</b></small>
                                    <input type="email"
                                           class="form-control"
                                           placeholder="E-mail"
@@ -45,7 +45,7 @@
                             </div>
 
                             <div class="form-group">
-                                   <small class="form-text mb-1">Numero de telefone:</small>
+                                   <small class="form-text mb-1"><b>Numero de telefone:</b></small>
                                    <input type="text"
                                           class="form-control"
                                           placeholder="Numero de Telefone"
@@ -58,7 +58,7 @@
                             </div>
 
                             <div class="form-group">
-                                   <small class="form-text mb-1">Cpf:</small>
+                                   <small class="form-text mb-1"><b>Cpf:</b></small>
                                    <input type="text"
                                           class="form-control"
                                           placeholder="Cpf"
@@ -71,7 +71,7 @@
                             </div>
 
                             <div class="form-group">
-                                   <small class="form-text mb-1">Data de Nascimento:</small>
+                                   <small class="form-text mb-1"><b>Data de Nascimento:</b></small>
                                    <input type="date"
                                           class="form-control"
                                           placeholder="Data de nascimento"
@@ -105,7 +105,7 @@
                      <button type="button"
                              class="m-1 btn btn-secondary btn-sm"
                              (click)="cancelarAtualizacaoCadastro()"
-                             *ngIf="updatePaciente">Cancelar atualização cadastro Paciente</button>
+                             *ngIf="updatePaciente"><b>Cancelar atualização cadastro Paciente</b></button>
               </div>
        </div>
        <br />
