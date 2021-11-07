@@ -97,7 +97,7 @@
                 <hr />
                 <p><b>Paciente:</b> {{pacienteVisualizar.nome}} </p>
                 <p><b>Cpf:</b> {{validaCampo(pacienteVisualizar.cpf)}} </p>
-                <p><b>Data de Nascimento:</b> {{validaCampo(pacienteVisualizar.dataNascimento)}} </p>
+                <p><b>Data de Nascimento:</b> {{retiraHorarioData(pacienteVisualizar.dataNascimento ? pacienteVisualizar.dataNascimento : ' ')}} </p>
                 <p><b>Telefone:</b> {{validaCampo(pacienteVisualizar.telefone)}} </p>
                 <p><b>E-mail:</b> {{validaCampo(pacienteVisualizar.email)}} </p>
             </div>

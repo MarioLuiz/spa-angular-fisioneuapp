@@ -102,7 +102,7 @@ export class ConsultaProntuarioComponent implements OnInit, AfterViewInit {
   public guardarProntuarioVisualizar(prontuarioVisualizar: Prontuario) {
     this.prontuarioVisualizar = prontuarioVisualizar;
     this.pacienteVisualizar = this.prontuarioVisualizar.paciente
-    console.log('Prontuario visualizar: ', this.prontuarioVisualizar);
+    //console.log('Prontuario visualizar: ', this.prontuarioVisualizar);
   }
 
   public converteDataDiaMesAno(dataNaoConvertida: string): string {
@@ -118,6 +118,12 @@ export class ConsultaProntuarioComponent implements OnInit, AfterViewInit {
 
   public validaCampo(campo: any): string {
     return campo ? campo : '-'
+  }
+
+  public retiraHorarioData(dataComHorario: string): string {
+    let datas: string[] = dataComHorario.split(' ');
+    let data: string = datas[0];
+    return data
   }
 
 }
