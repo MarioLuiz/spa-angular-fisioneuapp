@@ -11,6 +11,7 @@ export class Prontuario {
     public paciente: Paciente | undefined
 
     constructor(id: string, pacienteId: string, numero: string, cid: string, cif: string, observacao: string) {
+        this.id = id
         this.pacienteId = pacienteId
         this.numero = numero
         this.cid = cid
