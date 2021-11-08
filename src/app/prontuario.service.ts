@@ -37,6 +37,21 @@ export class ProntuarioService {
         )
     }
 
+    public atualizarProntuario(prontuario: Prontuario): Observable<any> {
+        let headers = new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': `${localStorage.getItem('idToken')}`
+        })
+        let options = {
+            headers: headers,
+            observe: "response" as 'body'
+        }
+        return this.http.put(`${URL_API}/prontuarios`, JSON.stringify(prontuario), options).pipe(
+            map((resposta: any) => resposta),
+            retry(3)
+        )
+    }
+
     public consultarProntuariosPaginado(paginacao: Paginacao, termo: string): Observable<any> {
         let headers = new HttpHeaders({
             'Content-Type': 'application/json',

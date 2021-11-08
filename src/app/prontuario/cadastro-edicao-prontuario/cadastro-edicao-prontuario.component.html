@@ -5,14 +5,14 @@
              [@animacao-painel]="estadoAnimacaoPainelCadastro"
              (click)="onCardChange($event)">
             <div class="card-title d-flex justify-content-center mt-1"
-                 *ngIf="!updatePaciente">
+                 *ngIf="!updateProntuario">
                 <b>
                     <h3>Cadastrar Prontuário</h3>
                 </b>
             </div>
 
             <div class="card-title d-flex justify-content-center mt-1"
-                 *ngIf="updatePaciente">
+                 *ngIf="updateProntuario">
                 <b>
                     <h3>Atualizar Prontuario</h3>
                 </b>
@@ -33,7 +33,8 @@
                     </div>
                 </div>
 
-                <div class="form-group col-12">
+                <div class="form-group col-12"
+                *ngIf="!updateProntuario">
                     <small class="form-text mb-1"><b>Paciente:</b> * Pesquise e selecione um paciente</small>
                     <div>
                         <form class="form-inline mt-2 d-flex justify-content-between">
@@ -112,7 +113,7 @@
                     <textarea class="form-control"
                               id="validationTextarea"
                               placeholder="Descreva observação do paciente, caso possua."
-                              required></textarea>
+                              formControlName="observacao"></textarea>
                     <small *ngIf="f.observacao.valid && f.observacao.touched"
                            class="form-text text-success">Ok</small>
                     <small *ngIf="f.observacao.invalid && f.observacao.touched"
@@ -122,14 +123,14 @@
                 <button type="submit"
                         class="btn btn-primary btn-sm btn-block"
                         [disabled]="habilitaBotaoCadastro()"
-                        *ngIf="!updatePaciente"
+                        *ngIf="!updateProntuario"
                         (click)="cadastrarProntuario()">Cadastrar Prontuario</button>
 
                 <button type="submit"
                         class="btn btn-primary btn-sm btn-block"
                         [disabled]="habilitaBotaoCadastro()"
-                        *ngIf="updatePaciente"
-                        (click)="atualizarPaciente()">Atualizar cadastro</button>
+                        *ngIf="updateProntuario"
+                        (click)="atualizarProntuario()">Atualizar cadastro Prontuario</button>
                 <p class="small text-danger text-center pt-3"
                    *ngFor="let mensagem of mensagensErroRegistro">{{mensagem}}</p>
             </form>
@@ -142,7 +143,7 @@
             <button type="button"
                     class="m-1 btn btn-secondary btn-sm"
                     (click)="cancelarAtualizacaoCadastro()"
-                    *ngIf="updatePaciente">Cancelar atualização de Prontuário</button>
+                    *ngIf="updateProntuario">Cancelar atualização de Prontuário</button>
         </div>
     </div>
     <br />

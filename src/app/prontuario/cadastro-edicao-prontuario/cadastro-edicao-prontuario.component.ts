@@ -8,13 +8,13 @@ import { UserSession } from 'src/assets/models/user-session.model';
 import { SessionService } from 'src/app/session.service';
 import { PacienteService } from 'src/app/paciente.service';
 import { Paciente } from 'src/assets/models/paciente.model';
-import { UpdatePacienteService } from 'src/app/paciente/update-paciente.service';
 import { Paginacao } from 'src/assets/models/paginacao.model';
 import { PageableResponse } from 'src/assets/models/pageableResponse.model';
 import { Pageable } from 'src/assets/models/pageable.model';
 import { Sort } from 'src/assets/models/sort.model';
 import { ProntuarioService } from 'src/app/prontuario.service';
 import { Prontuario } from 'src/assets/models/prontuario.model';
+import { UpdateProntuarioService } from '../update-prontuario.service';
 
 @Component({
   selector: 'fisio-cadastro-edicao-prontuario',
@@ -49,7 +49,8 @@ export class CadastroEdicaoProntuarioComponent implements OnInit, AfterViewInit 
   public botaoCadastro: boolean = false;
   public mensagemCadastroRealizado: string = '';
   public paciente: Paciente | undefined;
-  public updatePaciente: boolean = false;
+  public prontuario: Prontuario | undefined;
+  public updateProntuario: boolean = false;
   public numeroProntuario: string = ''
   public pacienteSelecionado: any;
 
@@ -75,14 +76,15 @@ export class CadastroEdicaoProntuarioComponent implements OnInit, AfterViewInit 
     private sessionService: SessionService,
     private pacienteService: PacienteService,
     private prontuarioService: ProntuarioService,
-    private updatePacienteService: UpdatePacienteService
+    private updateProntuarioService: UpdateProntuarioService
   ) { }
 
   ngOnInit(): void {
     this.userSession = this.sessionService.getUserSession()
-    this.paciente = this.updatePacienteService.getUpdatePaciente()
-    if (this.paciente) {
-      this.updatePaciente = true;
+    this.prontuario = this.updateProntuarioService.getUpdateProntuario()
+    if (this.prontuario) {
+      this.updateProntuario = true;
+      console.log('this.prontuario: ', this.prontuario )
       this.atualizarCamposFormulario()
     }
     this.pesquisa();
@@ -95,7 +97,7 @@ export class CadastroEdicaoProntuarioComponent implements OnInit, AfterViewInit 
   cadastrarProntuario(): void {
     this.mensagemCadastroRealizado = ''
 
-    let prontuario = new Prontuario(this.pacienteSelecionado.id, this.formulario.value.numeroProntuario, this.formulario.value.cid, this.formulario.value.cif, this.formulario.value.observacao);
+    let prontuario = new Prontuario('', this.pacienteSelecionado.id, this.formulario.value.numeroProntuario, this.formulario.value.cid, this.formulario.value.cif, this.formulario.value.observacao);
 
     this.prontuarioService.cadastrarProntuario(prontuario)
       .pipe(
@@ -108,6 +110,7 @@ export class CadastroEdicaoProntuarioComponent implements OnInit, AfterViewInit 
           console.log('Prontuario criado com sucesso', resposta)
           this.mensagemCadastroRealizado = 'Prontuario ' + this.formulario.value.numeroProntuario + ' salvo com sucesso'
           this.pesquisa()
+          this.limparCamposFormulario()
         },
         (err: any) => {
           console.log('Erro ao salvar Prontuario: ', err)
@@ -120,41 +123,33 @@ export class CadastroEdicaoProntuarioComponent implements OnInit, AfterViewInit 
       )
   }
 
-  atualizarPaciente(): void {
+  atualizarProntuario(): void {
     this.mensagemCadastroRealizado = ''
-    // console.log(this.formulario)
-    if (this.userSession) {
-      let paciente: Paciente = new Paciente(
-        this.paciente?.id ? this.paciente?.id : '',
-        this.userSession?.id,
-        this.formulario.value.nome,
-        this.formulario.value.email,
-        this.formulario.value.telefone,
-        this.formulario.value.cpf,
-        this.formulario.value.dataNascimento
+
+    let prontuario: Prontuario = new Prontuario(
+      this.prontuario?.id ? this.prontuario.id : '', '', '', this.formulario.value.cid, this.formulario.value.cif, this.formulario.value.observacao
+    );
+    //console.log('Prontuario: ', prontuario)
+    this.prontuarioService.atualizarProntuario(prontuario)
+      .pipe(
+        catchError(err => {
+          return throwError(err);
+        })
       )
-      //console.log('Paciente: ', paciente)
-      this.pacienteService.atualizarPaciente(paciente)
-        .pipe(
-          catchError(err => {
-            return throwError(err);
-          })
-        )
-        .subscribe(
-          resposta => {
-            console.log('Paciente atualizado com sucesso', resposta)
-            this.mensagemCadastroRealizado = 'Paciente ' + this.formulario.value.nome + ' atualizado com sucesso'
-          },
-          (err: any) => {
-            console.log('Erro ao salvar Paciente: ', err)
-            this.mensagensErroRegistro = []
-            err.error.errors.forEach((mensagemErro: any) => {
-              this.mensagensErroRegistro.push(mensagemErro.fieldName + ' : ' + mensagemErro.message);
-            });
-            this.estadoAnimacaoPainelCadastro = 'criado'
-          }
-        )
-    }
+      .subscribe(
+        resposta => {
+          console.log('Prontuario atualizado com sucesso', resposta)
+          this.mensagemCadastroRealizado = 'Prontuario ' + this.formulario.value.numeroProntuario + ' atualizado com sucesso'
+        },
+        (err: any) => {
+          console.log('Erro ao atualizar Prontuario: ', err)
+          this.mensagensErroRegistro = []
+          err.error.errors.forEach((mensagemErro: any) => {
+            this.mensagensErroRegistro.push(mensagemErro.fieldName + ' : ' + mensagemErro.message);
+          });
+          this.estadoAnimacaoPainelCadastro = 'criado'
+        }
+      )
   }
 
   public onCardChange(event: any): void {
@@ -162,9 +157,6 @@ export class CadastroEdicaoProntuarioComponent implements OnInit, AfterViewInit 
     this.estadoAnimacaoPainelCadastro = 'void'
     setTimeout(() => {
       if (this.f.numeroProntuario.invalid && this.f.numeroProntuario.touched) {
-        this.estadoAnimacaoPainelCadastro = 'criado'
-      }
-      if (this.f.observacao.invalid && this.f.observacao.touched) {
         this.estadoAnimacaoPainelCadastro = 'criado'
       }
     }, 750)
@@ -180,13 +172,11 @@ export class CadastroEdicaoProntuarioComponent implements OnInit, AfterViewInit 
   }
 
   public atualizarCamposFormulario(): void {
-    this.formulario.get("nome")?.setValue(this.paciente?.nome)
-    this.formulario.get("email")?.setValue(this.paciente?.email)
-    this.formulario.get("telefone")?.setValue(this.paciente?.telefone)
-    this.formulario.get("cpf")?.setValue(this.paciente?.cpf)
-    if (this.paciente?.dataNascimento) {
-      this.formulario.get("dataNascimento")?.setValue(this.conversorData(this.paciente?.dataNascimento))
-    }
+    this.numeroProntuario = this.prontuario?.numero ? this.prontuario?.numero : ''
+    this.formulario.get("cid")?.setValue(this.prontuario?.cid)
+    this.formulario.get("cif")?.setValue(this.prontuario?.cif)
+    this.formulario.get("observacao")?.setValue(this.prontuario?.observacao)
+    this.formulario.get("numeroProntuario")?.setValue(this.numeroProntuario)
     this.formulario.markAllAsTouched()
     //console.log('Formulario', this.formulario)
   }
@@ -201,17 +191,17 @@ export class CadastroEdicaoProntuarioComponent implements OnInit, AfterViewInit 
   }
 
   public cancelarAtualizacaoCadastro() {
-    this.updatePaciente = false;
-    this.updatePacienteService.cleanUpdatePaciente();
+    this.updateProntuario = false;
+    this.updateProntuarioService.cleanUpdateProntuario();
     this.limparCamposFormulario();
   }
 
   public limparCamposFormulario() {
-    this.formulario.get("nome")?.setValue('')
-    this.formulario.get("email")?.setValue('')
-    this.formulario.get("telefone")?.setValue('')
-    this.formulario.get("cpf")?.setValue('')
-    this.formulario.get("dataNascimento")?.setValue('')
+    this.numeroProntuario = ''
+    this.formulario.get("cid")?.setValue('')
+    this.formulario.get("cif")?.setValue('')
+    this.formulario.get("observacao")?.setValue('')
+    this.formulario.get("numero")?.setValue('')
     this.formulario.markAsUntouched();
   }
 
