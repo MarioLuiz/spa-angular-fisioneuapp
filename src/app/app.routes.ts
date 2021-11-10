@@ -1,3 +1,4 @@
+import { PaginaInicialComponent } from './home/pagina-inicial/pagina-inicial.component';
 import { Routes } from "@angular/router";
 import { AcessoComponent } from "./acesso/acesso.component";
 import { AutenticacaoGuardService } from "./autenticacao-guard.service";
@@ -16,7 +17,7 @@ export const ROUTES: Routes = [
     {
         path: 'fisio', component: HomeComponent, canActivate: [AutenticacaoGuardService],
         children: [
-            { path: '', component: HomeComponent, canActivate: [AutenticacaoGuardService] },
+            { path: '', component: PaginaInicialComponent, canActivate: [AutenticacaoGuardService] },
             { path: 'atualizar-cadastro-fisioterapeuta', component: EdicaoCadastroFisioterapeutaComponent, canActivate: [AutenticacaoGuardService] },
             { path: 'atualizar-senha-fisioterapeuta', component: EdicaoSenhaFisioterapeutaComponent, canActivate: [AutenticacaoGuardService] },
             { path: 'cadastrar-paciente', component: CadastroEdicaoPacienteComponent, canActivate: [AutenticacaoGuardService] },
