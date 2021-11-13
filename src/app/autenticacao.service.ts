@@ -133,6 +133,7 @@ export class AutenticacaoService {
                     },
                     (err: any) => {
                         console.log('Erro ao salvarSessaoUsuario: ', err)
+                        this.sair();
                     }
                 )
         }
