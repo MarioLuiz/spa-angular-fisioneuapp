@@ -92,13 +92,18 @@ export class AutenticacaoService {
             this.email = localStorage.getItem('email')
         }
 
+        if (this.token_id === undefined) {
+            this.router.navigate(['/'])
+        }
+
+        if (this.email === undefined) {
+            this.router.navigate(['/'])
+        }
+
         if (this.sessionService.getUserSession() === undefined) {
             this.salvarSessaoUsuario()
         }
 
-        if (this.token_id === undefined) {
-            this.router.navigate(['/'])
-        }
         return this.token_id !== undefined
     }
 
