@@ -18,6 +18,7 @@ export class SessionService {
 
     setUserSession(userSession: UserSession) {
         this.userSession = userSession;
+        //console.log('Sessão do usuario: ', this.userSession)
     }
 
     getUserSession() {
