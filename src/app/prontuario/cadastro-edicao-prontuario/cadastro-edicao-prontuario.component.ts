@@ -264,6 +264,12 @@ export class CadastroEdicaoProntuarioComponent implements OnInit, AfterViewInit 
     this.formulario.get("numeroProntuario")?.setValue(this.numeroProntuario)
   }
 
+  public retiraHorarioData(dataComHorario: string): string {
+    let datas: string[] = dataComHorario.split(' ');
+    let data: string = datas[0];
+    return data
+  }
+
   // conveniente getter para facil acesso dos campos do formulario
   get f() { return this.formulario.controls; }
 

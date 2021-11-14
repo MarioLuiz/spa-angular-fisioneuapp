@@ -64,8 +64,8 @@
                             <tbody>
                                 <tr
                                     *ngFor="let paciente of pacientes | paginate: { itemsPerPage: pageableResponse.size, currentPage: pageableResponse.number , totalItems: pageableResponse.totalElements}">
-                                    <td>{{paciente.dataCadastro}}</td>
-                                    <td>{{paciente.dataNascimento}}</td>
+                                    <td>{{retiraHorarioData(paciente.dataCadastro)}}</td>
+                                    <td>{{retiraHorarioData(paciente.dataNascimento)}}</td>
                                     <td>{{paciente.nome}}</td>
                                     <td>
                                         <button type="button"
