@@ -1,1 +1,113 @@
-<p>consulta-atendimento works!</p>
+<div class="d-flex justify-content-center">
+    <div class="card mt-3 col-10">
+        <div class="card-body">
+            <div class="card-title d-flex justify-content-center mt-1">
+                <b>
+                    <h3>Consultar Atendimentos</h3>
+                </b>
+            </div>
+
+            <form class="form-inline mt-2 d-flex justify-content-center">
+                <input class="form-control mr-sm-2"
+                       type="text"
+                       placeholder="Nome Paciente"
+                       aria-label="Pesquisa"
+                       style="width: 80%;"
+                       [(ngModel)]="palavraDaPesquisa"
+                       [ngModelOptions]="{standalone: true}"
+                       #ctrl="ngModel"
+                       (keyup.press)="pesquisa()">
+                <button class="btn btn-outline-success my-2 my-sm-0"
+                        (click)="pesquisa()">Pesquisar</button>
+            </form>
+
+            <hr />
+
+            <div>
+                <table class="table table-hover table-bordered table-striped">
+                    <thead class="thead-dark">
+                        <tr class="text-center">
+                            <th scope="col"
+                                class="text-center">Numero</th>
+                            <th scope="col">Data de Cadastro</th>
+                            <th scope="col">Nome Paciente</th>
+                            <th scope="col">CID</th>
+                            <th scope="col">CIF</th>
+                            <th scope="col"
+                                class="text-center"># Opção #</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let prontuario of prontuarios | paginate: { itemsPerPage: pageableResponse.size, currentPage: pageableResponse.number , totalItems: pageableResponse.totalElements}"
+                            class="text-center">
+                            <td>{{prontuario.numero}}</td>
+                            <td>{{converteDataDiaMesAno(prontuario.dataCriacao)}}</td>
+                            <td>{{prontuario.paciente.nome}}</td>
+                            <td>{{prontuario.cid ? prontuario.cid : '-'}}</td>
+                            <td>{{prontuario.cif ? prontuario.cif : '-'}}</td>
+                            <td class="d-flex justify-content-around">
+                                <button type="button"
+                                        class="btn btn-info btn-sm"
+                                        data-toggle="modal"
+                                        data-target="#modalVisualizarAtendimento"
+                                        (click)="guardarProntuarioVisualizar(prontuario)">Visualizar</button>
+                                <button type="button"
+                                        class="btn btn-warning btn-sm"
+                                        (click)="alterarProntuario(prontuario)">Alterar</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="d-flex justify-content-center">
+                    <pagination-controls (pageChange)="mudarPagina($event)"
+                                         previousLabel="Anterior"
+                                         nextLabel="Próxima"></pagination-controls>
+                </div>
+            </div>
+            <hr />
+        </div>
+    </div>
+    <br />
+</div>
+
+<!-- Modal -->
+<div class="modal fade"
+     id="modalVisualizarAtendimento"
+     tabindex="-1"
+     aria-labelledby="modalVisualizarAtendimento"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"
+                    id="modalExcluirPacienteLabel">Prontuário: {{prontuarioVisualizar.numero ?
+                    prontuarioVisualizar.numero : ''}}</h5>
+                <button type="button"
+                        class="close"
+                        data-dismiss="modal"
+                        aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p><b>Numero do Prontuário:</b> {{prontuarioVisualizar.numero}}</p>
+                <p><b>Cid:</b> {{prontuarioVisualizar.cid ? prontuarioVisualizar.cid : '- - - - - -'}}</p>
+                <p><b>Cif:</b> {{prontuarioVisualizar.cif ? prontuarioVisualizar.cif : '- - - - - -'}}</p>
+                <p><b>Data de Criação:</b> {{converteDataDiaMesAno(prontuarioVisualizar.dataCriacao)}}</p>
+                <p><b>Observação:</b> "{{prontuarioVisualizar.observacao}}" </p>
+                <hr />
+                <p><b>Paciente:</b> {{pacienteVisualizar.nome}} </p>
+                <p><b>Cpf:</b> {{validaCampo(pacienteVisualizar.cpf)}} </p>
+                <p><b>Data de Nascimento:</b> {{retiraHorarioData(pacienteVisualizar.dataNascimento ?
+                    pacienteVisualizar.dataNascimento : ' ')}} </p>
+                <p><b>Telefone:</b> {{validaCampo(pacienteVisualizar.telefone)}} </p>
+                <p><b>E-mail:</b> {{validaCampo(pacienteVisualizar.email)}} </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button"
+                        class="btn btn-secondary"
+                        data-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
