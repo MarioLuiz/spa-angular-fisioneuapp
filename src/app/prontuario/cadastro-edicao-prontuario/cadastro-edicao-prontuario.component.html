@@ -35,7 +35,10 @@
 
                 <div class="form-group col-12"
                 *ngIf="!updateProntuario">
-                    <small class="form-text mb-1"><b>Paciente:</b> * Pesquise e selecione um paciente</small>
+                    <small class="form-text mb-1"
+                           *ngIf="!pacienteSelecionado"><b>Paciente:</b> * Selecione e/ou pesquise um paciente</small>
+                    <h5 class="form-text mb-1"
+                        *ngIf="pacienteSelecionado"><b>Paciente selecionado:</b> {{pacienteSelecionado.nome}}</h5>
                     <div>
                         <form class="form-inline mt-2 d-flex justify-content-between">
                             <input class="form-control mr-sm-2"

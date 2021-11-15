@@ -272,6 +272,7 @@ export class CadastroEdicaoAtendimentoComponent implements OnInit, AfterViewInit
   selecionarPaciente(paciente: any) {
     this.pacienteSelecionado = paciente;
     this.formulario.get("paciente")?.setValue(paciente)
+    this.palavraDaPesquisa = this.pacienteSelecionado.nome
     console.log('PacienteSelecionado', this.pacienteSelecionado);
   }
 

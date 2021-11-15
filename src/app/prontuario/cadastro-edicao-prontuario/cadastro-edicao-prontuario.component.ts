@@ -198,6 +198,7 @@ export class CadastroEdicaoProntuarioComponent implements OnInit, AfterViewInit 
 
   public limparCamposFormulario() {
     this.numeroProntuario = ''
+    this.pacienteSelecionado = undefined;
     this.formulario.get("cid")?.setValue('')
     this.formulario.get("cif")?.setValue('')
     this.formulario.get("observacao")?.setValue('')
@@ -250,7 +251,7 @@ export class CadastroEdicaoProntuarioComponent implements OnInit, AfterViewInit 
 
   selecionarPaciente(paciente: any) {
     this.pacienteSelecionado = paciente;
-    console.log('PacienteSelecionado', this.pacienteSelecionado);
+    //console.log('PacienteSelecionado', this.pacienteSelecionado);
     this.criarNumeroProntuario();
   }
 
