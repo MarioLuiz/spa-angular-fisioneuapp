@@ -16,6 +16,7 @@ import { SessionService } from './session.service';
 import { PacienteService } from './paciente.service';
 import { UpdatePacienteService } from './paciente/update-paciente.service';
 import { ProntuarioService } from './prontuario.service';
+import { AtendimentoService } from 'src/app/atendimento.service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -75,7 +76,7 @@ import { PaginaInicialComponent } from './home/pagina-inicial/pagina-inicial.com
     NgxPaginationModule,
     RouterModule.forRoot(ROUTES)
   ],
-  providers: [AutenticacaoService, AutenticacaoGuardService, FisioterapeutaService, SessionService, PacienteService, UpdatePacienteService, ProntuarioService],
+  providers: [AutenticacaoService, AutenticacaoGuardService, FisioterapeutaService, SessionService, PacienteService, UpdatePacienteService, ProntuarioService,AtendimentoService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
