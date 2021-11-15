@@ -15,6 +15,8 @@ import { Sort } from 'src/assets/models/sort.model';
 import { ProntuarioService } from 'src/app/prontuario.service';
 import { Prontuario } from 'src/assets/models/prontuario.model';
 import { UpdateProntuarioService } from 'src/app/prontuario/update-prontuario.service';
+import { AtendimentoService } from 'src/app/atendimento.service';
+import { Atendimento } from 'src/assets/models/atendimento.model';
 
 
 @Component({
@@ -64,8 +66,6 @@ export class CadastroEdicaoAtendimentoComponent implements OnInit, AfterViewInit
   pacientes: any[] = [];
   p: number = 0;
 
-  private userSession: UserSession | undefined;
-
   public formulario: FormGroup = new FormGroup({
     'paciente': new FormControl(null, [Validators.required]),
     'data': new FormControl(null, [Validators.required]),
@@ -78,11 +78,11 @@ export class CadastroEdicaoAtendimentoComponent implements OnInit, AfterViewInit
     private sessionService: SessionService,
     private pacienteService: PacienteService,
     private prontuarioService: ProntuarioService,
-    private updateProntuarioService: UpdateProntuarioService
+    private updateProntuarioService: UpdateProntuarioService,
+    private atendimentoService: AtendimentoService,
   ) { }
 
   ngOnInit(): void {
-    this.userSession = this.sessionService.getUserSession()
     this.prontuario = this.updateProntuarioService.getUpdateProntuario()
     if (this.prontuario) {
       this.updateProntuario = true;
@@ -96,12 +96,19 @@ export class CadastroEdicaoAtendimentoComponent implements OnInit, AfterViewInit
     //this.pesquisa();
   }
 
-  cadastrarProntuario(): void {
+  cadastrarAtendimento(): void {
+
     this.mensagemCadastroRealizado = ''
-
-    let prontuario = new Prontuario('', this.pacienteSelecionado.id, this.formulario.value.numeroProntuario, this.formulario.value.cid, this.formulario.value.cif, this.formulario.value.observacao);
-
-    this.prontuarioService.cadastrarProntuario(prontuario)
+    let atendimento = new Atendimento(
+      '',
+      this.sessionService.getUserSession()?.id ? this.sessionService.getUserSession()?.id : '',
+      this.pacienteSelecionado.id, this.converteDataDiaMesAnoTrocaTracoPorBarra(this.formulario.value.data),
+      this.formulario.value.hora,
+      this.formulario.value.estado,
+      this.formulario.value.relato
+    );
+    //console.log('Atendimento', atendimento);
+    this.atendimentoService.cadastrarAtendimento(atendimento)
       .pipe(
         catchError(err => {
           return throwError(err);
@@ -109,8 +116,8 @@ export class CadastroEdicaoAtendimentoComponent implements OnInit, AfterViewInit
       )
       .subscribe(
         resposta => {
-          console.log('Prontuario criado com sucesso', resposta)
-          this.mensagemCadastroRealizado = 'Prontuario ' + this.formulario.value.numeroProntuario + ' salvo com sucesso'
+          console.log('Atendimento registrado com sucesso', resposta)
+          this.mensagemCadastroRealizado = 'Atendimento registrado com sucesso!'
           this.pesquisa()
           this.limparCamposFormulario()
         },
@@ -158,14 +165,26 @@ export class CadastroEdicaoAtendimentoComponent implements OnInit, AfterViewInit
     //console.log('evento', event)
     this.estadoAnimacaoPainelCadastro = 'void'
     setTimeout(() => {
-      if (this.f.numeroProntuario.invalid && this.f.numeroProntuario.touched) {
+      if (this.f.paciente.invalid && this.f.paciente.touched) {
+        this.estadoAnimacaoPainelCadastro = 'criado'
+      }
+      if (this.f.data.invalid && this.f.data.touched) {
+        this.estadoAnimacaoPainelCadastro = 'criado'
+      }
+      if (this.f.hora.invalid && this.f.hora.touched) {
+        this.estadoAnimacaoPainelCadastro = 'criado'
+      }
+      if (this.f.estado.invalid && this.f.estado.touched) {
+        this.estadoAnimacaoPainelCadastro = 'criado'
+      }
+      if (this.f.relato.invalid && this.f.relato.touched) {
         this.estadoAnimacaoPainelCadastro = 'criado'
       }
     }, 750)
   }
 
   public habilitaBotaoCadastro(): boolean {
-    if (this.f.numeroProntuario.invalid) {
+    if (this.f.paciente.invalid || this.f.data.invalid || this.f.hora.invalid || this.f.estado.invalid || this.f.relato.invalid) {
       this.botaoCadastro = true
     } else {
       this.botaoCadastro = false
@@ -209,7 +228,7 @@ export class CadastroEdicaoAtendimentoComponent implements OnInit, AfterViewInit
 
   pesquisa() {
     //console.log('Termo Pesquisado: ', this.palavraDaPesquisa)
-    this.pacienteService.consultarPacientesSemProntuarioPaginado(this.paginacao, this.palavraDaPesquisa)
+    this.pacienteService.consultarPacientesComProntuarioPaginado(this.paginacao, this.palavraDaPesquisa)
       .pipe(
         catchError(err => {
           return throwError(err);
@@ -252,24 +271,21 @@ export class CadastroEdicaoAtendimentoComponent implements OnInit, AfterViewInit
 
   selecionarPaciente(paciente: any) {
     this.pacienteSelecionado = paciente;
+    this.formulario.get("paciente")?.setValue(paciente)
     console.log('PacienteSelecionado', this.pacienteSelecionado);
-    this.criarNumeroProntuario();
-  }
-
-  criarNumeroProntuario() {
-    let data: Date = new Date();
-    let ano: string = data.getFullYear().toString();
-    let mes: string = (data.getMonth() + 1).toString();
-    let dia: string = data.getDate().toString();
-    let dataAnoMesDia: string = ano + mes + dia;
-    this.numeroProntuario = dataAnoMesDia + this.pacienteSelecionado.id;
-    this.formulario.get("numeroProntuario")?.setValue(this.numeroProntuario)
   }
 
   public retiraHorarioData(dataComHorario: string): string {
     let datas: string[] = dataComHorario.split(' ');
     let data: string = datas[0];
     return data
+  }
+
+  public converteDataDiaMesAnoTrocaTracoPorBarra(dataNaoConvertida: string): string {
+    //(yyyy-mm-dd)
+    let datas: string[] = (dataNaoConvertida).split('-')
+    let dataConvertida = datas[2] + '/' + datas[1] + '/' + datas[0]
+    return dataConvertida //(dd/mm/yyyy)
   }
 
   // conveniente getter para facil acesso dos campos do formulario

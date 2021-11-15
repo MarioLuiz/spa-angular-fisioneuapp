@@ -12,7 +12,7 @@ import { UserSession } from './../assets/models/user-session.model';
 @Injectable({ providedIn: 'root' })
 export class SessionService {
 
-    private userSession: UserSession | undefined
+    private userSession!: UserSession;
 
     constructor() { }
 
