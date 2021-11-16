@@ -28,9 +28,10 @@
                     <thead class="thead-dark">
                         <tr class="text-center">
                             <th scope="col"
-                                class="text-center">Numero</th>
-                            <th scope="col">Data de Cadastro</th>
-                            <th scope="col">Nome Paciente</th>
+                                class="text-center">Data atendimento</th>
+                            <th scope="col">Fisioterapeuta</th>
+                            <th scope="col">Numero Prontuario</th>
+                            <th scope="col">Paciente</th>
                             <th scope="col">CID</th>
                             <th scope="col">CIF</th>
                             <th scope="col"
@@ -38,22 +39,23 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let prontuario of prontuarios | paginate: { itemsPerPage: pageableResponse.size, currentPage: pageableResponse.number , totalItems: pageableResponse.totalElements}"
+                        <tr *ngFor="let atendimento of atendimentos | paginate: { itemsPerPage: pageableResponse.size, currentPage: pageableResponse.number , totalItems: pageableResponse.totalElements}"
                             class="text-center">
-                            <td>{{prontuario.numero}}</td>
-                            <td>{{converteDataDiaMesAno(prontuario.dataCriacao)}}</td>
-                            <td>{{prontuario.paciente.nome}}</td>
-                            <td>{{prontuario.cid ? prontuario.cid : '-'}}</td>
-                            <td>{{prontuario.cif ? prontuario.cif : '-'}}</td>
+                            <td>{{atendimento.data}}</td>
+                            <td>{{atendimento.fisioterapeuta.nome}}</td>
+                            <td>{{atendimento.prontuario.numero}}</td>
+                            <td>{{atendimento.prontuario.paciente.nome}}</td>
+                            <td>{{atendimento.prontuario.paciente.cid ? atendimento.prontuario.paciente.cid : '-'}}</td>
+                            <td>{{atendimento.prontuario.paciente.cif ? atendimento.prontuario.paciente.cif : '-'}}</td>
                             <td class="d-flex justify-content-around">
                                 <button type="button"
                                         class="btn btn-warning btn-sm"
-                                        (click)="alterarProntuario(prontuario)">Alterar</button>
+                                        (click)="alterarProntuario(atendimento)">Alterar</button>
                                 <button type="button"
                                         class="btn btn-info btn-sm"
                                         data-toggle="modal"
                                         data-target="#modalVisualizarAtendimento"
-                                        (click)="guardarProntuarioVisualizar(prontuario)">Visualizar</button>
+                                        (click)="guardarProntuarioVisualizar(atendimento)">Visualizar</button>
                             </td>
                         </tr>
                     </tbody>

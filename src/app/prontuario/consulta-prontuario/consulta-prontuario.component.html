@@ -41,7 +41,7 @@
                         <tr *ngFor="let prontuario of prontuarios | paginate: { itemsPerPage: pageableResponse.size, currentPage: pageableResponse.number , totalItems: pageableResponse.totalElements}"
                             class="text-center">
                             <td>{{prontuario.numero}}</td>
-                            <td>{{converteDataDiaMesAno(prontuario.dataCriacao)}}</td>
+                            <td>{{retiraHorarioData(prontuario.dataCriacao)}}</td>
                             <td>{{prontuario.paciente.nome}}</td>
                             <td>{{prontuario.cid ? prontuario.cid : '-'}}</td>
                             <td>{{prontuario.cif ? prontuario.cif : '-'}}</td>
@@ -92,7 +92,7 @@
                 <p><b>Numero do Prontuário:</b> {{prontuarioVisualizar.numero}}</p>
                 <p><b>Cid:</b> {{prontuarioVisualizar.cid ? prontuarioVisualizar.cid : '- - - - - -'}}</p>
                 <p><b>Cif:</b> {{prontuarioVisualizar.cif ? prontuarioVisualizar.cif : '- - - - - -'}}</p>
-                <p><b>Data de Criação:</b> {{converteDataDiaMesAno(prontuarioVisualizar.dataCriacao)}}</p>
+                <p><b>Data de Criação:</b> {{retiraHorarioData(prontuarioVisualizar.dataCriacao ? prontuarioVisualizar.dataCriacao : ' ')}}</p>
                 <p><b>Observação:</b> "{{prontuarioVisualizar.observacao}}" </p>
                 <hr />
                 <p><b>Paciente:</b> {{pacienteVisualizar.nome}} </p>

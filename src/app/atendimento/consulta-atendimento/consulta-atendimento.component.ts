@@ -2,9 +2,11 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { AtendimentoService } from 'src/app/atendimento.service';
 import { UpdatePacienteService } from 'src/app/paciente/update-paciente.service';
 import { ProntuarioService } from 'src/app/prontuario.service';
 import { UpdateProntuarioService } from 'src/app/prontuario/update-prontuario.service';
+import { Atendimento } from 'src/assets/models/atendimento.model';
 import { Paciente } from 'src/assets/models/paciente.model';
 import { Pageable } from 'src/assets/models/pageable.model';
 import { PageableResponse } from 'src/assets/models/pageableResponse.model';
@@ -24,20 +26,22 @@ export class ConsultaAtendimentoComponent implements OnInit, AfterViewInit {
   palavraDaPesquisa: string = '';
   pageable: Pageable = new Pageable(0, 0, 8, true, new Sort(false, true, false), false);
   mensagensErroConsulta: string[] = [];
-  paginacao: Paginacao = new Paginacao(0, 8, 'dataCriacao', 'ASC');
+  paginacao: Paginacao = new Paginacao(0, 8, 'data', 'ASC');
   paciente: Paciente | undefined;
   prontuario: Prontuario | undefined;
+  atendimento: Atendimento | undefined;
   prontuarioVisualizar: any = new Prontuario('', '', '', '', '', '')
   pacienteVisualizar: Paciente = new Paciente('', '', '', '', '', '', '')
 
   pacientes: any[] = [];
   prontuarios: any[] = [];
+  atendimentos: any[] = [];
   p: number = 0;
 
   constructor(
-    private updatePacienteService: UpdatePacienteService,
     private prontuarioService: ProntuarioService,
     private updateProntuarioService: UpdateProntuarioService,
+    private atendimentoService: AtendimentoService,
     private router: Router
   ) { }
 
@@ -52,7 +56,7 @@ export class ConsultaAtendimentoComponent implements OnInit, AfterViewInit {
 
   pesquisa() {
     //console.log('Termo Pesquisado: ', this.palavraDaPesquisa)
-    this.prontuarioService.consultarProntuariosPaginado(this.paginacao, this.palavraDaPesquisa)
+    this.atendimentoService.consultarAtendimentosPorNomePacientePaginado(this.paginacao, this.palavraDaPesquisa)
       .pipe(
         catchError(err => {
           return throwError(err);
@@ -77,7 +81,8 @@ export class ConsultaAtendimentoComponent implements OnInit, AfterViewInit {
 
   validaCamposPaginacao() {
     if (this.pageableResponse.content) {
-      this.prontuarios = this.pageableResponse.content
+      this.atendimentos = this.pageableResponse.content
+      console.log('Atendimentos: ', this.atendimentos)
     }
     if (this.pageableResponse.pageable) {
       this.pageable = this.pageableResponse.pageable
