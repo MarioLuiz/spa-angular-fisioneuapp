@@ -47,13 +47,13 @@
                             <td>{{prontuario.cif ? prontuario.cif : '-'}}</td>
                             <td class="d-flex justify-content-around">
                                 <button type="button"
+                                        class="btn btn-warning btn-sm"
+                                        (click)="alterarProntuario(prontuario)">Alterar</button>
+                                <button type="button"
                                         class="btn btn-info btn-sm"
                                         data-toggle="modal"
                                         data-target="#modalVisualizarAtendimento"
                                         (click)="guardarProntuarioVisualizar(prontuario)">Visualizar</button>
-                                <button type="button"
-                                        class="btn btn-warning btn-sm"
-                                        (click)="alterarProntuario(prontuario)">Alterar</button>
                             </td>
                         </tr>
                     </tbody>
