@@ -5,14 +5,14 @@
              [@animacao-painel]="estadoAnimacaoPainelCadastro"
              (click)="onCardChange($event)">
             <div class="card-title d-flex justify-content-center mt-1"
-                 *ngIf="!updateProntuario">
+                 *ngIf="!updateAtendimento">
                 <b>
                     <h3>Registrar Atendimento</h3>
                 </b>
             </div>
 
             <div class="card-title d-flex justify-content-center mt-1"
-                 *ngIf="updateProntuario">
+                 *ngIf="updateAtendimento">
                 <b>
                     <h3>Atualizar Atendimento</h3>
                 </b>
@@ -22,7 +22,7 @@
                   (keyup)="onCardChange($event)">
 
                 <div class="form-group col-12"
-                     *ngIf="!updateProntuario">
+                     *ngIf="!updateAtendimento">
                     <small class="form-text mb-1" *ngIf="!pacienteSelecionado"><b>Paciente:</b> * Selecione e/ou pesquise um paciente</small>
                     <h5 class="form-text mb-1" *ngIf="pacienteSelecionado"><b>Paciente selecionado:</b> {{pacienteSelecionado.nome}}</h5>
                     <div>
@@ -125,13 +125,13 @@
                 <button type="submit"
                         class="btn btn-primary btn-sm btn-block"
                         [disabled]="habilitaBotaoCadastro()"
-                        *ngIf="!updateProntuario"
+                        *ngIf="!updateAtendimento"
                         (click)="cadastrarAtendimento()">Registrar atendimento</button>
 
                 <button type="submit"
                         class="btn btn-primary btn-sm btn-block"
                         [disabled]="habilitaBotaoCadastro()"
-                        *ngIf="updateProntuario"
+                        *ngIf="updateAtendimento"
                         (click)="atualizarProntuario()">Atualizar cadastro Prontuario</button>
                 <p class="small text-danger text-center pt-3"
                    *ngFor="let mensagem of mensagensErroRegistro">{{mensagem}}</p>
@@ -145,7 +145,7 @@
             <button type="button"
                     class="m-1 btn btn-secondary btn-sm"
                     (click)="cancelarAtualizacaoCadastro()"
-                    *ngIf="updateProntuario">Cancelar atualização de Prontuário</button>
+                    *ngIf="updateAtendimento">Cancelar atualização do Atendimento</button>
         </div>
     </div>
     <br />

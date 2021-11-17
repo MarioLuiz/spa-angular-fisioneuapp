@@ -3,9 +3,6 @@ import { Router } from '@angular/router';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { AtendimentoService } from 'src/app/atendimento.service';
-import { UpdatePacienteService } from 'src/app/paciente/update-paciente.service';
-import { ProntuarioService } from 'src/app/prontuario.service';
-import { UpdateProntuarioService } from 'src/app/prontuario/update-prontuario.service';
 import { Atendimento } from 'src/assets/models/atendimento.model';
 import { Paciente } from 'src/assets/models/paciente.model';
 import { Pageable } from 'src/assets/models/pageable.model';
@@ -13,6 +10,7 @@ import { PageableResponse } from 'src/assets/models/pageableResponse.model';
 import { Paginacao } from 'src/assets/models/paginacao.model';
 import { Prontuario } from 'src/assets/models/prontuario.model';
 import { Sort } from 'src/assets/models/sort.model';
+import { UpdateAtendimentoService } from '../update-atendimento.service';
 
 
 @Component({
@@ -28,20 +26,16 @@ export class ConsultaAtendimentoComponent implements OnInit, AfterViewInit {
   mensagensErroConsulta: string[] = [];
   paginacao: Paginacao = new Paginacao(0, 8, 'data', 'ASC');
   paciente: Paciente | undefined;
-  prontuario: Prontuario | undefined;
   atendimento: Atendimento | undefined;
   prontuarioVisualizar: any = new Prontuario('', '', '', '', '', '')
   pacienteVisualizar: Paciente = new Paciente('', '', '', '', '', '', '')
   atendimentoVisualizar: any
 
-  pacientes: any[] = [];
-  prontuarios: any[] = [];
   atendimentos: any[] = [];
   p: number = 0;
 
   constructor(
-    private prontuarioService: ProntuarioService,
-    private updateProntuarioService: UpdateProntuarioService,
+    private updateAtendimentoService: UpdateAtendimentoService,
     private atendimentoService: AtendimentoService,
     private router: Router
   ) { }
@@ -66,7 +60,7 @@ export class ConsultaAtendimentoComponent implements OnInit, AfterViewInit {
       .subscribe(
         resposta => {
           this.pageableResponse = resposta.body
-          //console.log('Prontuarios', resposta.body)
+          //console.log('Atendimentos', resposta.body)
           this.validaCamposPaginacao()
         },
         (err: any) => {
@@ -100,18 +94,29 @@ export class ConsultaAtendimentoComponent implements OnInit, AfterViewInit {
   }
 
   alterarAtendimento(atendimento: any) {
-    //console.log('Prontuario: ', prontuario)
-    this.prontuario = new Prontuario(atendimento.id, atendimento.paciente.id, atendimento.numero, atendimento.cid, atendimento.cif, atendimento.observacao);
-    this.prontuario.paciente = atendimento.paciente;
-    //console.log('Prontuario: ', this.prontuario)
-    this.updateProntuarioService.setUpdateProntuario(this.prontuario)
-    //console.log('UpdateProntuario: ', this.updateProntuarioService.getUpdateProntuario())
-    this.router.navigate(['fisio/cadastrar-editar-prontuario'])
+    //console.log('atendimento: ', atendimento)
+    let dataHora: string[] = atendimento.data.split(' ');
+    let data = dataHora[0];
+    let hora = dataHora[1];
+    this.atendimento = new Atendimento(atendimento.id, atendimento.fisioterapeuta.id, atendimento.prontuario.paciente.id, data, hora, atendimento.estadoPaciente, atendimento.relatoAtendimento);
+    this.paciente = new Paciente(
+      atendimento.prontuario.paciente.id,
+      atendimento.fisioterapeuta.id,
+      atendimento.prontuario.paciente.nome,
+      atendimento.prontuario.paciente.email,
+      atendimento.prontuario.paciente.telefone,
+      atendimento.prontuario.paciente.cpf,
+      atendimento.prontuario.paciente.dataNascimento);
+    //console.log('Atendimento: ', this.atendimento)
+    this.updateAtendimentoService.setUpdateAtendimento(this.atendimento);
+    this.updateAtendimentoService.setUpdatePaciente(this.paciente);
+    //console.log('UpdateAtendimento: ', this.updateAtendimentoService.getUpdateAtendimento());
+    //console.log('UpdatePaciente: ', this.updateAtendimentoService.getUpdatePaciente());
+    this.router.navigate(['fisio/cadastrar-editar-atendimento'])
   }
 
   public guardarAtendimentoVisualizar(atendimentoVisualizar: any) {
     this.atendimentoVisualizar = atendimentoVisualizar;
-    this.pacienteVisualizar = this.prontuarioVisualizar.paciente
     //console.log('Prontuario visualizar: ', this.prontuarioVisualizar);
   }
 

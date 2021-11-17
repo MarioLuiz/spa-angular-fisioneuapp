@@ -17,6 +17,7 @@ import { Prontuario } from 'src/assets/models/prontuario.model';
 import { UpdateProntuarioService } from 'src/app/prontuario/update-prontuario.service';
 import { AtendimentoService } from 'src/app/atendimento.service';
 import { Atendimento } from 'src/assets/models/atendimento.model';
+import { UpdateAtendimentoService } from '../update-atendimento.service';
 
 
 @Component({
@@ -53,7 +54,8 @@ export class CadastroEdicaoAtendimentoComponent implements OnInit, AfterViewInit
   public mensagemCadastroRealizado: string = '';
   public paciente: Paciente | undefined;
   public prontuario: Prontuario | undefined;
-  public updateProntuario: boolean = false;
+  public atendimento: Atendimento | undefined;
+  public updateAtendimento: boolean = false;
   public numeroProntuario: string = ''
   public pacienteSelecionado: any;
 
@@ -78,15 +80,17 @@ export class CadastroEdicaoAtendimentoComponent implements OnInit, AfterViewInit
     private sessionService: SessionService,
     private pacienteService: PacienteService,
     private prontuarioService: ProntuarioService,
-    private updateProntuarioService: UpdateProntuarioService,
+    private updateAtendimentoService: UpdateAtendimentoService,
     private atendimentoService: AtendimentoService,
   ) { }
 
   ngOnInit(): void {
-    this.prontuario = this.updateProntuarioService.getUpdateProntuario()
-    if (this.prontuario) {
-      this.updateProntuario = true;
-      console.log('this.prontuario: ', this.prontuario)
+    this.atendimento = this.updateAtendimentoService.getUpdateAtendimento();
+    if (this.atendimento) {
+      this.updateAtendimento = true;
+      this.pacienteSelecionado = this.updateAtendimentoService.getUpdatePaciente();
+      //console.log('this.atendimento: ', this.atendimento)
+      //console.log('this.paciente: ', this.paciente)
       this.atualizarCamposFormulario()
     }
     this.pesquisa();
@@ -212,8 +216,8 @@ export class CadastroEdicaoAtendimentoComponent implements OnInit, AfterViewInit
   }
 
   public cancelarAtualizacaoCadastro() {
-    this.updateProntuario = false;
-    this.updateProntuarioService.cleanUpdateProntuario();
+    this.updateAtendimento = false;
+    this.updateAtendimentoService.cleanUpdate();
     this.limparCamposFormulario();
   }
 
