@@ -50,12 +50,12 @@
                             <td class="d-flex justify-content-around">
                                 <button type="button"
                                         class="btn btn-warning btn-sm"
-                                        (click)="alterarProntuario(atendimento)">Alterar</button>
+                                        (click)="alterarAtendimento(atendimento)">Alterar</button>
                                 <button type="button"
                                         class="btn btn-info btn-sm"
                                         data-toggle="modal"
                                         data-target="#modalVisualizarAtendimento"
-                                        (click)="guardarProntuarioVisualizar(atendimento)">Visualizar</button>
+                                        (click)="guardarAtendimentoVisualizar(atendimento)">Visualizar</button>
                             </td>
                         </tr>
                     </tbody>
@@ -77,13 +77,13 @@
      id="modalVisualizarAtendimento"
      tabindex="-1"
      aria-labelledby="modalVisualizarAtendimento"
-     aria-hidden="true">
+     aria-hidden="true"
+     *ngIf="atendimentoVisualizar">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title"
-                    id="modalExcluirPacienteLabel">Prontuário: {{prontuarioVisualizar.numero ?
-                    prontuarioVisualizar.numero : ''}}</h5>
+                <h5 class="modal-title text-center"
+                    id="modalExcluirPacienteLabel">Fisioterapeuta responsavél pelo atendimento: {{atendimentoVisualizar.fisioterapeuta.nome}}</h5>
                 <button type="button"
                         class="close"
                         data-dismiss="modal"
@@ -92,18 +92,18 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p><b>Numero do Prontuário:</b> {{prontuarioVisualizar.numero}}</p>
-                <p><b>Cid:</b> {{prontuarioVisualizar.cid ? prontuarioVisualizar.cid : '- - - - - -'}}</p>
-                <p><b>Cif:</b> {{prontuarioVisualizar.cif ? prontuarioVisualizar.cif : '- - - - - -'}}</p>
-                <p><b>Data de Criação:</b> {{converteDataDiaMesAno(prontuarioVisualizar.dataCriacao)}}</p>
-                <p><b>Observação:</b> "{{prontuarioVisualizar.observacao}}" </p>
+                <p><b>Paciente:</b> {{atendimentoVisualizar.prontuario.paciente.nome}} </p>
+                <p><b>Data de Nascimento:</b> {{retiraHorarioData(atendimentoVisualizar.prontuario.paciente.dataNascimento ?
+                    atendimentoVisualizar.prontuario.paciente.dataNascimento : ' ')}} </p>
+                <p><b>Estado do paciente:</b> {{atendimentoVisualizar.estadoPaciente}} </p>
+                <p><b>Relato do atendimento:</b> {{atendimentoVisualizar.relatoAtendimento}} </p>
+                <p><b>Data/Hora do atendimento:</b> {{atendimentoVisualizar.data}} </p>
                 <hr />
-                <p><b>Paciente:</b> {{pacienteVisualizar.nome}} </p>
-                <p><b>Cpf:</b> {{validaCampo(pacienteVisualizar.cpf)}} </p>
-                <p><b>Data de Nascimento:</b> {{retiraHorarioData(pacienteVisualizar.dataNascimento ?
-                    pacienteVisualizar.dataNascimento : ' ')}} </p>
-                <p><b>Telefone:</b> {{validaCampo(pacienteVisualizar.telefone)}} </p>
-                <p><b>E-mail:</b> {{validaCampo(pacienteVisualizar.email)}} </p>
+                <p><b>Numero do Prontuário:</b> {{atendimentoVisualizar.prontuario.numero}}</p>
+                <p><b>Cid:</b> {{atendimentoVisualizar.prontuario.cid ? atendimentoVisualizar.prontuario.cid : '- - - - - -'}}</p>
+                <p><b>Cif:</b> {{atendimentoVisualizar.prontuario.cif ? atendimentoVisualizar.prontuario.cif : '- - - - - -'}}</p>
+                <p><b>Observação Prontuário:</b> "{{atendimentoVisualizar.prontuario.observacao}}" </p>
+                <hr />
             </div>
             <div class="modal-footer">
                 <button type="button"

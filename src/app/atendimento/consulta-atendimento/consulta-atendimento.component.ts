@@ -32,6 +32,7 @@ export class ConsultaAtendimentoComponent implements OnInit, AfterViewInit {
   atendimento: Atendimento | undefined;
   prontuarioVisualizar: any = new Prontuario('', '', '', '', '', '')
   pacienteVisualizar: Paciente = new Paciente('', '', '', '', '', '', '')
+  atendimentoVisualizar: any
 
   pacientes: any[] = [];
   prontuarios: any[] = [];
@@ -98,18 +99,18 @@ export class ConsultaAtendimentoComponent implements OnInit, AfterViewInit {
     this.pesquisa()
   }
 
-  alterarProntuario(prontuario: any) {
+  alterarAtendimento(atendimento: any) {
     //console.log('Prontuario: ', prontuario)
-    this.prontuario = new Prontuario(prontuario.id, prontuario.paciente.id, prontuario.numero, prontuario.cid, prontuario.cif, prontuario.observacao);
-    this.prontuario.paciente = prontuario.paciente;
+    this.prontuario = new Prontuario(atendimento.id, atendimento.paciente.id, atendimento.numero, atendimento.cid, atendimento.cif, atendimento.observacao);
+    this.prontuario.paciente = atendimento.paciente;
     //console.log('Prontuario: ', this.prontuario)
     this.updateProntuarioService.setUpdateProntuario(this.prontuario)
     //console.log('UpdateProntuario: ', this.updateProntuarioService.getUpdateProntuario())
     this.router.navigate(['fisio/cadastrar-editar-prontuario'])
   }
 
-  public guardarProntuarioVisualizar(prontuarioVisualizar: Prontuario) {
-    this.prontuarioVisualizar = prontuarioVisualizar;
+  public guardarAtendimentoVisualizar(atendimentoVisualizar: any) {
+    this.atendimentoVisualizar = atendimentoVisualizar;
     this.pacienteVisualizar = this.prontuarioVisualizar.paciente
     //console.log('Prontuario visualizar: ', this.prontuarioVisualizar);
   }
