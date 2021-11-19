@@ -21,8 +21,7 @@
             <form [formGroup]="formulario"
                   (keyup)="onCardChange($event)">
 
-                <div class="form-group col-12"
-                     *ngIf="!updateAtendimento">
+                <div class="form-group col-12">
                     <small class="form-text mb-1" *ngIf="!pacienteSelecionado"><b>Paciente:</b> * Selecione e/ou pesquise um paciente</small>
                     <h5 class="form-text mb-1" *ngIf="pacienteSelecionado"><b>Paciente selecionado:</b> {{pacienteSelecionado.nome}}</h5>
                     <div>
@@ -132,7 +131,7 @@
                         class="btn btn-primary btn-sm btn-block"
                         [disabled]="habilitaBotaoCadastro()"
                         *ngIf="updateAtendimento"
-                        (click)="atualizarProntuario()">Atualizar cadastro Prontuario</button>
+                        (click)="atualizarAtendimento()">Atualizar registro do atendimento</button>
                 <p class="small text-danger text-center pt-3"
                    *ngFor="let mensagem of mensagensErroRegistro">{{mensagem}}</p>
             </form>
@@ -145,7 +144,7 @@
             <button type="button"
                     class="m-1 btn btn-secondary btn-sm"
                     (click)="cancelarAtualizacaoCadastro()"
-                    *ngIf="updateAtendimento">Cancelar atualização do Atendimento</button>
+                    *ngIf="updateAtendimento">Cancelar atualização do atendimento</button>
         </div>
     </div>
     <br />

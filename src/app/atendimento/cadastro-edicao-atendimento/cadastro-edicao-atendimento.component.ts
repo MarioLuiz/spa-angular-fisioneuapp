@@ -89,7 +89,7 @@ export class CadastroEdicaoAtendimentoComponent implements OnInit, AfterViewInit
     if (this.atendimento) {
       this.updateAtendimento = true;
       this.pacienteSelecionado = this.updateAtendimentoService.getUpdatePaciente();
-      //console.log('this.atendimento: ', this.atendimento)
+      console.log('this.atendimento: ', this.atendimento)
       //console.log('this.paciente: ', this.paciente)
       this.atualizarCamposFormulario()
     }
@@ -136,14 +136,20 @@ export class CadastroEdicaoAtendimentoComponent implements OnInit, AfterViewInit
       )
   }
 
-  atualizarProntuario(): void {
+  atualizarAtendimento(): void {
     this.mensagemCadastroRealizado = ''
 
-    let prontuario: Prontuario = new Prontuario(
-      this.prontuario?.id ? this.prontuario.id : '', '', '', this.formulario.value.cid, this.formulario.value.cif, this.formulario.value.observacao
+    let atendimento = new Atendimento(
+      this.atendimento?.id ? this.atendimento?.id : '',
+      this.atendimento?.fisioterapeutaId ? this.atendimento?.fisioterapeutaId : '',
+      this.pacienteSelecionado.id,
+      this.converteDataDiaMesAnoTrocaTracoPorBarra(this.formulario.value.data),
+      this.formulario.value.hora,
+      this.formulario.value.estado,
+      this.formulario.value.relato
     );
-    //console.log('Prontuario: ', prontuario)
-    this.prontuarioService.atualizarProntuario(prontuario)
+    //console.log('Atendimento: ', atendimento)
+    this.atendimentoService.atualizarAtendimento(atendimento)
       .pipe(
         catchError(err => {
           return throwError(err);
@@ -151,8 +157,8 @@ export class CadastroEdicaoAtendimentoComponent implements OnInit, AfterViewInit
       )
       .subscribe(
         resposta => {
-          console.log('Prontuario atualizado com sucesso', resposta)
-          this.mensagemCadastroRealizado = 'Prontuario ' + this.formulario.value.numeroProntuario + ' atualizado com sucesso'
+          console.log('Atendimento atualizado com sucesso', resposta)
+          this.mensagemCadastroRealizado = 'Atendimento do paciente' + this.pacienteSelecionado.nome + ' atualizado com sucesso'
         },
         (err: any) => {
           console.log('Erro ao atualizar Prontuario: ', err)
@@ -197,11 +203,12 @@ export class CadastroEdicaoAtendimentoComponent implements OnInit, AfterViewInit
   }
 
   public atualizarCamposFormulario(): void {
-    this.numeroProntuario = this.prontuario?.numero ? this.prontuario?.numero : ''
-    this.formulario.get("cid")?.setValue(this.prontuario?.cid)
-    this.formulario.get("cif")?.setValue(this.prontuario?.cif)
-    this.formulario.get("observacao")?.setValue(this.prontuario?.observacao)
-    this.formulario.get("numeroProntuario")?.setValue(this.numeroProntuario)
+    // this.atendimento 
+    this.formulario.get("paciente")?.setValue(this.pacienteSelecionado)
+    this.formulario.get("data")?.setValue(this.conversorData(this.atendimento?.data ? this.atendimento?.data : ''));
+    this.formulario.get("hora")?.setValue(this.atendimento?.hora)
+    this.formulario.get("estado")?.setValue(this.atendimento?.estado)
+    this.formulario.get("relato")?.setValue(this.atendimento?.relato)
     this.formulario.markAllAsTouched()
     //console.log('Formulario', this.formulario)
   }
@@ -222,11 +229,12 @@ export class CadastroEdicaoAtendimentoComponent implements OnInit, AfterViewInit
   }
 
   public limparCamposFormulario() {
-    this.numeroProntuario = ''
-    this.formulario.get("cid")?.setValue('')
-    this.formulario.get("cif")?.setValue('')
-    this.formulario.get("observacao")?.setValue('')
-    this.formulario.get("numero")?.setValue('')
+    this.pacienteSelecionado = undefined
+    this.formulario.get("paciente")?.setValue('')
+    this.formulario.get("data")?.setValue('')
+    this.formulario.get("hora")?.setValue('')
+    this.formulario.get("estado")?.setValue('')
+    this.formulario.get("relato")?.setValue('')
     this.formulario.markAsUntouched();
   }
 
