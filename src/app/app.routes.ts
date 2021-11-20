@@ -11,6 +11,8 @@ import { CadastroEdicaoProntuarioComponent } from "./prontuario/cadastro-edicao-
 import { ConsultaProntuarioComponent } from "./prontuario/consulta-prontuario/consulta-prontuario.component";
 import { CadastroEdicaoAtendimentoComponent } from "./atendimento/cadastro-edicao-atendimento/cadastro-edicao-atendimento.component";
 import { ConsultaAtendimentoComponent } from "./atendimento/consulta-atendimento/consulta-atendimento.component";
+import { RelatorioAtendimentoComponent } from './relatorio/relatorio-atendimento/relatorio-atendimento.component';
+import { RelatorioPacienteComponent } from './relatorio/relatorio-paciente/relatorio-paciente.component';
 
 export const ROUTES: Routes = [
     { path: '', component: AcessoComponent },
@@ -25,7 +27,9 @@ export const ROUTES: Routes = [
             { path: 'cadastrar-editar-prontuario', component: CadastroEdicaoProntuarioComponent, canActivate: [AutenticacaoGuardService] },
             { path: 'consultar-prontuarios', component: ConsultaProntuarioComponent, canActivate: [AutenticacaoGuardService] },
             { path: 'cadastrar-editar-atendimento', component: CadastroEdicaoAtendimentoComponent, canActivate: [AutenticacaoGuardService] },
-            { path: 'consultar-atendimentos', component: ConsultaAtendimentoComponent, canActivate: [AutenticacaoGuardService] }
+            { path: 'consultar-atendimentos', component: ConsultaAtendimentoComponent, canActivate: [AutenticacaoGuardService] },
+            { path: 'consultar-relatorio-atendimentos', component: RelatorioAtendimentoComponent, canActivate: [AutenticacaoGuardService] },
+            { path: 'consultar-relatorio-pacientes', component: RelatorioPacienteComponent, canActivate: [AutenticacaoGuardService] }
         ]
     }
 ]
