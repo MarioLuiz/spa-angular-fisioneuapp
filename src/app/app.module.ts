@@ -40,6 +40,7 @@ import { CadastroEdicaoAtendimentoComponent } from './atendimento/cadastro-edica
 import { ConsultaAtendimentoComponent } from './atendimento/consulta-atendimento/consulta-atendimento.component';
 import { PaginaInicialComponent } from './home/pagina-inicial/pagina-inicial.component';
 import { RelatorioComponent } from './relatorio/relatorio.component';
+import { RelatorioAtendimentoComponent } from './relatorio/relatorio-atendimento/relatorio-atendimento.component';
 
 @NgModule({
   declarations: [
@@ -62,7 +63,8 @@ import { RelatorioComponent } from './relatorio/relatorio.component';
     CadastroEdicaoAtendimentoComponent,
     ConsultaAtendimentoComponent,
     PaginaInicialComponent,
-    RelatorioComponent
+    RelatorioComponent,
+    RelatorioAtendimentoComponent
   ],
   imports: [
     BrowserModule,
