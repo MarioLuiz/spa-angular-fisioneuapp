@@ -39,6 +39,7 @@ import { AtendimentoComponent } from './atendimento/atendimento.component';
 import { CadastroEdicaoAtendimentoComponent } from './atendimento/cadastro-edicao-atendimento/cadastro-edicao-atendimento.component';
 import { ConsultaAtendimentoComponent } from './atendimento/consulta-atendimento/consulta-atendimento.component';
 import { PaginaInicialComponent } from './home/pagina-inicial/pagina-inicial.component';
+import { RelatorioComponent } from './relatorio/relatorio.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import { PaginaInicialComponent } from './home/pagina-inicial/pagina-inicial.com
     AtendimentoComponent,
     CadastroEdicaoAtendimentoComponent,
     ConsultaAtendimentoComponent,
-    PaginaInicialComponent
+    PaginaInicialComponent,
+    RelatorioComponent
   ],
   imports: [
     BrowserModule,
