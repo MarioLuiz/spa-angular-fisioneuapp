@@ -41,6 +41,7 @@ import { ConsultaAtendimentoComponent } from './atendimento/consulta-atendimento
 import { PaginaInicialComponent } from './home/pagina-inicial/pagina-inicial.component';
 import { RelatorioComponent } from './relatorio/relatorio.component';
 import { RelatorioAtendimentoComponent } from './relatorio/relatorio-atendimento/relatorio-atendimento.component';
+import { RelatorioPacienteComponent } from './relatorio/relatorio-paciente/relatorio-paciente.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import { RelatorioAtendimentoComponent } from './relatorio/relatorio-atendimento
     ConsultaAtendimentoComponent,
     PaginaInicialComponent,
     RelatorioComponent,
-    RelatorioAtendimentoComponent
+    RelatorioAtendimentoComponent,
+    RelatorioPacienteComponent
   ],
   imports: [
     BrowserModule,
