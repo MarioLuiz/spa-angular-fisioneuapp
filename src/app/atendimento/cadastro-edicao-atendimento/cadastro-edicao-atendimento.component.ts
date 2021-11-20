@@ -52,11 +52,8 @@ export class CadastroEdicaoAtendimentoComponent implements OnInit, AfterViewInit
   public estadoAnimacaoPainelCadastro: string = 'void';
   public botaoCadastro: boolean = false;
   public mensagemCadastroRealizado: string = '';
-  public paciente: Paciente | undefined;
-  public prontuario: Prontuario | undefined;
   public atendimento: Atendimento | undefined;
   public updateAtendimento: boolean = false;
-  public numeroProntuario: string = ''
   public pacienteSelecionado: any;
 
   paginacao: Paginacao = new Paginacao(0, 5, 'nome', 'ASC');
@@ -79,7 +76,6 @@ export class CadastroEdicaoAtendimentoComponent implements OnInit, AfterViewInit
   constructor(
     private sessionService: SessionService,
     private pacienteService: PacienteService,
-    private prontuarioService: ProntuarioService,
     private updateAtendimentoService: UpdateAtendimentoService,
     private atendimentoService: AtendimentoService,
   ) { }
@@ -158,7 +154,7 @@ export class CadastroEdicaoAtendimentoComponent implements OnInit, AfterViewInit
       .subscribe(
         resposta => {
           console.log('Atendimento atualizado com sucesso', resposta)
-          this.mensagemCadastroRealizado = 'Atendimento do paciente' + this.pacienteSelecionado.nome + ' atualizado com sucesso'
+          this.mensagemCadastroRealizado = 'Atendimento do paciente ' + this.pacienteSelecionado.nome + ' atualizado com sucesso'
         },
         (err: any) => {
           console.log('Erro ao atualizar Prontuario: ', err)
