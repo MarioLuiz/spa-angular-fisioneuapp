@@ -4,17 +4,12 @@ import { animate, keyframes, state, style, transition, trigger } from '@angular/
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs/internal/observable/throwError';
 
-import { UserSession } from 'src/assets/models/user-session.model';
 import { SessionService } from 'src/app/session.service';
 import { PacienteService } from 'src/app/paciente.service';
-import { Paciente } from 'src/assets/models/paciente.model';
 import { Paginacao } from 'src/assets/models/paginacao.model';
 import { PageableResponse } from 'src/assets/models/pageableResponse.model';
 import { Pageable } from 'src/assets/models/pageable.model';
 import { Sort } from 'src/assets/models/sort.model';
-import { ProntuarioService } from 'src/app/prontuario.service';
-import { Prontuario } from 'src/assets/models/prontuario.model';
-import { UpdateProntuarioService } from 'src/app/prontuario/update-prontuario.service';
 import { AtendimentoService } from 'src/app/atendimento.service';
 import { Atendimento } from 'src/assets/models/atendimento.model';
 import { UpdateAtendimentoService } from '../update-atendimento.service';

@@ -22,8 +22,10 @@
                   (keyup)="onCardChange($event)">
 
                 <div class="form-group col-12">
-                    <small class="form-text mb-1" *ngIf="!pacienteSelecionado"><b>Paciente:</b> * Selecione e/ou pesquise um paciente</small>
-                    <h5 class="form-text mb-1" *ngIf="pacienteSelecionado"><b>Paciente selecionado:</b> {{pacienteSelecionado.nome}}</h5>
+                    <small class="form-text mb-1"
+                           *ngIf="!pacienteSelecionado"><b>Paciente:</b> * Selecione e/ou pesquise um paciente</small>
+                    <h5 class="form-text mb-1"
+                        *ngIf="pacienteSelecionado"><b>Paciente selecionado:</b> {{pacienteSelecionado.nome}}</h5>
                     <div>
                         <form class="form-inline mt-2 d-flex justify-content-between">
                             <input class="form-control mr-sm-2"
@@ -72,33 +74,34 @@
                 </div>
 
                 <div class="d-flex">
-                <div class="form-group col-6">
-                    <small class="form-text mb-1"><b>Data: </b> ( Data da realização do atendimento )</small>
-                    <input type="date"
-                           class="form-control"
-                           placeholder="Data"
-                           formControlName="data">
-                    <small *ngIf="f.data.valid && f.data.touched"
-                           class="form-text text-success">Ok</small>
-                    <small *ngIf="f.data.invalid && f.data.touched"
-                           class="form-text text-danger">Data inválida</small>
-                </div>
+                    <div class="form-group col-6">
+                        <small class="form-text mb-1"><b>Data: </b> ( Data da realização do atendimento )</small>
+                        <input type="date"
+                               class="form-control"
+                               placeholder="Data"
+                               formControlName="data">
+                        <small *ngIf="f.data.valid && f.data.touched"
+                               class="form-text text-success">Ok</small>
+                        <small *ngIf="f.data.invalid && f.data.touched"
+                               class="form-text text-danger">Data inválida</small>
+                    </div>
 
-                <div class="form-group col-6">
-                    <small class="form-text mb-1"><b>Hora: </b> ( Horário da realização do atendimento )</small>
-                    <input type="time"
-                           class="form-control"
-                           placeholder=""
-                           formControlName="hora">
-                    <small *ngIf="f.hora.valid && f.hora.touched"
-                           class="form-text text-success">Ok</small>
-                    <small *ngIf="f.hora.invalid && f.hora.touched"
-                           class="form-text text-danger">Hora inválida</small>
-                </div>
+                    <div class="form-group col-6">
+                        <small class="form-text mb-1"><b>Hora: </b> ( Horário da realização do atendimento )</small>
+                        <input type="time"
+                               class="form-control"
+                               placeholder=""
+                               formControlName="hora">
+                        <small *ngIf="f.hora.valid && f.hora.touched"
+                               class="form-text text-success">Ok</small>
+                        <small *ngIf="f.hora.invalid && f.hora.touched"
+                               class="form-text text-danger">Hora inválida</small>
+                    </div>
                 </div>
 
                 <div class="form-group col-12">
-                    <small class="form-text mb-1"><b>Estado do Paciente: </b> ( Descreva o estado fisico em que o paciente se encontra )</small>
+                    <small class="form-text mb-1"><b>Estado do Paciente: </b> ( Descreva o estado fisico em que o
+                        paciente se encontra )</small>
                     <input type="text"
                            class="form-control"
                            placeholder="Estado do paciente"
