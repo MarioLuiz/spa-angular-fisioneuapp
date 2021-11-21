@@ -1,1 +1,86 @@
-<p>relatorio-atendimento works!</p>
+<div class="d-flex justify-content-center">
+    <div class="card col-10">
+        <b class="card-title d-flex justify-content-center mt-1">
+            <h3>Relatório de atendimentos</h3>
+        </b>
+        <div class="card-body col-12 d-flex">
+            <div class="card col-12 m-0">
+                <div class="card-body col-12">
+                    <b class="card-title d-flex justify-content-center mt-1">
+                        <h5>- Filtros -</h5>
+                    </b>
+                    <form [formGroup]="formulario"
+                          (click)="onCardChange($event)"
+                          [@animacao-painel]="estadoAnimacaoPainelRelatorioAtendimento">
+                        <div class="d-flex">
+                            <div class="form-group col-1"></div>
+                            <div class="form-group m-2 col-5">
+                                <small class="form-text mb-1"><b>Data inicial: </b> ( Data inicial da realização do
+                                    atendimento )</small>
+                                <input type="date"
+                                       class="form-control text-center"
+                                       placeholder="Data"
+                                       formControlName="atendimentoDataInicial">
+                                <small *ngIf="f.atendimentoDataInicial.valid && f.atendimentoDataInicial.touched"
+                                       class="form-text text-success text-center">Ok</small>
+                                <small *ngIf="f.atendimentoDataInicial.invalid && f.atendimentoDataInicial.touched"
+                                       class="form-text text-danger text-center">Data inválida</small>
+                            </div>
+
+                            <div class="form-group m-2 col-5">
+                                <small class="form-text mb-1"><b>Data final: </b> ( Data final da realização do
+                                    atendimento )</small>
+                                <input type="date"
+                                       class="form-control text-center"
+                                       placeholder="Data"
+                                       formControlName="atendimentoDataFinal">
+                                <small *ngIf="f.atendimentoDataFinal.valid && f.atendimentoDataFinal.touched"
+                                       class="form-text text-success text-center">Ok</small>
+                                <small *ngIf="f.atendimentoDataFinal.invalid && f.atendimentoDataFinal.touched"
+                                       class="form-text text-danger text-center">Data inválida</small>
+                            </div>
+                            <div class="form-group col-1"></div>
+                        </div>
+
+                        <div class="d-flex">
+                            <div class="form-group col-1"></div>
+                            <div class="form-group col-5 m-2">
+                                <small class="form-text mb-1"><b>Nome Paciente: </b> ( Paciente atendido )</small>
+                                <input type="text"
+                                       class="form-control"
+                                       placeholder="Nome paciente"
+                                       formControlName="atendminetoNomePaciente">
+                                <small *ngIf="f.atendminetoNomePaciente.valid && f.atendminetoNomePaciente.touched"
+                                       class="form-text text-success text-center">Ok</small>
+                                <small *ngIf="f.atendminetoNomePaciente.invalid && f.atendminetoNomePaciente.touched"
+                                       class="form-text text-danger text-center">Nome inválido</small>
+                            </div>
+                            <div class="form-group col-5 m-2">
+                                <small class="form-text mb-1"><b>Nome Fisioterapeuta: </b> ( Fisioterapeuta responsavél
+                                    pelo atendimento )</small>
+                                <input type="text"
+                                       class="form-control"
+                                       placeholder="Nome Fisioterapeuta"
+                                       formControlName="atendimentoNomeFisioterapeuta">
+                                <small *ngIf="f.atendimentoNomeFisioterapeuta.valid && f.atendimentoNomeFisioterapeuta.touched"
+                                       class="form-text text-success text-center">Ok</small>
+                                <small *ngIf="f.atendimentoNomeFisioterapeuta.invalid && f.atendimentoNomeFisioterapeuta.touched"
+                                       class="form-text text-danger text-center">Nome inválido</small>
+                            </div>
+                            <div class="form-group col-1"></div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body col-12 d-flex m-0">
+            <div class="card col-12 m-0">
+                <div class="card-body col-12">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
