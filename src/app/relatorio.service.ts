@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { map, retry } from "rxjs/operators";
+import { FiltroRelatorioAtendimento } from "src/assets/models/filtroRelatorioAtendimento.model";
 import { URL_API } from "./app.api";
 
 @Injectable()
@@ -18,7 +19,7 @@ export class RelatorioService {
         private http: HttpClient
     ) { }
 
-    public relatorioAtendimento(filtro: any): Observable<any> { //FiltroRelatorioAtendimento
+    public relatorioAtendimento(filtro: FiltroRelatorioAtendimento): Observable<any> { //FiltroRelatorioAtendimento
         let headers = new HttpHeaders({
             'Content-Type': 'application/json',
             'Authorization': `${localStorage.getItem('idToken')}`

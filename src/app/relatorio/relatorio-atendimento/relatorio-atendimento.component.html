@@ -1,11 +1,11 @@
-<div class="d-flex justify-content-center">
-    <div class="card col-10">
-        <b class="card-title d-flex justify-content-center mt-1">
+<div class="d-flex justify-content-center m-2">
+    <div class="card col-12">
+        <b class="card-title d-flex justify-content-center mt-2">
             <h3>Relatório de atendimentos</h3>
         </b>
-        <div class="card-body col-12 d-flex">
+        <div class="card-body col-12 d-flex pt-0">
             <div class="card col-12 m-0">
-                <div class="card-body col-12">
+                <div class="card-body col-12 pt-0">
                     <b class="card-title d-flex justify-content-center mt-1">
                         <h5>- Filtros -</h5>
                     </b>
@@ -70,12 +70,19 @@
                             <div class="form-group col-1"></div>
                         </div>
 
+                        <div class="d-flex justify-content-center mt-3">
+                            <button type="submit"
+                                    class="btn btn-primary btn-sm btn-block col-4"
+                                    [disabled]="habilitarBotaoPesquisa()"
+                                    (click)="consultarRelatorio()">Pesquisar</button>
+                        </div>
+
                     </form>
                 </div>
             </div>
         </div>
 
-        <div class="card-body col-12 d-flex m-0">
+        <div class="card-body col-12 d-flex m-0 pt-0">
             <div class="card col-12 m-0">
                 <div class="card-body col-12">
 

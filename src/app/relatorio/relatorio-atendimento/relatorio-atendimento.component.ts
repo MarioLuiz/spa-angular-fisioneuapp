@@ -3,6 +3,8 @@ import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/fo
 import { animate, keyframes, state, style, transition, trigger } from '@angular/animations';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs/internal/observable/throwError';
+import { RelatorioService } from 'src/app/relatorio.service';
+import { FiltroRelatorioAtendimento } from 'src/assets/models/filtroRelatorioAtendimento.model';
 
 @Component({
   selector: 'fisio-relatorio-atendimento',
@@ -33,6 +35,9 @@ import { throwError } from 'rxjs/internal/observable/throwError';
 export class RelatorioAtendimentoComponent implements OnInit {
 
   public estadoAnimacaoPainelRelatorioAtendimento: string = 'void';
+  public habilitaBotaoPesquisa: boolean = false;
+  public filtro: FiltroRelatorioAtendimento | undefined;
+  public mensagensErroRelatorio: string[] = [];
 
   public formulario: FormGroup = new FormGroup({
     'atendimentoDataInicial': new FormControl(null, [Validators.required]),
@@ -41,7 +46,9 @@ export class RelatorioAtendimentoComponent implements OnInit {
     'atendimentoNomeFisioterapeuta': new FormControl(null, [Validators.minLength(3)])
   })
 
-  constructor() { }
+  constructor(
+    private relatorioService: RelatorioService
+  ) { }
 
   ngOnInit(): void {
   }
@@ -63,6 +70,46 @@ export class RelatorioAtendimentoComponent implements OnInit {
         this.estadoAnimacaoPainelRelatorioAtendimento = 'criado'
       }
     }, 750)
+  }
+
+  public habilitarBotaoPesquisa(): boolean {
+    if (this.f.atendimentoDataInicial.invalid || this.f.atendimentoDataFinal.invalid ||
+      this.f.atendminetoNomePaciente.invalid || this.f.atendimentoNomeFisioterapeuta.invalid) {
+      this.habilitaBotaoPesquisa = true
+    } else {
+      this.habilitaBotaoPesquisa = false
+    }
+    return this.habilitaBotaoPesquisa
+  }
+
+  consultarRelatorio(): void {
+    // console.log(this.formulario)
+    this.filtro = new FiltroRelatorioAtendimento(
+      this.formulario.value.atendimentoDataInicial,
+      this.formulario.value.atendimentoDataFinal,
+      this.formulario.value.atendminetoNomePaciente,
+      this.formulario.value.atendimentoNomeFisioterapeuta
+    )
+    console.log('Filtro: ', this.filtro)
+    this.relatorioService.relatorioAtendimento(this.filtro)
+      .pipe(
+        catchError(err => {
+          return throwError(err);
+        })
+      )
+      .subscribe(
+        resposta => {
+          console.log('Relatório consultado com sucesso', resposta)
+        },
+        (err: any) => {
+          console.log('Erro ao consultar Relatório Atendimentos: ', err)
+          this.mensagensErroRelatorio = []
+          err.error.errors.forEach((mensagemErro: any) => {
+            this.mensagensErroRelatorio.push(mensagemErro.fieldName + ' : ' + mensagemErro.message);
+          });
+          this.estadoAnimacaoPainelRelatorioAtendimento = 'criado'
+        }
+      )
   }
 
   // conveniente getter para facil acesso dos campos do formulario
