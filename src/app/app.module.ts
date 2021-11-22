@@ -4,6 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
+
 import { NgxMaskModule } from 'ngx-mask'
 import { NgxPaginationModule } from 'ngx-pagination';
 
@@ -17,6 +18,7 @@ import { PacienteService } from './paciente.service';
 import { UpdatePacienteService } from './paciente/update-paciente.service';
 import { ProntuarioService } from './prontuario.service';
 import { AtendimentoService } from 'src/app/atendimento.service';
+import { RelatorioService } from './relatorio.service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -82,7 +84,7 @@ import { RelatorioPacienteComponent } from './relatorio/relatorio-paciente/relat
     NgxPaginationModule,
     RouterModule.forRoot(ROUTES)
   ],
-  providers: [AutenticacaoService, AutenticacaoGuardService, FisioterapeutaService, SessionService, PacienteService, UpdatePacienteService, ProntuarioService,AtendimentoService],
+  providers: [AutenticacaoService, AutenticacaoGuardService, FisioterapeutaService, SessionService, PacienteService, UpdatePacienteService, ProntuarioService, AtendimentoService, RelatorioService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
