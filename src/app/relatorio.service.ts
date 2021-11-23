@@ -26,18 +26,19 @@ export class RelatorioService {
         })
 
         let params = new HttpParams()
-            .set("atendimentoDataInicial", filtro.atendimentoDataInicial)
-            .set("atendimentoDataFinal", filtro.atendimentoDataFinal)
-            .set("atendminetoNomePaciente", filtro.atendminetoNomePaciente)
-            .set("atendimentoNomeFisioterapeuta", filtro.atendimentoNomeFisioterapeuta)
+        // .set("atendimentoDataInicial", filtro.atendimentoDataInicial)
+        // .set("atendimentoDataFinal", filtro.atendimentoDataFinal)
+        // .set("atendminetoNomePaciente", filtro.atendminetoNomePaciente)
+        // .set("atendimentoNomeFisioterapeuta", filtro.atendimentoNomeFisioterapeuta)
 
         let options = {
             headers: headers,
             observe: "response" as 'body',
-            params: params
+            //body: JSON.stringify(filtro)
+            //params: params
         }
 
-        return this.http.get(`${URL_API}/relatorios/atendimentos`, options).pipe(
+        return this.http.post(`${URL_API}/relatorios/atendimentos`, JSON.stringify(filtro), options).pipe(
             map((resposta: any) => resposta),
             retry(3)
         )
