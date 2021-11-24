@@ -36,14 +36,16 @@ export class RelatorioAtendimentoComponent implements OnInit {
 
   public estadoAnimacaoPainelRelatorioAtendimento: string = 'void';
   public habilitaBotaoPesquisa: boolean = false;
+  public habilitaBotaoImpressao: boolean = false;
   public filtro: FiltroRelatorioAtendimento | undefined;
   public mensagensErroRelatorio: string[] = [];
+  public atendimentos: any[] = [];
 
   public formulario: FormGroup = new FormGroup({
     'atendimentoDataInicial': new FormControl(null, [Validators.required]),
     'atendimentoDataFinal': new FormControl(null, [Validators.required]),
-    'atendminetoNomePaciente': new FormControl(null, [Validators.minLength(3)]),
-    'atendimentoNomeFisioterapeuta': new FormControl(null, [Validators.minLength(3)])
+    'atendminetoNomePaciente': new FormControl(null),
+    'atendimentoNomeFisioterapeuta': new FormControl(null)
   })
 
   constructor(
@@ -51,6 +53,10 @@ export class RelatorioAtendimentoComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.formulario.get("atendminetoNomePaciente")?.setValue('')
+    this.formulario.get("atendimentoNomeFisioterapeuta")?.setValue('')
+    // this.formulario.get("atendimentoDataInicial")?.setValue('2010-01-01')
+    // this.formulario.get("atendimentoDataFinal")?.setValue('2021-11-24')
   }
 
   public onCardChange(event: any): void {
@@ -100,6 +106,13 @@ export class RelatorioAtendimentoComponent implements OnInit {
       .subscribe(
         resposta => {
           console.log('Relatório consultado com sucesso', resposta)
+          this.atendimentos = resposta.body.content
+          if (this.atendimentos.length === 0) {
+            this.habilitaBotaoImpressao = false
+          } else {
+            this.habilitaBotaoImpressao = true
+          }
+
         },
         (err: any) => {
           console.log('Erro ao consultar Relatório Atendimentos: ', err)
@@ -110,6 +123,18 @@ export class RelatorioAtendimentoComponent implements OnInit {
           this.estadoAnimacaoPainelRelatorioAtendimento = 'criado'
         }
       )
+  }
+
+  imprimeRelatorio(componente: any) {
+    console.log('componente', componente)
+    let printContents = document.getElementById(componente ? componente : '')?.innerHTML;
+    let originalContents = document.body.innerHTML;
+
+    document.body.innerHTML = printContents ? printContents : '';
+
+    window.print();
+
+    document.body.innerHTML = originalContents;
   }
 
   // conveniente getter para facil acesso dos campos do formulario
