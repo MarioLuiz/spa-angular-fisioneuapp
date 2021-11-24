@@ -7,6 +7,8 @@ import { FormsModule } from '@angular/forms';
 
 import { NgxMaskModule } from 'ngx-mask'
 import { NgxPaginationModule } from 'ngx-pagination';
+import { NgxPrintModule } from 'ngx-print';
+
 
 import { ROUTES } from './app.routes'
 
@@ -82,6 +84,7 @@ import { RelatorioPacienteComponent } from './relatorio/relatorio-paciente/relat
       // clearIfNotMatch : true
     }),
     NgxPaginationModule,
+    NgxPrintModule,
     RouterModule.forRoot(ROUTES)
   ],
   providers: [AutenticacaoService, AutenticacaoGuardService, FisioterapeutaService, SessionService, PacienteService, UpdatePacienteService, ProntuarioService, AtendimentoService, RelatorioService],
