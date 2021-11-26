@@ -1,1 +1,156 @@
-<p>relatorio-paciente works!</p>
+<div class="d-flex justify-content-center m-2">
+    <div class="card col-12">
+        <b class="card-title d-flex justify-content-center mt-2">
+            <h3>Relatório de pacientes</h3>
+        </b>
+        <div class="card-body col-12 d-flex pt-0">
+            <div class="card col-12 m-0">
+                <div class="card-body col-12 pt-0">
+                    <b class="card-title d-flex justify-content-center mt-1">
+                        <h5>- Filtros -</h5>
+                    </b>
+                    <form [formGroup]="formulario"
+                          (click)="onCardChange($event)"
+                          [@animacao-painel]="estadoAnimacaoPainelRelatorioAtendimento">
+                        <div class="d-flex">
+                            <div class="form-group col-1"></div>
+                            <div class="form-group m-2 col-5">
+                                <small class="form-text mb-1"><b>Data nascimento inicial: </b> ( Data inicial do nascimento do paciente )</small>
+                                <input type="date"
+                                       class="form-control text-center"
+                                       placeholder="Data"
+                                       formControlName="pacienteDataNascimentoInicial">
+                                <small *ngIf="f.pacienteDataNascimentoInicial.valid && f.pacienteDataNascimentoInicial.touched"
+                                       class="form-text text-success text-center">Ok</small>
+                                <small *ngIf="f.pacienteDataNascimentoInicial.invalid && f.pacienteDataNascimentoInicial.touched"
+                                       class="form-text text-danger text-center">Data inválida</small>
+                            </div>
+
+                            <div class="form-group m-2 col-5">
+                                <small class="form-text mb-1"><b>Data nascimento final: </b> ( Data final do nascimento do paciente )</small>
+                                <input type="date"
+                                       class="form-control text-center"
+                                       placeholder="Data"
+                                       formControlName="pacienteDataNascimentoFinal">
+                                <small *ngIf="f.pacienteDataNascimentoFinal.valid && f.pacienteDataNascimentoFinal.touched"
+                                       class="form-text text-success text-center">Ok</small>
+                                <small *ngIf="f.pacienteDataNascimentoFinal.invalid && f.pacienteDataNascimentoFinal.touched"
+                                       class="form-text text-danger text-center">Data inválida</small>
+                            </div>
+                            <div class="form-group col-1"></div>
+                        </div>
+
+                        <div class="d-flex">
+                            <div class="form-group col-1"></div>
+                            <div class="form-group m-2 col-5">
+                                <small class="form-text mb-1"><b>Data cadastro inicial: </b> ( Data inicial da realização do cadastro paciente )</small>
+                                <input type="date"
+                                       class="form-control text-center"
+                                       placeholder="Data"
+                                       formControlName="pacienteDataCadastroInicial">
+                                <small *ngIf="f.pacienteDataCadastroInicial.valid && f.pacienteDataCadastroInicial.touched"
+                                       class="form-text text-success text-center">Ok</small>
+                                <small *ngIf="f.pacienteDataCadastroInicial.invalid && f.pacienteDataCadastroInicial.touched"
+                                       class="form-text text-danger text-center">Data inválida</small>
+                            </div>
+                        
+                            <div class="form-group m-2 col-5">
+                                <small class="form-text mb-1"><b>Data cadastro final: </b> ( Data final da realização do cadastro paciente )</small>
+                                <input type="date"
+                                       class="form-control text-center"
+                                       placeholder="Data"
+                                       formControlName="pacienteDataCadastroFinal">
+                                <small *ngIf="f.pacienteDataCadastroFinal.valid && f.pacienteDataCadastroFinal.touched"
+                                       class="form-text text-success text-center">Ok</small>
+                                <small *ngIf="f.pacienteDataCadastroFinal.invalid && f.pacienteDataCadastroFinal.touched"
+                                       class="form-text text-danger text-center">Data inválida</small>
+                            </div>
+                            <div class="form-group col-1"></div>
+                        </div>
+
+                        <div class="d-flex d-flex justify-content-center">
+                            <div class="form-group col-1"></div>
+                            <div class="form-group col-5 m-2">
+                                <small class="form-text mb-1 text-center"><b>Nome Paciente: </b> ( Nome do paciente )</small>
+                                <input type="text"
+                                       class="form-control"
+                                       placeholder="Nome paciente"
+                                       formControlName="pacienteNome">
+                                <small *ngIf="f.pacienteNome.valid && f.pacienteNome.touched"
+                                       class="form-text text-success text-center">Ok</small>
+                                <small *ngIf="f.pacienteNome.invalid && f.pacienteNome.touched"
+                                       class="form-text text-danger text-center">Nome inválido</small>
+                            </div>
+                            <div class="form-group col-1"></div>
+                        </div>
+
+                        <div class="d-flex justify-content-center mt-3">
+                            <button type="submit"
+                                    class="btn btn-primary btn-sm btn-block col-3 m-3"
+                                    [disabled]="habilitarBotaoPesquisa()"
+                                    (click)="consultarRelatorio()">Pesquisar</button>
+                            <button *ngIf="habilitaBotaoImpressao"
+                                    class="btn btn-info btn-sm btn-block col-3 m-3"
+                                    printSectionId="tabelaRelatorioAtendimento"
+                                    ngxPrint
+                                    [useExistingCss]="true">Imprimir Relatório</button>
+                            <!-- (click)="imprimeRelatorio('tabelaRelatorioAtendimento')" -->
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body col-12 d-flex m-0 pt-0"
+             *ngIf="pacientes.length"
+             id="tabelaRelatorioAtendimento">
+            <div class="card col-12 m-0">
+                <div class="card-body col-12">
+                    <div class="row justify-content-center">
+                        <table class="table table-hover table-bordered table-striped table-responsive">
+                            <thead class="thead-dark">
+                                <tr class="text-center">
+                                    <th scope="col"
+                                        class="align-middle">Data</th>
+                                    <th scope="col"
+                                        class="align-middle">Fisioterapeuta Responsavél</th>
+                                    <th scope="col"
+                                        class="align-middle">Paciente</th>
+                                    <th scope="col"
+                                        class="align-middle">Estado Paciente</th>
+                                    <th scope="col"
+                                        class="align-middle">Relato Atendimento</th>
+                                    <th scope="col"
+                                        class="align-middle">CIF</th>
+                                    <th scope="col"
+                                        class="align-middle">CID</th>
+                                    <th scope="col"
+                                        class="align-middle">Prontuário</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let atendimento of pacientes "
+                                    class="text-center">
+                                    <td>{{atendimento.data}}</td>
+                                    <td>{{atendimento.fisioterapeuta.nome}}</td>
+                                    <td>{{atendimento.prontuario.paciente.nome}}</td>
+                                    <td>{{atendimento.estadoPaciente}}</td>
+                                    <td>{{atendimento.relatoAtendimento}}</td>
+                                    <td>{{atendimento.prontuario.cid ? atendimento.prontuario.cid : '-'}}</td>
+                                    <td>{{atendimento.prontuario.cif ? atendimento.prontuario.cif : '-'}}</td>
+                                    <td>{{atendimento.prontuario.numero}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!-- <div class="d-flex justify-content-center">
+                            <pagination-controls (pageChange)="mudarPagina($event)"
+                                                 previousLabel="Anterior"
+                                                 nextLabel="Próxima"></pagination-controls>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
