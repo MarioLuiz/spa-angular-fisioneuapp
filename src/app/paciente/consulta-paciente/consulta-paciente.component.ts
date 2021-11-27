@@ -77,7 +77,7 @@ export class ConsultaPacienteComponent implements OnInit, AfterViewInit {
       .subscribe(
         resposta => {
           this.pageableResponse = resposta.body
-          //console.log('Pacientes', this.pageableResponse)
+          console.log('Pacientes', this.pageableResponse)
           this.validaCamposPaginacao()
         },
         (err: any) => {
@@ -110,7 +110,7 @@ export class ConsultaPacienteComponent implements OnInit, AfterViewInit {
   }
 
   alterarPaciente(paciente: any) {
-    this.paciente = new Paciente(paciente.id, '', paciente.nome, paciente.email, paciente.telefone, paciente.cpf, paciente.dataNascimento);
+    this.paciente = new Paciente(paciente.id, '', paciente.nome, paciente.email, paciente.telefone, paciente.cpf, paciente.dataNascimento, paciente.podeVisualizarSeuAtendimento);
     //console.log('Paciente: ', this.paciente)
     this.updatePacienteService.setUpdatePaciente(this.paciente)
     //console.log('UpdatePaciente: ', this.updatePacienteService.getUpdatePaciente())

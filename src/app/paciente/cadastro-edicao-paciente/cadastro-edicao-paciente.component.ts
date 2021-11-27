@@ -45,6 +45,7 @@ export class CadastroEdicaoPacienteComponent implements OnInit {
   public mensagemCadastroRealizado: string = '';
   public paciente: Paciente | undefined;
   public updatePaciente: boolean = false;
+  public podeVisualizarSeuAtendimento: boolean = false;
 
   private userSession: UserSession | undefined;
 
@@ -55,7 +56,8 @@ export class CadastroEdicaoPacienteComponent implements OnInit {
     'telefone': new FormControl(null, [Validators.required, Validators.minLength(8)]),
     'cpf': new FormControl(null, [Validators.required, Validators.minLength(11), Validators.maxLength(11),
     Validators.pattern("^[0-9]*$")]),
-    'dataNascimento': new FormControl(null, [Validators.required]) //^\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])$
+    'dataNascimento': new FormControl(null, [Validators.required]), //^\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])$
+    'podeVisualizarSeuAtendimento': new FormControl(null, [Validators.required])
   })
 
   constructor(
@@ -85,7 +87,8 @@ export class CadastroEdicaoPacienteComponent implements OnInit {
         this.formulario.value.email,
         this.formulario.value.telefone,
         this.formulario.value.cpf,
-        this.formulario.value.dataNascimento
+        this.formulario.value.dataNascimento,
+        this.formulario.value.podeVisualizarSeuAtendimento
       )
       //console.log('Paciente: ', paciente)
       this.pacienteService.cadastrarPaciente(paciente)
@@ -122,7 +125,8 @@ export class CadastroEdicaoPacienteComponent implements OnInit {
         this.formulario.value.email,
         this.formulario.value.telefone,
         this.formulario.value.cpf,
-        this.formulario.value.dataNascimento
+        this.formulario.value.dataNascimento,
+        this.formulario.value.podeVisualizarSeuAtendimento
       )
       //console.log('Paciente: ', paciente)
       this.pacienteService.atualizarPaciente(paciente)
@@ -180,6 +184,7 @@ export class CadastroEdicaoPacienteComponent implements OnInit {
   }
 
   public atualizarCamposFormulario(): void {
+    this.podeVisualizarSeuAtendimento = this.paciente?.podeVisualizarSeuAtendimento ? this.paciente?.podeVisualizarSeuAtendimento : false;
     this.formulario.get("nome")?.setValue(this.paciente?.nome)
     this.formulario.get("email")?.setValue(this.paciente?.email)
     this.formulario.get("telefone")?.setValue(this.paciente?.telefone)
@@ -187,6 +192,7 @@ export class CadastroEdicaoPacienteComponent implements OnInit {
     if (this.paciente?.dataNascimento) {
       this.formulario.get("dataNascimento")?.setValue(this.conversorData(this.paciente?.dataNascimento))
     }
+    this.formulario.get("podeVisualizarSeuAtendimento")?.setValue(this.paciente?.podeVisualizarSeuAtendimento)
     this.formulario.markAllAsTouched()
     //console.log('Formulario', this.formulario)
   }

@@ -28,7 +28,7 @@ export class ConsultaProntuarioComponent implements OnInit, AfterViewInit {
   paciente: Paciente | undefined;
   prontuario: Prontuario | undefined;
   prontuarioVisualizar: any = new Prontuario('', '', '', '', '', '')
-  pacienteVisualizar: Paciente = new Paciente('', '', '', '', '', '', '')
+  pacienteVisualizar: Paciente = new Paciente('', '', '', '', '', '', '', false)
 
   pacientes: any[] = [];
   prontuarios: any[] = [];

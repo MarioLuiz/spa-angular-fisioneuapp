@@ -6,8 +6,9 @@ export class Paciente {
     public telefone: string | undefined
     public cpf: string | undefined
     public dataNascimento: string | undefined
+    public podeVisualizarSeuAtendimento: boolean | undefined
 
-    constructor(id: string, fisioterapeutaId: string, nome: string, email: string, telefone: string, cpf: string, dataNascimento: string) {
+    constructor(id: string, fisioterapeutaId: string, nome: string, email: string, telefone: string, cpf: string, dataNascimento: string, podeVisualizarSeuAtendimento: boolean) {
         this.id = id;
         this.fisioterapeutaId = fisioterapeutaId;
         this.nome = nome;
@@ -15,5 +16,6 @@ export class Paciente {
         this.telefone = telefone;
         this.cpf = cpf;
         this.dataNascimento = dataNascimento;
+        this.podeVisualizarSeuAtendimento = podeVisualizarSeuAtendimento
     }
 }

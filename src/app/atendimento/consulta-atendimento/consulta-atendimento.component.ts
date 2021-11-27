@@ -28,7 +28,7 @@ export class ConsultaAtendimentoComponent implements OnInit, AfterViewInit {
   paciente: Paciente | undefined;
   atendimento: Atendimento | undefined;
   prontuarioVisualizar: any = new Prontuario('', '', '', '', '', '')
-  pacienteVisualizar: Paciente = new Paciente('', '', '', '', '', '', '')
+  pacienteVisualizar: Paciente = new Paciente('', '', '', '', '', '', '', false)
   atendimentoVisualizar: any
 
   atendimentos: any[] = [];
@@ -106,7 +106,8 @@ export class ConsultaAtendimentoComponent implements OnInit, AfterViewInit {
       atendimento.prontuario.paciente.email,
       atendimento.prontuario.paciente.telefone,
       atendimento.prontuario.paciente.cpf,
-      atendimento.prontuario.paciente.dataNascimento);
+      atendimento.prontuario.paciente.dataNascimento,
+      atendimento.prontuario.paciente.podeVisualizarSeuAtendimento);
     //console.log('Atendimento: ', this.atendimento)
     this.updateAtendimentoService.setUpdateAtendimento(this.atendimento);
     this.updateAtendimentoService.setUpdatePaciente(this.paciente);

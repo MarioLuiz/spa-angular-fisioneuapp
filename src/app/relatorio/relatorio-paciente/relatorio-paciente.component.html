@@ -15,7 +15,8 @@
                         <div class="d-flex">
                             <div class="form-group col-1"></div>
                             <div class="form-group m-2 col-5">
-                                <small class="form-text mb-1"><b>Data nascimento inicial: </b> ( Data inicial do nascimento do paciente )</small>
+                                <small class="form-text mb-1"><b>Data nascimento inicial: </b> ( Data inicial do
+                                    nascimento do paciente )</small>
                                 <input type="date"
                                        class="form-control text-center"
                                        placeholder="Data"
@@ -27,7 +28,8 @@
                             </div>
 
                             <div class="form-group m-2 col-5">
-                                <small class="form-text mb-1"><b>Data nascimento final: </b> ( Data final do nascimento do paciente )</small>
+                                <small class="form-text mb-1"><b>Data nascimento final: </b> ( Data final do nascimento
+                                    do paciente )</small>
                                 <input type="date"
                                        class="form-control text-center"
                                        placeholder="Data"
@@ -43,7 +45,8 @@
                         <div class="d-flex">
                             <div class="form-group col-1"></div>
                             <div class="form-group m-2 col-5">
-                                <small class="form-text mb-1"><b>Data cadastro inicial: </b> ( Data inicial da realização do cadastro paciente )</small>
+                                <small class="form-text mb-1"><b>Data cadastro inicial: </b> ( Data inicial da
+                                    realização do cadastro paciente )</small>
                                 <input type="date"
                                        class="form-control text-center"
                                        placeholder="Data"
@@ -53,9 +56,10 @@
                                 <small *ngIf="f.pacienteDataCadastroInicial.invalid && f.pacienteDataCadastroInicial.touched"
                                        class="form-text text-danger text-center">Data inválida</small>
                             </div>
-                        
+
                             <div class="form-group m-2 col-5">
-                                <small class="form-text mb-1"><b>Data cadastro final: </b> ( Data final da realização do cadastro paciente )</small>
+                                <small class="form-text mb-1"><b>Data cadastro final: </b> ( Data final da realização do
+                                    cadastro paciente )</small>
                                 <input type="date"
                                        class="form-control text-center"
                                        placeholder="Data"
@@ -71,7 +75,8 @@
                         <div class="d-flex d-flex justify-content-center">
                             <div class="form-group col-1"></div>
                             <div class="form-group col-5 m-2">
-                                <small class="form-text mb-1 text-center"><b>Nome Paciente: </b> ( Nome do paciente )</small>
+                                <small class="form-text mb-1 text-center"><b>Nome Paciente: </b> ( Nome do paciente
+                                    )</small>
                                 <input type="text"
                                        class="form-control"
                                        placeholder="Nome paciente"
@@ -123,6 +128,8 @@
                                     <th scope="col"
                                         class="align-middle">Cpf</th>
                                     <th scope="col"
+                                        class="align-middle">Visualiza Atendimentos ?</th>
+                                    <th scope="col"
                                         class="align-middle">E-mail</th>
                                     <th scope="col"
                                         class="align-middle">Telefone</th>
@@ -135,6 +142,7 @@
                                     <td>{{paciente.dataCadastro}}</td>
                                     <td>{{paciente.nome}}</td>
                                     <td>{{paciente.cpf}}</td>
+                                    <td>{{paciente.podeVisualizarSeuAtendimento ? 'Sim' : 'Não'}}</td>
                                     <td>{{validaCampo(paciente.email)}}</td>
                                     <td>{{validaCampo(paciente.telefone)}}</td>
                                 </tr>
