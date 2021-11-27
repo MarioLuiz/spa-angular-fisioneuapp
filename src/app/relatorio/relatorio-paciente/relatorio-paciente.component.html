@@ -96,7 +96,10 @@
                                     [useExistingCss]="true">Imprimir Relatório</button>
                             <!-- (click)="imprimeRelatorio('tabelaRelatorioAtendimento')" -->
                         </div>
-
+                        <div class="d-flex justify-content-center mt-3">
+                            <p class="small text-danger text-center pt-3"
+                               *ngFor="let mensagem of mensagensErroRelatorio">{{mensagem}}</p>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -108,38 +111,32 @@
             <div class="card col-12 m-0">
                 <div class="card-body col-12">
                     <div class="row justify-content-center">
-                        <table class="table table-hover table-bordered table-striped table-responsive">
+                        <table class="table table-hover table-bordered table-striped">
                             <thead class="thead-dark">
                                 <tr class="text-center">
                                     <th scope="col"
-                                        class="align-middle">Data</th>
+                                        class="align-middle">Data Nascimento</th>
                                     <th scope="col"
-                                        class="align-middle">Fisioterapeuta Responsavél</th>
+                                        class="align-middle">Data cadastro</th>
                                     <th scope="col"
-                                        class="align-middle">Paciente</th>
+                                        class="align-middle">Nome</th>
                                     <th scope="col"
-                                        class="align-middle">Estado Paciente</th>
+                                        class="align-middle">Cpf</th>
                                     <th scope="col"
-                                        class="align-middle">Relato Atendimento</th>
+                                        class="align-middle">E-mail</th>
                                     <th scope="col"
-                                        class="align-middle">CIF</th>
-                                    <th scope="col"
-                                        class="align-middle">CID</th>
-                                    <th scope="col"
-                                        class="align-middle">Prontuário</th>
+                                        class="align-middle">Telefone</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let atendimento of pacientes "
+                                <tr *ngFor="let paciente of pacientes "
                                     class="text-center">
-                                    <td>{{atendimento.data}}</td>
-                                    <td>{{atendimento.fisioterapeuta.nome}}</td>
-                                    <td>{{atendimento.prontuario.paciente.nome}}</td>
-                                    <td>{{atendimento.estadoPaciente}}</td>
-                                    <td>{{atendimento.relatoAtendimento}}</td>
-                                    <td>{{atendimento.prontuario.cid ? atendimento.prontuario.cid : '-'}}</td>
-                                    <td>{{atendimento.prontuario.cif ? atendimento.prontuario.cif : '-'}}</td>
-                                    <td>{{atendimento.prontuario.numero}}</td>
+                                    <td>{{retiraHorarioData(paciente.dataNascimento)}}</td>
+                                    <td>{{paciente.dataCadastro}}</td>
+                                    <td>{{paciente.nome}}</td>
+                                    <td>{{paciente.cpf}}</td>
+                                    <td>{{validaCampo(paciente.email)}}</td>
+                                    <td>{{validaCampo(paciente.telefone)}}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -148,6 +145,18 @@
                                                  previousLabel="Anterior"
                                                  nextLabel="Próxima"></pagination-controls>
                         </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body col-12 d-flex m-0 pt-0"
+             *ngIf="(pacientes.length == 0) && pesquisaFoiRealizada "
+             [@animacao-painel]="estadoAnimacaoSemResultados">
+            <div class="card col-12 m-0">
+                <div class="card-body col-12">
+                    <div class="row justify-content-center">
+                        <h1><b>Sem Resultados !</b></h1>
                     </div>
                 </div>
             </div>

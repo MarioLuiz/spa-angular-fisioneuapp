@@ -96,7 +96,7 @@ export class RelatorioAtendimentoComponent implements OnInit {
     this.estadoAnimacaoPainelRelatorioAtendimento = 'void'
     this.pesquisaFoiRealizada = true
     this.estadoAnimacaoSemResultados = 'void'
-    
+
     this.filtro = new FiltroRelatorioAtendimento(
       this.formulario.value.atendimentoDataInicial,
       this.formulario.value.atendimentoDataFinal,
@@ -112,7 +112,7 @@ export class RelatorioAtendimentoComponent implements OnInit {
       )
       .subscribe(
         resposta => {
-          console.log('Relatório consultado com sucesso', resposta)
+          //console.log('Relatório consultado com sucesso', resposta)
           this.atendimentos = resposta.body.content
           if (this.atendimentos.length === 0) {
             this.habilitaBotaoImpressao = false
@@ -139,7 +139,7 @@ export class RelatorioAtendimentoComponent implements OnInit {
   }
 
   imprimeRelatorio(componente: any) {
-    console.log('componente', componente)
+    //console.log('componente', componente)
     let printContents = document.getElementById(componente ? componente : '')?.innerHTML;
     let originalContents = document.body.innerHTML;
 

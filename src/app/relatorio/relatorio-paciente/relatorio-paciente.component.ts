@@ -36,8 +36,10 @@ import { FiltroRelatorioPaciente } from 'src/assets/models/filtroRelatorioPacien
 export class RelatorioPacienteComponent implements OnInit, AfterViewInit {
 
   public estadoAnimacaoPainelRelatorioAtendimento: string = 'void';
+  public estadoAnimacaoSemResultados: string = 'void';
   public habilitaBotaoPesquisa: boolean = false;
   public habilitaBotaoImpressao: boolean = false;
+  public pesquisaFoiRealizada: boolean = false;
   public filtro: FiltroRelatorioPaciente | undefined;
   public mensagensErroRelatorio: string[] = [];
   public pacientes: any[] = [];
@@ -55,8 +57,8 @@ export class RelatorioPacienteComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngAfterViewInit(): void {
-    this.formulario.get("pacienteDataNascimentoInicial")?.setValue('2010-01-01')
-    this.formulario.get("pacienteDataNascimentoFinal")?.setValue('2021-11-24')
+    // this.formulario.get("pacienteDataNascimentoInicial")?.setValue('1800-01-01')
+    // this.formulario.get("pacienteDataNascimentoFinal")?.setValue('2021-11-24')
   }
 
   ngOnInit(): void {
@@ -102,12 +104,17 @@ export class RelatorioPacienteComponent implements OnInit, AfterViewInit {
 
   consultarRelatorio(): void {
     // console.log(this.formulario)
+    this.mensagensErroRelatorio = []
+    this.estadoAnimacaoPainelRelatorioAtendimento = 'void'
+    this.pesquisaFoiRealizada = true
+    this.estadoAnimacaoSemResultados = 'void'
+
     this.filtro = new FiltroRelatorioPaciente(
-      this.formulario.value.pacienteNome,
-      this.formulario.value.pacienteDataCadastroFinal,
-      this.formulario.value.pacienteDataCadastroInicial,
-      this.formulario.value.pacienteDataNascimentoFinal,
       this.formulario.value.pacienteDataNascimentoInicial,
+      this.formulario.value.pacienteDataNascimentoFinal,
+      this.formulario.value.pacienteDataCadastroInicial,
+      this.formulario.value.pacienteDataCadastroFinal,
+      this.formulario.value.pacienteNome
     )
     console.log('Filtro: ', this.filtro)
     this.relatorioService.relatorioPaciente(this.filtro)
@@ -118,10 +125,11 @@ export class RelatorioPacienteComponent implements OnInit, AfterViewInit {
       )
       .subscribe(
         resposta => {
-          console.log('Relatório consultado com sucesso', resposta)
+          //console.log('Relatório consultado com sucesso', resposta)
           this.pacientes = resposta.body.content
           if (this.pacientes.length === 0) {
             this.habilitaBotaoImpressao = false
+            this.estadoAnimacaoSemResultados = 'criado'
           } else {
             this.habilitaBotaoImpressao = true
           }
@@ -129,17 +137,22 @@ export class RelatorioPacienteComponent implements OnInit, AfterViewInit {
         },
         (err: any) => {
           console.log('Erro ao consultar Relatório Atendimentos: ', err)
-          this.mensagensErroRelatorio = []
-          err.error.errors.forEach((mensagemErro: any) => {
-            this.mensagensErroRelatorio.push(mensagemErro.fieldName + ' : ' + mensagemErro.message);
-          });
+          if (err.error.errors) {
+            err.error.errors.forEach((mensagemErro: any) => {
+              this.mensagensErroRelatorio.push(mensagemErro.fieldName + ' : ' + mensagemErro.message);
+            });
+          } else {
+            this.mensagensErroRelatorio.push(err.error.msg)
+          }
+          this.pacientes= []
+          this.habilitaBotaoImpressao = false;
           this.estadoAnimacaoPainelRelatorioAtendimento = 'criado'
         }
       )
   }
 
   imprimeRelatorio(componente: any) {
-    console.log('componente', componente)
+    //console.log('componente', componente)
     let printContents = document.getElementById(componente ? componente : '')?.innerHTML;
     let originalContents = document.body.innerHTML;
 
@@ -148,6 +161,16 @@ export class RelatorioPacienteComponent implements OnInit, AfterViewInit {
     window.print();
 
     document.body.innerHTML = originalContents;
+  }
+
+  public validaCampo(campo: any): string {
+    return campo ? campo : '-'
+  }
+
+  public retiraHorarioData(dataComHorario: string): string {
+    let datas: string[] = dataComHorario.split(' ');
+    let data: string = datas[0];
+    return data
   }
 
   // conveniente getter para facil acesso dos campos do formulario
