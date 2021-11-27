@@ -35,8 +35,10 @@ import { FiltroRelatorioAtendimento } from 'src/assets/models/filtroRelatorioAte
 export class RelatorioAtendimentoComponent implements OnInit {
 
   public estadoAnimacaoPainelRelatorioAtendimento: string = 'void';
+  public estadoAnimacaoSemResultados: string = 'void';
   public habilitaBotaoPesquisa: boolean = false;
   public habilitaBotaoImpressao: boolean = false;
+  public pesquisaFoiRealizada: boolean = false;
   public filtro: FiltroRelatorioAtendimento | undefined;
   public mensagensErroRelatorio: string[] = [];
   public atendimentos: any[] = [];
@@ -90,6 +92,11 @@ export class RelatorioAtendimentoComponent implements OnInit {
 
   consultarRelatorio(): void {
     // console.log(this.formulario)
+    this.mensagensErroRelatorio = []
+    this.estadoAnimacaoPainelRelatorioAtendimento = 'void'
+    this.pesquisaFoiRealizada = true
+    this.estadoAnimacaoSemResultados = 'void'
+    
     this.filtro = new FiltroRelatorioAtendimento(
       this.formulario.value.atendimentoDataInicial,
       this.formulario.value.atendimentoDataFinal,
@@ -109,6 +116,7 @@ export class RelatorioAtendimentoComponent implements OnInit {
           this.atendimentos = resposta.body.content
           if (this.atendimentos.length === 0) {
             this.habilitaBotaoImpressao = false
+            this.estadoAnimacaoSemResultados = 'criado'
           } else {
             this.habilitaBotaoImpressao = true
           }
@@ -116,10 +124,15 @@ export class RelatorioAtendimentoComponent implements OnInit {
         },
         (err: any) => {
           console.log('Erro ao consultar Relatório Atendimentos: ', err)
-          this.mensagensErroRelatorio = []
-          err.error.errors.forEach((mensagemErro: any) => {
-            this.mensagensErroRelatorio.push(mensagemErro.fieldName + ' : ' + mensagemErro.message);
-          });
+          if (err.error.errors) {
+            err.error.errors.forEach((mensagemErro: any) => {
+              this.mensagensErroRelatorio.push(mensagemErro.fieldName + ' : ' + mensagemErro.message);
+            });
+          } else {
+            this.mensagensErroRelatorio.push(err.error.msg)
+          }
+          this.atendimentos = []
+          this.habilitaBotaoImpressao = false;
           this.estadoAnimacaoPainelRelatorioAtendimento = 'criado'
         }
       )
