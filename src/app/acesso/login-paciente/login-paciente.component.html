@@ -1,0 +1,45 @@
+<div class="card"
+     style="width: 20rem;">
+    <div class="card-body"
+         [@animacao-painel]="estadoAnimacaoPainelLoginPaciente"
+         (click)="onCardChange($event)">
+        <div class="card-title"></div>
+
+        <form [formGroup]="formulario"
+              (ngSubmit)="autenticar()"
+              (keyup)="onCardChange($event)">
+            <div class="form-group">
+                <small class="form-text mb-1 text-center"><b>Digite seu CPF: ( Apenas numeros )</b></small>
+                <input type="text"
+                       class="form-control"
+                       placeholder="000.000.000-00"
+                       formControlName="cpf">
+                <small *ngIf="f.cpf.valid && f.cpf.touched"
+                       class="form-text text-success">Ok</small>
+                <small *ngIf="f.cpf.invalid && f.cpf.touched"
+                       class="form-text text-danger">CPF inválido</small>
+            </div>
+            <div class="form-group">
+                <small class="form-text mb-1 text-center"><b>Digite o Numero do seu Prontuário:</b></small>
+                <input type="text"
+                       class="form-control"
+                       placeholder=""
+                       formControlName="prontuario">
+                <small *ngIf="f.prontuario.valid && f.prontuario.touched"
+                       class="form-text text-success">Ok</small>
+                <small *ngIf="f.prontuario.invalid && f.prontuario.touched"
+                       class="form-text text-danger">Prontuario inválido</small>
+            </div>
+            <button type="submit"
+                    class="btn btn-primary btn-sm btn-block"
+                    [disabled]="f.senha.invalid || f.email.invalid">Entrar como Paciente</button>
+        </form>
+        <hr />
+        <p class="card-text"> Opção errada ? <a href="#"
+               (click)="exibirPainelLogin()"
+               class="card-link">Voltar a área de Login</a>
+        </p>
+        <p class="small text-danger text-center"
+           *ngFor="let mensagem of mensagensErroSighIn">{{mensagem}}</p>
+    </div>
+</div>

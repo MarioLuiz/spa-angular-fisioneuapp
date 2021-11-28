@@ -29,6 +29,11 @@
             <fisio-esqueci-minha-senha (exibirPainel)="exibirPainel($event)"></fisio-esqueci-minha-senha>
         </div>
 
+        <div class="col-sm-6 d-flex justify-content-center"
+             *ngIf="painelExibido === 'loginPaciente'">
+            <fisio-login-paciente (exibirPainel)="exibirPainel($event)"></fisio-login-paciente>
+        </div>
+
         <div class="col-sm-3 d-sm-block d-none">
             <div>
                 <img src="/assets/HandsOnBackBone.jpg"

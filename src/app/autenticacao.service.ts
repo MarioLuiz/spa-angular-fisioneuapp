@@ -139,4 +139,23 @@ export class AutenticacaoService {
         }
     }
 
+    public autenticarComoPaciente(cpf: string, prontuario: string): Observable<any> {
+        let options = {
+            headers: this.headers,
+            observe: "response" as 'body'
+        }
+        let userLogin = {
+            cpf,
+            prontuario
+        }
+        return this.http.post(`${URL_API}/loginComoPaciente`, JSON.stringify(userLogin), options)
+            .pipe(
+                //share(),
+                map((resposta: any) => {
+                    console.log('Resposta autenticarComoPaciente', resposta)
+                }),
+                retry(3)
+            )
+    }
+
 }

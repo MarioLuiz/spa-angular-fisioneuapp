@@ -46,6 +46,7 @@ import { PaginaInicialComponent } from './home/pagina-inicial/pagina-inicial.com
 import { RelatorioComponent } from './relatorio/relatorio.component';
 import { RelatorioAtendimentoComponent } from './relatorio/relatorio-atendimento/relatorio-atendimento.component';
 import { RelatorioPacienteComponent } from './relatorio/relatorio-paciente/relatorio-paciente.component';
+import { LoginPacienteComponent } from './acesso/login-paciente/login-paciente.component';
 
 @NgModule({
   declarations: [
@@ -70,7 +71,8 @@ import { RelatorioPacienteComponent } from './relatorio/relatorio-paciente/relat
     PaginaInicialComponent,
     RelatorioComponent,
     RelatorioAtendimentoComponent,
-    RelatorioPacienteComponent
+    RelatorioPacienteComponent,
+    LoginPacienteComponent
   ],
   imports: [
     BrowserModule,

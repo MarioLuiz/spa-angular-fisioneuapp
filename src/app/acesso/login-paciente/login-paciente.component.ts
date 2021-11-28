@@ -7,12 +7,11 @@ import { throwError } from 'rxjs/internal/observable/throwError';
 import { AutenticacaoService } from 'src/app/autenticacao.service';
 import { FisioterapeutaService } from 'src/app/fisioterapeuta.service';
 import { SessionService } from 'src/app/session.service';
-import { UserSession } from 'src/assets/models/user-session.model';
 
 @Component({
-  selector: 'fisio-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
+  selector: 'fisio-login-paciente',
+  templateUrl: './login-paciente.component.html',
+  styleUrls: ['./login-paciente.component.scss'],
   animations: [
     trigger('animacao-painel', [
       state('criado', style({
@@ -35,17 +34,17 @@ import { UserSession } from 'src/assets/models/user-session.model';
     ])
   ]
 })
-export class LoginComponent implements OnInit {
+export class LoginPacienteComponent implements OnInit {
 
   @Output() public exibirPainel: EventEmitter<string> = new EventEmitter<string>()
 
   public mensagensErroSighIn: Array<string> = []
-  public estadoAnimacaoPainelLogin: string = 'void'
+  public estadoAnimacaoPainelLoginPaciente: string = 'void'
 
   public formulario: FormGroup = new FormGroup({
-    'email': new FormControl(null, [Validators.required, Validators.minLength(7), Validators.maxLength(254),
-    Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]),
-    'senha': new FormControl(null, [Validators.required, Validators.minLength(6)])
+    'prontuario': new FormControl(null, [Validators.required, Validators.minLength(9), Validators.maxLength(254)]),
+    'cpf': new FormControl(null, [Validators.required, Validators.minLength(11), Validators.maxLength(11),
+    Validators.pattern("^[0-9]*$")])
   })
 
   constructor(
@@ -56,31 +55,16 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    // this.formulario.get("email")?.setValue('mario@gmail.com')
-    // this.formulario.get("senha")?.setValue('123456Mario')
-    // this.formulario.markAllAsTouched()
-    // console.log('Formulario', this.formulario)
   }
 
-  // conveniente getter para facil acesso dos campos do formulario
-  get f() { return this.formulario.controls; }
-
-  public exibirPainelCadastro(): void {
-    this.exibirPainel.emit('cadastro')
-  }
-
-  public exibirPainelRecuperarSenha(): void {
-    this.exibirPainel.emit('recuperarSenha')
-  }
-
-  public exibirPainelLoginPaciente(): void {
-    this.exibirPainel.emit('loginPaciente')
+  public exibirPainelLogin(): void {
+    this.exibirPainel.emit('login')
   }
 
   public autenticar(): void {
     this.mensagensErroSighIn = []
     //console.log('Formulario', this.formulario)
-    this.autenticacaoService.autenticar(this.formulario.value.email, this.formulario.value.senha)
+    this.autenticacaoService.autenticarComoPaciente(this.formulario.value.email, this.formulario.value.senha)
       .pipe(
         catchError(err => {
           return throwError(err);
@@ -88,51 +72,32 @@ export class LoginComponent implements OnInit {
       )
       .subscribe(
         resposta => {
-          console.log('Usuário autenticado com sucesso')
-          this.salvarSessaoUsuario()
-          this.router.navigate(['/fisio'])
+          console.log('Paciente autenticado com sucesso')
+          this.router.navigate(['/paciente-consulta-atendimento'])
         },
         (err: any) => {
           this.mensagensErroSighIn = []
           console.log('Erro ao realizar Login: ', err)
           this.mensagensErroSighIn.push(err.error.message)
-          this.estadoAnimacaoPainelLogin = 'criado'
+          this.estadoAnimacaoPainelLoginPaciente = 'criado'
         }
       )
   }
 
   public onCardChange(event: any): void {
     //console.log('evento', event)
-    this.estadoAnimacaoPainelLogin = 'void'
+    this.estadoAnimacaoPainelLoginPaciente = 'void'
     setTimeout(() => {
-      if (this.formulario.controls.email.invalid && this.formulario.controls.email.touched) {
-        this.estadoAnimacaoPainelLogin = 'criado'
+      if (this.formulario.controls.prontuario.invalid && this.formulario.controls.prontuario.touched) {
+        this.estadoAnimacaoPainelLoginPaciente = 'criado'
       }
-      if (this.formulario.controls.senha.invalid && this.formulario.controls.senha.touched) {
-        this.estadoAnimacaoPainelLogin = 'criado'
+      if (this.formulario.controls.cpf.invalid && this.formulario.controls.cpf.touched) {
+        this.estadoAnimacaoPainelLoginPaciente = 'criado'
       }
     }, 750)
   }
 
-  public salvarSessaoUsuario(): void {
-    //console.log('Formulario', this.formulario)
-    this.fisioterapeutaService.consultarSessaoFisioterapeuta(this.formulario.value.email)
-      .pipe(
-        catchError(err => {
-          return throwError(err);
-        })
-      )
-      .subscribe(
-        resposta => {
-          //console.log('consultarSessaoFisioterapeuta', resposta)
-          let sessao: UserSession = new UserSession(resposta.id, resposta.email, resposta.perfis)
-          this.sessionService.setUserSession(sessao)
-          //console.log('Sessao', sessao)
-        },
-        (err: any) => {
-          console.log('Erro ao salvarSessaoUsuario: ', err)
-        }
-      )
-  }
+  // conveniente getter para facil acesso dos campos do formulario
+  get f() { return this.formulario.controls; }
 
 }
