@@ -29,6 +29,70 @@
     </div>
 </nav>
 
+<div class="card-body col-12 d-flex m-0 pt-0"
+     *ngIf="atendimentos.length"
+     id="tabelaRelatorioAtendimento">
+    <div class="card col-12 m-0">
+        <div class="card-body col-12">
+            <div class="row justify-content-center">
+                <table class="table table-hover table-bordered table-striped table-responsive">
+                    <thead class="thead-dark">
+                        <tr class="text-center">
+                            <th scope="col"
+                                class="align-middle">Data</th>
+                            <th scope="col"
+                                class="align-middle">Fisioterapeuta Responsavél</th>
+                            <th scope="col"
+                                class="align-middle">Paciente</th>
+                            <th scope="col"
+                                class="align-middle">Estado Paciente</th>
+                            <th scope="col"
+                                class="align-middle">Relato Atendimento</th>
+                            <th scope="col"
+                                class="align-middle">CID</th>
+                            <th scope="col"
+                                class="align-middle">CIF</th>
+                            <th scope="col"
+                                class="align-middle">Prontuário</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let atendimento of atendimentos "
+                            class="text-center">
+                            <td>{{atendimento.data}}</td>
+                            <td>{{atendimento.fisioterapeuta.nome}}</td>
+                            <td>{{atendimento.prontuario.paciente.nome}}</td>
+                            <td>{{atendimento.estadoPaciente}}</td>
+                            <td>{{atendimento.relatoAtendimento}}</td>
+                            <td>{{atendimento.prontuario.cid ? atendimento.prontuario.cid : '-'}}</td>
+                            <td>{{atendimento.prontuario.cif ? atendimento.prontuario.cif : '-'}}</td>
+                            <td>{{atendimento.prontuario.numero}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- <div class="d-flex justify-content-center">
+                            <pagination-controls (pageChange)="mudarPagina($event)"
+                                                 previousLabel="Anterior"
+                                                 nextLabel="Próxima"></pagination-controls>
+                        </div> -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card-body col-12 d-flex m-0 pt-0"
+     *ngIf="(atendimentos.length == 0) "
+     [@animacao-painel]="estadoAnimacaoSemResultados">
+    <div class="card col-12 m-0">
+        <div class="card-body col-12">
+            <div class="row justify-content-center">
+                <h1><b>Sem Resultados !</b></h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <!-- Modal -->
 <div class="modal fade"
      id="modalSair"

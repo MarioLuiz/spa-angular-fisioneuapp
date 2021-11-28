@@ -69,4 +69,25 @@ export class RelatorioService {
             retry(3)
         )
     }
+
+    public relatorioAtendimentoPacienteConsulta (idPaciente: String): Observable<any> { //FiltroRelatorioAtendimento
+        let headers = new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': `${localStorage.getItem('idToken')}`
+        })
+
+        let paciente = {
+            idPaciente
+        }
+
+        let options = {
+            headers: headers,
+            observe: "response" as 'body',
+        }
+
+        return this.http.post(`${URL_API}/relatorios/atendimento-por-paciente`, JSON.stringify(paciente), options).pipe(
+            map((resposta: any) => resposta),
+            retry(3)
+        )
+    }
 }
