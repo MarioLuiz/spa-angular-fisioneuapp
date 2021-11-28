@@ -5,8 +5,6 @@ import { animate, keyframes, state, style, transition, trigger } from '@angular/
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs/internal/observable/throwError';
 import { AutenticacaoService } from 'src/app/autenticacao.service';
-import { FisioterapeutaService } from 'src/app/fisioterapeuta.service';
-import { SessionService } from 'src/app/session.service';
 
 @Component({
   selector: 'fisio-login-paciente',
@@ -42,16 +40,13 @@ export class LoginPacienteComponent implements OnInit {
   public estadoAnimacaoPainelLoginPaciente: string = 'void'
 
   public formulario: FormGroup = new FormGroup({
-    'prontuario': new FormControl(null, [Validators.required, Validators.minLength(9), Validators.maxLength(254)]),
-    'cpf': new FormControl(null, [Validators.required, Validators.minLength(11), Validators.maxLength(11),
-    Validators.pattern("^[0-9]*$")])
+    'cpf': new FormControl(null, [Validators.required, Validators.minLength(11), Validators.maxLength(11), Validators.pattern("^[0-9]*$")]),
+    'prontuario': new FormControl(null, [Validators.required, Validators.minLength(6), Validators.maxLength(15), Validators.pattern("^[0-9]*$")])
   })
 
   constructor(
     private autenticacaoService: AutenticacaoService,
-    private router: Router,
-    private fisioterapeutaService: FisioterapeutaService,
-    private sessionService: SessionService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -63,8 +58,9 @@ export class LoginPacienteComponent implements OnInit {
 
   public autenticar(): void {
     this.mensagensErroSighIn = []
+
     //console.log('Formulario', this.formulario)
-    this.autenticacaoService.autenticarComoPaciente(this.formulario.value.email, this.formulario.value.senha)
+    this.autenticacaoService.autenticarComoPaciente(this.formulario.value.cpf, this.formulario.value.prontuario)
       .pipe(
         catchError(err => {
           return throwError(err);
@@ -78,7 +74,7 @@ export class LoginPacienteComponent implements OnInit {
         (err: any) => {
           this.mensagensErroSighIn = []
           console.log('Erro ao realizar Login: ', err)
-          this.mensagensErroSighIn.push(err.error.message)
+          this.mensagensErroSighIn.push(err.error.msg)
           this.estadoAnimacaoPainelLoginPaciente = 'criado'
         }
       )

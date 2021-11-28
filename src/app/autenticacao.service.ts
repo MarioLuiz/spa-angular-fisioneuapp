@@ -139,16 +139,16 @@ export class AutenticacaoService {
         }
     }
 
-    public autenticarComoPaciente(cpf: string, prontuario: string): Observable<any> {
+    public autenticarComoPaciente(cpf: string, numeroProntuario: string): Observable<any> {
         let options = {
             headers: this.headers,
             observe: "response" as 'body'
         }
-        let userLogin = {
+        let pacienteLogin = {
             cpf,
-            prontuario
+            numeroProntuario
         }
-        return this.http.post(`${URL_API}/loginComoPaciente`, JSON.stringify(userLogin), options)
+        return this.http.post(`${URL_API}/auth/paciente`, JSON.stringify(pacienteLogin), options)
             .pipe(
                 //share(),
                 map((resposta: any) => {
