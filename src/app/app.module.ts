@@ -21,6 +21,7 @@ import { UpdatePacienteService } from './paciente/update-paciente.service';
 import { ProntuarioService } from './prontuario.service';
 import { AtendimentoService } from 'src/app/atendimento.service';
 import { RelatorioService } from './relatorio.service';
+import { PacienteConsultaAtendimentoService } from './paciente-consulta-atendimento/paciente-consulta-atendimento.service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -47,6 +48,8 @@ import { RelatorioComponent } from './relatorio/relatorio.component';
 import { RelatorioAtendimentoComponent } from './relatorio/relatorio-atendimento/relatorio-atendimento.component';
 import { RelatorioPacienteComponent } from './relatorio/relatorio-paciente/relatorio-paciente.component';
 import { LoginPacienteComponent } from './acesso/login-paciente/login-paciente.component';
+import { PacienteConsultaAtendimentoComponent } from './paciente-consulta-atendimento/paciente-consulta-atendimento.component';
+
 
 @NgModule({
   declarations: [
@@ -72,7 +75,8 @@ import { LoginPacienteComponent } from './acesso/login-paciente/login-paciente.c
     RelatorioComponent,
     RelatorioAtendimentoComponent,
     RelatorioPacienteComponent,
-    LoginPacienteComponent
+    LoginPacienteComponent,
+    PacienteConsultaAtendimentoComponent
   ],
   imports: [
     BrowserModule,
@@ -89,7 +93,7 @@ import { LoginPacienteComponent } from './acesso/login-paciente/login-paciente.c
     NgxPrintModule,
     RouterModule.forRoot(ROUTES)
   ],
-  providers: [AutenticacaoService, AutenticacaoGuardService, FisioterapeutaService, SessionService, PacienteService, UpdatePacienteService, ProntuarioService, AtendimentoService, RelatorioService],
+  providers: [AutenticacaoService, AutenticacaoGuardService, FisioterapeutaService, SessionService, PacienteService, UpdatePacienteService, ProntuarioService, AtendimentoService, RelatorioService, PacienteConsultaAtendimentoService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

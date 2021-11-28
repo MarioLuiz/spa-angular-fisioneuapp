@@ -13,6 +13,7 @@ import { CadastroEdicaoAtendimentoComponent } from "./atendimento/cadastro-edica
 import { ConsultaAtendimentoComponent } from "./atendimento/consulta-atendimento/consulta-atendimento.component";
 import { RelatorioAtendimentoComponent } from './relatorio/relatorio-atendimento/relatorio-atendimento.component';
 import { RelatorioPacienteComponent } from './relatorio/relatorio-paciente/relatorio-paciente.component';
+import { PacienteConsultaAtendimentoComponent } from './paciente-consulta-atendimento/paciente-consulta-atendimento.component';
 
 export const ROUTES: Routes = [
     { path: '', component: AcessoComponent },
@@ -31,5 +32,6 @@ export const ROUTES: Routes = [
             { path: 'consultar-relatorio-atendimentos', component: RelatorioAtendimentoComponent, canActivate: [AutenticacaoGuardService] },
             { path: 'consultar-relatorio-pacientes', component: RelatorioPacienteComponent, canActivate: [AutenticacaoGuardService] }
         ]
-    }
+    },
+    { path: 'paciente-consulta-atendimento', component: PacienteConsultaAtendimentoComponent }
 ]
