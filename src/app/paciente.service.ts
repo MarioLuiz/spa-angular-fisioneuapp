@@ -141,4 +141,20 @@ export class PacienteService {
         )
     }
 
+    public consultarPacientePorCpfNumeroProntuario(cpf: string, numeroProntuario: string): Observable<any> {
+        let options = {
+            headers: this.headers,
+            observe: "response" as 'body'
+        }
+        let pacienteLogin = {
+            cpf,
+            numeroProntuario
+        }
+        return this.http.post(`${URL_API}/pacientes/paciente-consulta-atendimento`, JSON.stringify(pacienteLogin), options)
+            .pipe(
+                //share(),
+                map((resposta: any) => resposta),
+                retry(3)
+            )
+    }
 }

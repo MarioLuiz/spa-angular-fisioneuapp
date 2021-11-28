@@ -5,6 +5,9 @@ import { animate, keyframes, state, style, transition, trigger } from '@angular/
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs/internal/observable/throwError';
 import { AutenticacaoService } from 'src/app/autenticacao.service';
+import { PacienteService } from 'src/app/paciente.service';
+import { PacienteConsultaAtendimentoService } from 'src/app/paciente-consulta-atendimento/paciente-consulta-atendimento.service';
+import { Paciente } from 'src/assets/models/paciente.model';
 
 @Component({
   selector: 'fisio-login-paciente',
@@ -46,6 +49,8 @@ export class LoginPacienteComponent implements OnInit {
 
   constructor(
     private autenticacaoService: AutenticacaoService,
+    private pacienteService: PacienteService,
+    private pacienteConsultaAtendimentoService: PacienteConsultaAtendimentoService,
     private router: Router
   ) { }
 
@@ -69,7 +74,36 @@ export class LoginPacienteComponent implements OnInit {
       .subscribe(
         resposta => {
           console.log('Paciente autenticado com sucesso')
-          this.router.navigate(['/paciente-consulta-atendimento'])
+          this.salvarPacienteConsultaAtendimento()
+          // this.router.navigate(['/paciente-consulta-atendimento'])
+        },
+        (err: any) => {
+          this.mensagensErroSighIn = []
+          console.log('Erro ao realizar Login: ', err)
+          this.mensagensErroSighIn.push(err.error.msg)
+          this.estadoAnimacaoPainelLoginPaciente = 'criado'
+        }
+      )
+  }
+
+  public salvarPacienteConsultaAtendimento(): void {
+    this.pacienteService.consultarPacientePorCpfNumeroProntuario(this.formulario.value.cpf, this.formulario.value.prontuario)
+      .pipe(
+        catchError(err => {
+          return throwError(err);
+        })
+      )
+      .subscribe(
+        resposta => {
+          //console.log('Paciente acessado com suscesso', resposta)
+          if (resposta) {
+            if (resposta.body) {
+              let paciente: Paciente = new Paciente(resposta.body.id, '', resposta.body.nome, resposta.body.email, resposta.body.telefone, resposta.body.cpf, resposta.body.dataNascimento, resposta.body.podeVisualizarSeuAtendimento);
+              this.pacienteConsultaAtendimentoService.setPacienteConsultaAtendimento(paciente)
+              //console.log('pacienteConsultaAtendimentoService: ', this.pacienteConsultaAtendimentoService.getPacienteConsultaAtendimento())
+              this.router.navigate(['/paciente-consulta-atendimento'])
+            }
+          }
         },
         (err: any) => {
           this.mensagensErroSighIn = []
