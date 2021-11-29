@@ -20,23 +20,17 @@ export class RelatorioService {
         private http: HttpClient
     ) { }
 
-    public relatorioAtendimento(filtro: FiltroRelatorioAtendimento): Observable<any> { //FiltroRelatorioAtendimento
+    public relatorioAtendimento(filtro: FiltroRelatorioAtendimento): Observable<any> {
         let headers = new HttpHeaders({
             'Content-Type': 'application/json',
             'Authorization': `${localStorage.getItem('idToken')}`
         })
 
         let params = new HttpParams()
-        // .set("atendimentoDataInicial", filtro.atendimentoDataInicial)
-        // .set("atendimentoDataFinal", filtro.atendimentoDataFinal)
-        // .set("atendminetoNomePaciente", filtro.atendminetoNomePaciente)
-        // .set("atendimentoNomeFisioterapeuta", filtro.atendimentoNomeFisioterapeuta)
 
         let options = {
             headers: headers,
             observe: "response" as 'body',
-            //body: JSON.stringify(filtro)
-            //params: params
         }
 
         return this.http.post(`${URL_API}/relatorios/atendimentos`, JSON.stringify(filtro), options).pipe(
@@ -45,23 +39,17 @@ export class RelatorioService {
         )
     }
 
-    public relatorioPaciente(filtro: FiltroRelatorioPaciente): Observable<any> { //FiltroRelatorioAtendimento
+    public relatorioPaciente(filtro: FiltroRelatorioPaciente): Observable<any> {
         let headers = new HttpHeaders({
             'Content-Type': 'application/json',
             'Authorization': `${localStorage.getItem('idToken')}`
         })
 
         let params = new HttpParams()
-        // .set("atendimentoDataInicial", filtro.atendimentoDataInicial)
-        // .set("atendimentoDataFinal", filtro.atendimentoDataFinal)
-        // .set("atendminetoNomePaciente", filtro.atendminetoNomePaciente)
-        // .set("atendimentoNomeFisioterapeuta", filtro.atendimentoNomeFisioterapeuta)
 
         let options = {
             headers: headers,
             observe: "response" as 'body',
-            //body: JSON.stringify(filtro)
-            //params: params
         }
 
         return this.http.post(`${URL_API}/relatorios/pacientes`, JSON.stringify(filtro), options).pipe(
@@ -70,7 +58,7 @@ export class RelatorioService {
         )
     }
 
-    public relatorioAtendimentoPacienteConsulta (idPaciente: String): Observable<any> { //FiltroRelatorioAtendimento
+    public relatorioAtendimentoPacienteConsulta (idPaciente: String): Observable<any> {
         let headers = new HttpHeaders({
             'Content-Type': 'application/json',
             'Authorization': `${localStorage.getItem('idToken')}`
