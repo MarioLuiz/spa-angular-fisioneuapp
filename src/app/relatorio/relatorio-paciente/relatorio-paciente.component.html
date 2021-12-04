@@ -72,7 +72,7 @@
                             <div class="form-group col-1"></div>
                         </div>
 
-                        <div class="d-flex d-flex justify-content-center">
+                        <div class="d-flex">
                             <div class="form-group col-1"></div>
                             <div class="form-group col-5 m-2">
                                 <small class="form-text mb-1 text-center"><b>Nome Paciente: </b> ( Nome do paciente
@@ -84,6 +84,18 @@
                                 <small *ngIf="f.pacienteNome.valid && f.pacienteNome.touched"
                                        class="form-text text-success text-center">Ok</small>
                                 <small *ngIf="f.pacienteNome.invalid && f.pacienteNome.touched"
+                                       class="form-text text-danger text-center">Nome inválido</small>
+                            </div>
+                            <div class="form-group col-5 m-2">
+                                <small class="form-text mb-1 text-center"><b>CPF Paciente: </b> ( Nome do paciente
+                                    )</small>
+                                <input type="text"
+                                       class="form-control"
+                                       placeholder="Cpf paciente"
+                                       formControlName="pacienteCpf">
+                                <small *ngIf="f.pacienteCpf.valid && f.pacienteCpf.touched"
+                                       class="form-text text-success text-center">Ok</small>
+                                <small *ngIf="f.pacienteCpf.invalid && f.pacienteCpf.touched"
                                        class="form-text text-danger text-center">Nome inválido</small>
                             </div>
                             <div class="form-group col-1"></div>

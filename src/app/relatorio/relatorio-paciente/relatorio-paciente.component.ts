@@ -49,7 +49,8 @@ export class RelatorioPacienteComponent implements OnInit, AfterViewInit {
     'pacienteDataNascimentoFinal': new FormControl(null),
     'pacienteDataCadastroInicial': new FormControl(null),
     'pacienteDataCadastroFinal': new FormControl(null),
-    'pacienteNome': new FormControl(null)
+    'pacienteNome': new FormControl(null),
+    'pacienteCpf': new FormControl(null, [Validators.minLength(11), Validators.maxLength(11), Validators.pattern("^[0-9]*$")])
   })
 
   constructor(
@@ -67,6 +68,7 @@ export class RelatorioPacienteComponent implements OnInit, AfterViewInit {
     this.formulario.get("pacienteDataCadastroInicial")?.setValue('')
     this.formulario.get("pacienteDataNascimentoFinal")?.setValue('')
     this.formulario.get("pacienteDataNascimentoInicial")?.setValue('')
+    this.formulario.get("pacienteCpf")?.setValue('')
   }
 
   public onCardChange(event: any): void {
@@ -88,13 +90,16 @@ export class RelatorioPacienteComponent implements OnInit, AfterViewInit {
       if (this.f.pacienteDataCadastroFinal.invalid && this.f.pacienteDataCadastroFinal.touched) {
         this.estadoAnimacaoPainelRelatorioAtendimento = 'criado'
       }
+      if (this.f.pacienteCpf.invalid && this.f.pacienteCpf.touched) {
+        this.estadoAnimacaoPainelRelatorioAtendimento = 'criado'
+      }
     }, 750)
   }
 
   public habilitarBotaoPesquisa(): boolean {
     if (this.f.pacienteDataNascimentoInicial.invalid || this.f.pacienteDataNascimentoFinal.invalid ||
       this.f.pacienteDataCadastroInicial.invalid || this.f.pacienteDataCadastroFinal.invalid
-      || this.f.pacienteNome.invalid) {
+      || this.f.pacienteNome.invalid || this.f.pacienteCpf.invalid ) {
         this.habilitaBotaoPesquisa = true
     } else {
       this.habilitaBotaoPesquisa = false
@@ -114,7 +119,8 @@ export class RelatorioPacienteComponent implements OnInit, AfterViewInit {
       this.formulario.value.pacienteDataNascimentoFinal,
       this.formulario.value.pacienteDataCadastroInicial,
       this.formulario.value.pacienteDataCadastroFinal,
-      this.formulario.value.pacienteNome
+      this.formulario.value.pacienteNome,
+      this.formulario.value.pacienteCpf
     )
     console.log('Filtro: ', this.filtro)
     this.relatorioService.relatorioPaciente(this.filtro)
