@@ -7,72 +7,78 @@
             <div class="card col-12 m-0">
                 <div class="card-body col-12 pt-0">
                     <b class="card-title d-flex justify-content-center mt-1">
-                        <h5>- Filtros -</h5>
+                        <h4>- Filtros -</h4>
                     </b>
                     <form [formGroup]="formulario"
                           (click)="onCardChange($event)"
                           [@animacao-painel]="estadoAnimacaoPainelRelatorioAtendimento">
-                        <div class="d-flex">
-                            <div class="form-group col-1"></div>
-                            <div class="form-group m-2 col-5">
-                                <small class="form-text mb-1"><b>Data nascimento inicial: </b> ( Data inicial do
-                                    nascimento do paciente )</small>
-                                <input type="date"
-                                       class="form-control text-center"
-                                       placeholder="Data"
-                                       formControlName="pacienteDataNascimentoInicial">
-                                <small *ngIf="f.pacienteDataNascimentoInicial.valid && f.pacienteDataNascimentoInicial.touched"
-                                       class="form-text text-success text-center">Ok</small>
-                                <small *ngIf="f.pacienteDataNascimentoInicial.invalid && f.pacienteDataNascimentoInicial.touched"
-                                       class="form-text text-danger text-center">Data inválida</small>
+                        <div class="mt-3">
+                            <b class="d-flex justify-content-center pb-0 mb-0">
+                                <h5>Filtrar por Data de Nascimento Paciente</h5>
+                            </b>
+                            <div class="d-flex mt-0 pt-0">
+                                <div class="col-1 pt-0"></div>
+                                <div class="form-group mr-2 pt-0 col-5">
+                                    <small class="form-text mb-1"><b>Data inicial: </b> ( Selecione a data inicial
+                                        )</small>
+                                    <input type="date"
+                                           class="form-control text-center"
+                                           placeholder="Data"
+                                           formControlName="pacienteDataNascimentoInicial">
+                                    <small *ngIf="f.pacienteDataNascimentoInicial.valid && f.pacienteDataNascimentoInicial.touched"
+                                           class="form-text text-success text-center">Ok</small>
+                                    <small *ngIf="f.pacienteDataNascimentoInicial.invalid && f.pacienteDataNascimentoInicial.touched"
+                                           class="form-text text-danger text-center">Data inválida</small>
+                                </div>
+                                <div class="form-group ml-2 pt-0 col-5">
+                                    <small class="form-text mb-1"><b>Data final: </b> ( Selecione a data final )</small>
+                                    <input type="date"
+                                           class="form-control text-center"
+                                           placeholder="Data"
+                                           formControlName="pacienteDataNascimentoFinal">
+                                    <small *ngIf="f.pacienteDataNascimentoFinal.valid && f.pacienteDataNascimentoFinal.touched"
+                                           class="form-text text-success text-center">Ok</small>
+                                    <small *ngIf="f.pacienteDataNascimentoFinal.invalid && f.pacienteDataNascimentoFinal.touched"
+                                           class="form-text text-danger text-center">Data inválida</small>
+                                </div>
+                                <div class="col-1 pt-0"></div>
                             </div>
-
-                            <div class="form-group m-2 col-5">
-                                <small class="form-text mb-1"><b>Data nascimento final: </b> ( Data final do nascimento
-                                    do paciente )</small>
-                                <input type="date"
-                                       class="form-control text-center"
-                                       placeholder="Data"
-                                       formControlName="pacienteDataNascimentoFinal">
-                                <small *ngIf="f.pacienteDataNascimentoFinal.valid && f.pacienteDataNascimentoFinal.touched"
-                                       class="form-text text-success text-center">Ok</small>
-                                <small *ngIf="f.pacienteDataNascimentoFinal.invalid && f.pacienteDataNascimentoFinal.touched"
-                                       class="form-text text-danger text-center">Data inválida</small>
-                            </div>
-                            <div class="form-group col-1"></div>
                         </div>
 
-                        <div class="d-flex">
-                            <div class="form-group col-1"></div>
-                            <div class="form-group m-2 col-5">
-                                <small class="form-text mb-1"><b>Data cadastro inicial: </b> ( Data inicial da
-                                    realização do cadastro paciente )</small>
-                                <input type="date"
-                                       class="form-control text-center"
-                                       placeholder="Data"
-                                       formControlName="pacienteDataCadastroInicial">
-                                <small *ngIf="f.pacienteDataCadastroInicial.valid && f.pacienteDataCadastroInicial.touched"
-                                       class="form-text text-success text-center">Ok</small>
-                                <small *ngIf="f.pacienteDataCadastroInicial.invalid && f.pacienteDataCadastroInicial.touched"
-                                       class="form-text text-danger text-center">Data inválida</small>
-                            </div>
+                        <div class="mt-3">
+                            <b class="d-flex justify-content-center mt-0">
+                                <h5>Filtrar por Data de Cadastro Paciente</h5>
+                            </b>
+                            <div class="d-flex mt-0 pt-0">
+                                <div class="col-1 pt-0"></div>
+                                <div class="form-group mr-2 pt-0 col-5">
+                                    <small class="form-text mb-1"><b>Data inicial: </b>( Selecione a data inicial )</small>
+                                    <input type="date"
+                                           class="form-control text-center"
+                                           placeholder="Data"
+                                           formControlName="pacienteDataCadastroInicial">
+                                    <small *ngIf="f.pacienteDataCadastroInicial.valid && f.pacienteDataCadastroInicial.touched"
+                                           class="form-text text-success text-center">Ok</small>
+                                    <small *ngIf="f.pacienteDataCadastroInicial.invalid && f.pacienteDataCadastroInicial.touched"
+                                           class="form-text text-danger text-center">Data inválida</small>
+                                </div>
 
-                            <div class="form-group m-2 col-5">
-                                <small class="form-text mb-1"><b>Data cadastro final: </b> ( Data final da realização do
-                                    cadastro paciente )</small>
-                                <input type="date"
-                                       class="form-control text-center"
-                                       placeholder="Data"
-                                       formControlName="pacienteDataCadastroFinal">
-                                <small *ngIf="f.pacienteDataCadastroFinal.valid && f.pacienteDataCadastroFinal.touched"
-                                       class="form-text text-success text-center">Ok</small>
-                                <small *ngIf="f.pacienteDataCadastroFinal.invalid && f.pacienteDataCadastroFinal.touched"
-                                       class="form-text text-danger text-center">Data inválida</small>
+                                <div class="form-group ml-2 pt-0 col-5">
+                                    <small class="form-text mb-1"><b>Data final: </b>( Selecione a data final )</small>
+                                    <input type="date"
+                                           class="form-control text-center"
+                                           placeholder="Data"
+                                           formControlName="pacienteDataCadastroFinal">
+                                    <small *ngIf="f.pacienteDataCadastroFinal.valid && f.pacienteDataCadastroFinal.touched"
+                                           class="form-text text-success text-center">Ok</small>
+                                    <small *ngIf="f.pacienteDataCadastroFinal.invalid && f.pacienteDataCadastroFinal.touched"
+                                           class="form-text text-danger text-center">Data inválida</small>
+                                </div>
+                                <div class="col-1 pt-0"></div>
                             </div>
-                            <div class="form-group col-1"></div>
                         </div>
 
-                        <div class="d-flex">
+                        <div class="d-flex mt-3">
                             <div class="form-group col-1"></div>
                             <div class="form-group col-5 m-2">
                                 <small class="form-text mb-1 text-center"><b>Nome Paciente: </b> ( Nome do paciente
@@ -84,7 +90,7 @@
                                 <small *ngIf="f.pacienteNome.valid && f.pacienteNome.touched"
                                        class="form-text text-success text-center">Ok</small>
                                 <small *ngIf="f.pacienteNome.invalid && f.pacienteNome.touched"
-                                       class="form-text text-danger text-center">Nome inválido</small>
+                                       class="form-text text-danger text-center">Cpf inválido</small>
                             </div>
                             <div class="form-group col-5 m-2">
                                 <small class="form-text mb-1 text-center"><b>CPF Paciente: </b> ( Nome do paciente
