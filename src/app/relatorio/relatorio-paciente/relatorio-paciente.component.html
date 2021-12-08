@@ -96,13 +96,14 @@
                                 <small class="form-text mb-1 text-center"><b>CPF Paciente: </b> ( Nome do paciente
                                     )</small>
                                 <input type="text"
-                                       class="form-control"
+                                       class="form-control text-center"
                                        placeholder="Cpf paciente"
-                                       formControlName="pacienteCpf">
+                                       formControlName="pacienteCpf"
+                                       mask="000.000.000-00">
                                 <small *ngIf="f.pacienteCpf.valid && f.pacienteCpf.touched"
                                        class="form-text text-success text-center">Ok</small>
                                 <small *ngIf="f.pacienteCpf.invalid && f.pacienteCpf.touched"
-                                       class="form-text text-danger text-center">Nome inválido</small>
+                                       class="form-text text-danger text-center">Cpf inválido</small>
                             </div>
                             <div class="form-group col-1"></div>
                         </div>
