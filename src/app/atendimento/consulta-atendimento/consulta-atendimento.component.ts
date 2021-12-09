@@ -51,6 +51,7 @@ export class ConsultaAtendimentoComponent implements OnInit, AfterViewInit {
 
   pesquisa() {
     //console.log('Termo Pesquisado: ', this.palavraDaPesquisa)
+    console.log('Paginacao: ', this.paginacao)
     this.atendimentoService.consultarAtendimentosPorNomePacientePaginado(this.paginacao, this.palavraDaPesquisa)
       .pipe(
         catchError(err => {
@@ -77,7 +78,7 @@ export class ConsultaAtendimentoComponent implements OnInit, AfterViewInit {
   validaCamposPaginacao() {
     if (this.pageableResponse.content) {
       this.atendimentos = this.pageableResponse.content
-      console.log('Atendimentos: ', this.atendimentos)
+      //console.log('Atendimentos: ', this.atendimentos)
     }
     if (this.pageableResponse.pageable) {
       this.pageable = this.pageableResponse.pageable
@@ -140,6 +141,11 @@ export class ConsultaAtendimentoComponent implements OnInit, AfterViewInit {
     let datas: string[] = dataComHorario.split(' ');
     let data: string = datas[0];
     return data
+  }
+
+  public acaoBotaoPesquisa() {
+    this.paginacao.page = 0;
+    this.pesquisa();
   }
 
 }
