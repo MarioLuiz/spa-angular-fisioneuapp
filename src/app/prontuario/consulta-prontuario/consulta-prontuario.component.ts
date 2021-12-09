@@ -130,4 +130,9 @@ export class ConsultaProntuarioComponent implements OnInit, AfterViewInit {
     return data
   }
 
+  public acaoBotaoPesquisa() {
+    this.paginacao.page = 0;
+    this.pesquisa();
+  }
+
 }

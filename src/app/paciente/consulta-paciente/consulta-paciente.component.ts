@@ -38,26 +38,6 @@ export class ConsultaPacienteComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit(): void {
-    /*
-    this.pacientes = this.subjectPesquisa.pipe( //retorno Pacientes[]
-      debounceTime(1000), // Executa a ação do switchMap após 1 segundo
-      distinctUntilChanged(), // previne pesquisa de termo identico ao termo anteriormente pesquisado
-      switchMap((termo: string) => {
-        
-        if (termo.trim() === '') {
-          // retorna um observable de array de 'pacientes' vazio
-          return of<any[]>([])
-        }
-        
-
-        return this.pacienteService.consultarPacientesPaginado(this.paginacao, termo)
-      }),
-      catchError((erro: any, observable: Observable<any[]>) => {
-        console.log('Erro ao Pesquisar oferta: ', erro)
-        return observable
-      })
-    )
-    */
   }
 
   ngAfterViewInit() {
@@ -149,6 +129,11 @@ export class ConsultaPacienteComponent implements OnInit, AfterViewInit {
     let datas: string[] = dataComHorario.split(' ');
     let data: string = datas[0];
     return data
+  }
+
+  public acaoBotaoPesquisa() {
+    this.paginacao.page = 0;
+    this.pesquisa();
   }
 
 }
