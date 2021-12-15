@@ -226,7 +226,9 @@ export class CadastroEdicaoAtendimentoComponent implements OnInit, AfterViewInit
     this.formulario.get("hora")?.setValue('')
     this.formulario.get("estado")?.setValue('')
     this.formulario.get("relato")?.setValue('')
+    this.palavraDaPesquisa = ''
     this.formulario.markAsUntouched();
+    this.pesquisa();
   }
 
   pesquisa() {
